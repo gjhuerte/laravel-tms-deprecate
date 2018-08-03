@@ -66,7 +66,15 @@ class Maintenance extends \App\Http\Controllers\Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make( $this->fields, $this->class->insertRules() );
+        $fields = [];
+
+        foreach( $this->fields as $key => $args ) {
+            if( isset( $args['value']) ) {
+                $fields[ $key ] = $args['value']; 
+            }
+        }
+
+        $validator = Validator::make( $fields, $this->class->insertRules() );
 
         if( $validator->fails() ) {
             return back()->withInput()->withErrors( $validator );
@@ -147,7 +155,15 @@ class Maintenance extends \App\Http\Controllers\Controller
     public function update(Request $request, $id)
     {
         $id = filter_var( $id, FILTER_VALIDATE_INT);
-        $validator = Validator::make( $this->fields, $this->class->updateRules() );
+        $fields = [];
+
+        foreach( $this->fields as $key => $args ) {
+            if( isset( $args['value']) ) {
+                $fields[ $key ] = $args['value']; 
+            }
+        }
+
+        $validator = Validator::make( $fields, $this->class->updateRules() );
 
         if( $validator->fails() ) {
             return back()->withInput()->withErrors( $validator );
