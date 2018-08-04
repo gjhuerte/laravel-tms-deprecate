@@ -7,8 +7,11 @@
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 
         <title>{{ isset( $title ) ? $title . ' - ' : '' . config('app.name') }}</title>
- 
+        
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
         @yield('styles-include')
+
+        <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
     </head>
     <body>
         @include('partials.navigation')
