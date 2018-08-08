@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Maintenance;
 
-use Illuminate\Http\Request;
 use App\Models as Model;
+use Illuminate\Http\Request;
 use App\Http\Managers as Manager;
 
 class CategoriesController extends Manager\Maintenance
