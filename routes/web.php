@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
-Route::resource('category', 'CategoriesController');
+App\Http\Packages\Maintenance\Routes::all();

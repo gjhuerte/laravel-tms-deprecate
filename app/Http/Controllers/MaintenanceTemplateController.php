@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Managers;
 use Illuminate\Http\Request;
 
-class ExampleController extends MaintenancecManager
+class MaintenanceTemplateController extends MaintenancecManager
 {
     protected $viewPath = 'admin.maintenance';
     protected $basePath = '';
