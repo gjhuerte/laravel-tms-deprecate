@@ -15,4 +15,6 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('dashboard', 'PagesController@getDashboard');
+
 App\Http\Packages\Maintenance\Routes::all();
