@@ -13,7 +13,7 @@ class Routes
 	 */
 	public static function all()
 	{
-		Route::namespace()->group(function() {
+		Route::namespace('Maintenance')->group(function() {
 			Route::resource('category', 'CategoriesController');
 		});
 	}

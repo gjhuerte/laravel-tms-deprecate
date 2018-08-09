@@ -10552,7 +10552,8 @@ body {
   background-color: #E6E6E9;
 }
 
-body#tinymce {
-  margin: 12px !important;
+.navbar-toggler {
+  outline: 0;
+  border: 0;
 }
 
