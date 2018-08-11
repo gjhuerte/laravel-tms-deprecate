@@ -12,7 +12,9 @@
         <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
     </head>
     <body>
-        @include('partials.navigation')
+        @if( Auth::check() )
+            @include('partials.navigation')
+        @endif
 
         <section id="content-body">
         @yield('content')
