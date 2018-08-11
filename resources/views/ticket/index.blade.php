@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid mt-3 p-3" style="background-color: white;">
-	<div>
+<div class="container-fluid mt-3 p-3">
+	<div class="float-left">
 		<div class="form-group mr-2 float-left">
 			<select 
 				id="ticket-category"
@@ -35,7 +35,7 @@
 		<a href="{{ url('ticket/create') }}" class="btn btn-success">Create Ticket</a>
 	</div>
 	<div class="clearfix"></div>
-	<table class="table table-condensed table-bordered table-hover" id="ticketsTable">
+	<table class="table table-condensed table-bordered table-hover" id="ticketsTable" style="background-color: white;">
 		<thead>
 			<th>ID</th>
 			<th>Title</th>

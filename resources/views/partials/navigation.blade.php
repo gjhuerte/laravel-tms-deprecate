@@ -6,16 +6,16 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
 		<li class="nav-item">
-			<a class="nav-link" href="#">Home</a>
+			<a class="nav-link" href="{{ url('/') }}">Home</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="#">Tickets</a>
+			<a class="nav-link" href="{{ url('ticket') }}">Tickets</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="#">Maintenance</a>
+			<a class="nav-link" href="{{ url('maintenance') }}">Maintenance</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="#">Reports</a>
+			<a class="nav-link" href="{{ url('report') }}">Reports</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" href="{{ url('settings') }}">Settings</a>
@@ -23,7 +23,7 @@
     </ul>
     <ul class="navbar-nav ml-auto">
 		<li class="nav-item">
-			<a class="nav-link" href="#">John Doe</a>
+			<a class="nav-link" href="{{ url('profile/' . Auth::user()->username ) }}">John Doe</a>
 		</li>
     </ul>
   </div>
