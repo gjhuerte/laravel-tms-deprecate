@@ -4,35 +4,10 @@ namespace App\Http\Managers;
 
 use \Validator;
 use \Illuminate\Http\Request;
+use App\Http\Packages\Object\ObjectParser;
 
 class Maintenance extends \App\Http\Controllers\Controller
 {
-    protected $fields = [];
-    protected $class;
-    protected $validatorClass;
-    protected $redirectFailsUrl = '';
-    protected $path = [
-        'create' => '/create',
-        'edit' => '/edit',
-        'update' => 'update',
-        'delete' => '',
-        'base' => '',
-        'view' => 'admin.maintenance.',
-        'forms' => [
-            'create',
-            'save',
-            'edit',
-        ],
-        'errors' => [
-            'fails'=> '',
-        ],
-        'titles' => [
-            'create' => 'Create Maintenance',
-            'edit' => 'Edit Maintenance',
-            'index' => 'Maintenance'
-        ],
-    ];
-
     /**
      * Display a listing of the resource.
      *
@@ -45,10 +20,11 @@ class Maintenance extends \App\Http\Controllers\Controller
             return datatables( $this->class->get() )->toJson();
         }
 
-        return view( $this->path['view'] . 'bread.index')
-                ->with('columns', $this->class->columns )
-                ->with('data', $this->class->get() )
-                ->with('path', collect($this->path) );
+        $variables = ObjectParser::make($this->variables);
+
+        return view( $variables->viewBasePath . 'bread.index')
+                ->with('columns', $this->class->columns)
+                ->with('variable', $variables);
     }
 
     /**
@@ -208,10 +184,12 @@ class Maintenance extends \App\Http\Controllers\Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $id = filter_var( $id, FILTER_VALIDATE_INT);
-        $validator = Validator::make( $this->fields, $this->class->checkIfIdExistsRules() );
+        $validator = Validator::make([
+            'id' => $id
+        ], $this->class->checkIfIdExistsRules());
 
         if( $validator->fails() ) {
 
@@ -224,11 +202,11 @@ class Maintenance extends \App\Http\Controllers\Controller
                 ], 500);
             }
 
-            return back()->withInput()->withErrors( $validator );
+            return back()->withInput()->withErrors($validator);
         }
 
-        $this->class->where( 'id', '=', $id )->first();
-        $this->class->delete();
+        $class = $this->class->where('id', '=', $id)->first();
+        $class->delete();
 
         if( $request->ajax() ) {
             return response()->json([

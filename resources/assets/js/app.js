@@ -8,6 +8,8 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+require( 'datatables.net-bs4' );
+window.swal = require('sweetalert2');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
