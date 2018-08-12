@@ -67,7 +67,7 @@ $(document).ready(function() {
         id="new" 
         href="{{ url("$variable->createUrl") }}"  
         class="btn btn-primary">
-        <i class="fas fa-plus"></i>  Create
+        <i class="fas fa-plus" aria-hidden="true"></i> Create
       </a>
 		`);
 

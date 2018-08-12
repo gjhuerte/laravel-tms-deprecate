@@ -20,6 +20,7 @@ class CategoriesController extends Manager\Maintenance
             'title' => 'Category',
             'createUrl' => 'category/create',
             'formBasePath' => 'category',
+            'redirectFailsUrl' => 'category',
             'columns' => [
                 'id' => [
                     'dataTableName' => 'id',

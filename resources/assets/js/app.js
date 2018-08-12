@@ -8,7 +8,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-require( 'datatables.net-bs4' );
+require('datatables.net-bs4');
 window.swal = require('sweetalert2');
 
 /**
