@@ -8,56 +8,47 @@ use App\Http\Managers as Manager;
 
 class CategoriesController extends Manager\Maintenance
 {
-    protected $viewPath = 'admin.maintenance';
-    protected $basePath = '';
-    protected $fields = [];
-    protected $class;
-    protected $validatorClass;
-    protected $redirectFailsUrl = '';
-    protected $editFormUrl = '';
 
     public function __construct( Request $request )
     {
-    	$this->class = new Model\Category;
-    	$this->validatorClass = $this->class;
+    	$this->validatorClass = $this->class = new Model\Category;
 
-		$this->path = [
-	        'create' => 'category/create',
-	        'edit' => [
-	        	'prefix' => 'category',
-	        	'suffix' => 'edit',
-	        ],
-	        'update' => 'category',
-	        'delete' => 'category',
-	        'base' => 'category',
-	        'view' => 'admin.maintenance.',
-	        'forms' => [
-	            'create' => 'category',
-	            'save' => 'category',
-	            'edit' => 'category',
-	        ],
-	        'errors' => [
-	            'fails'=> '',
-	        ],
-            'titles' => [
-                'create' => 'Create Category',
-                'edit' => 'Edit Category',
-                'index' => 'Category'
+        $this->variable = [
+            'indexAjaxUrl' => 'category',
+            'baseUrl' => 'category',
+            'viewBasePath' => 'admin.maintenance.',
+            'title' => 'Category',
+            'createUrl' => 'category/create',
+            'formBasePath' => 'category',
+            'redirectFailsUrl' => 'category',
+            'columns' => [
+                'id' => [
+                    'dataTableName' => 'id',
+                    'isSelectable' => true,
+                    'isInsertable' => false,
+                    'isEditable' => false,
+                    'selectAttribute' => false, 
+                ],
+                'name' => [
+                    'dataTableName' => 'name',
+                    'isSelectable' => true,
+                    'isInsertable' => true,
+                    'isEditable' => true,
+                    'selectAttribute' => false, 
+                    'attributes' => [
+                        'id' => 'name',
+                        'type' => 'text',
+                        'class' => 'form-control',
+                        'name' => 'name',
+                        'placeholder' => 'Enter category name...',
+                    ]
+                ],
             ],
-	    ];
+            'fields' => [],
+        ];
 
-    	$this->fields = [
-    		'name' => [
-    			'value' => $request->get('name'),
-    			'args' => [
-    				'class' => 'form-control',
-    				'placeholder' => 'Name'
-    			]
-    		],
-    	];
-
-    	foreach( $request->all() as $key => $value ) {
-    		array_push( $this->fields, $key, $value);
+    	foreach($request->all() as $key => $value) {
+    		$this->variable['fields'][$key] =  $value;
     	}
     }
 }

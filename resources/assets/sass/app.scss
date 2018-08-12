@@ -8,6 +8,9 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+@import '~sweetalert2/src/sweetalert2';
+@import '~datatables.net-bs4/css/dataTables.bootstrap4.css';
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 
 @import "common/global";
 @import "components/buttons";

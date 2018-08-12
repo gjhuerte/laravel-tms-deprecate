@@ -4,35 +4,10 @@ namespace App\Http\Managers;
 
 use \Validator;
 use \Illuminate\Http\Request;
+use App\Http\Packages\Object\ObjectParser;
 
 class Maintenance extends \App\Http\Controllers\Controller
 {
-    protected $fields = [];
-    protected $class;
-    protected $validatorClass;
-    protected $redirectFailsUrl = '';
-    protected $path = [
-        'create' => '/create',
-        'edit' => '/edit',
-        'update' => 'update',
-        'delete' => '',
-        'base' => '',
-        'view' => 'admin.maintenance.',
-        'forms' => [
-            'create',
-            'save',
-            'edit',
-        ],
-        'errors' => [
-            'fails'=> '',
-        ],
-        'titles' => [
-            'create' => 'Create Maintenance',
-            'edit' => 'Edit Maintenance',
-            'index' => 'Maintenance'
-        ],
-    ];
-
     /**
      * Display a listing of the resource.
      *
@@ -40,15 +15,14 @@ class Maintenance extends \App\Http\Controllers\Controller
      */
     public function index( Request $request )
     {
-
         if( $request->ajax() ) {
             return datatables( $this->class->get() )->toJson();
         }
 
-        return view( $this->path['view'] . 'bread.index')
-                ->with('columns', $this->class->columns )
-                ->with('data', $this->class->get() )
-                ->with('path', collect($this->path) );
+        $variable = ObjectParser::make($this->variable);
+        return view( $variable->viewBasePath . 'bread.index')
+                ->with('columns', $this->class->columns)
+                ->with('variable', $variable);
     }
 
     /**
@@ -58,9 +32,9 @@ class Maintenance extends \App\Http\Controllers\Controller
      */
     public function create()
     {
-        return view( $this->path['view'] . 'bread.create')
-                ->with('fields', $this->fields )
-                ->with('path', $this->path );
+        $variable = ObjectParser::make($this->variable);
+        return view($variable->viewBasePath . 'bread.create')
+                ->with('variable', $variable);
     }
 
     /**
@@ -71,23 +45,16 @@ class Maintenance extends \App\Http\Controllers\Controller
      */
     public function store(Request $request)
     {
-        $fields = [];
-
-        foreach( $this->fields as $key => $args ) {
-            if( isset( $args['value']) ) {
-                $fields[ $key ] = $args['value']; 
-            }
-        }
-
-        $validator = Validator::make( $fields, $this->class->insertRules() );
+        $variable = ObjectParser::make($this->variable);
+        $validator = Validator::make((array)$variable->fields, $this->class->insertRules());
 
         if( $validator->fails() ) {
-            return back()->withInput()->withErrors( $validator );
+            return back()->withInput()->withErrors($validator);
         }
 
         foreach( $this->class->columns as $key => $value ) {
-            if( $value['save'] ) {
-                $this->class->$key = $this->fields[ $key ]['value'];
+            if( $variable->columns->$key->isInsertable ) {
+                $this->class->$key = $variable->fields->$key;
             }
         }
 
@@ -107,7 +74,8 @@ class Maintenance extends \App\Http\Controllers\Controller
             'message' => 'Item successfully created',
             'type' => 'success'
         ]);
-        return redirect( $this->path['base'] );
+
+        return redirect($variable->baseUrl);
     }
 
     /**
@@ -119,14 +87,15 @@ class Maintenance extends \App\Http\Controllers\Controller
     public function show(Request $request, $id)
     { 
         $id = filter_var( $id, FILTER_VALIDATE_INT);
+        $variable = ObjectParser::make($this->variable);
         $validator = Validator::make([ 'id' => $id ], $this->class->checkIfIdExistsRules() );
 
         if( $validator->fails() ) {
-            return redirect( $this->redirectFailsUrl );
+            return redirect( $variable->redirectFailsUrl );
         }
 
-        return view( $this->path['view'] . 'bread.show')
-                ->with( 'data', $data);
+        return view($variable->viewBasePath . 'bread.show')
+                ->with('variable', $variable);
     }
 
     /**
@@ -138,16 +107,16 @@ class Maintenance extends \App\Http\Controllers\Controller
     public function edit(Request $request, $id)
     {
         $id = filter_var( $id, FILTER_VALIDATE_INT);
+        $variable = ObjectParser::make($this->variable);
         $validator = Validator::make([ 'id' => $id ], $this->class->checkIfIdExistsRules() );
 
         if( $validator->fails() ) {
-            return redirect( $this->redirectFailsUrl );
+            return redirect( $variable->redirectFailsUrl );
         }
 
-        return view( $this->path['view'] . 'bread.edit')
-                ->with( 'datum', $this->class->where('id', '=', $id )->first() )
-                ->with('fields', $this->fields )
-                ->with('path', $this->path );
+        return view( $variable->viewBasePath . 'bread.edit')
+                ->with('model', $this->class->where('id', '=', $id )->first())
+                ->with('variable', $variable);
     }
 
     /**
@@ -160,25 +129,17 @@ class Maintenance extends \App\Http\Controllers\Controller
     public function update(Request $request, $id)
     {
         $id = filter_var( $id, FILTER_VALIDATE_INT);
-        $fields = [];
-
-        foreach( $this->fields as $key => $args ) {
-            if( isset( $args['value']) ) {
-                $fields[ $key ] = $args['value']; 
-            }
-        }
-
-        $validator = Validator::make( $fields, $this->class->updateRules() );
+        $variable = ObjectParser::make($this->variable);
+        $validator = Validator::make((array)$variable->fields, $this->class->updateRules());
 
         if( $validator->fails() ) {
-            return back()->withInput()->withErrors( $validator );
+            return back()->withInput()->withErrors($validator);
         }
 
         $this->class = $this->class->where('id', '=', $id )->first();
-
         foreach( $this->class->columns as $key => $value ) {
-            if( $value['update'] ) {
-                $this->class->$key = $this->fields[ $key ]['value'];
+            if( $variable->columns->$key->isEditable ) {
+                $this->class->$key = $variable->fields->$key;
             }
         }
 
@@ -199,7 +160,7 @@ class Maintenance extends \App\Http\Controllers\Controller
             'type' => 'success'
         ]);
 
-        return redirect( $this->path['base'] );
+        return redirect($variable->baseUrl);
     }
 
     /**
@@ -208,10 +169,12 @@ class Maintenance extends \App\Http\Controllers\Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $id = filter_var( $id, FILTER_VALIDATE_INT);
-        $validator = Validator::make( $this->fields, $this->class->checkIfIdExistsRules() );
+        $validator = Validator::make([
+            'id' => $id
+        ], $this->class->checkIfIdExistsRules());
 
         if( $validator->fails() ) {
 
@@ -224,11 +187,11 @@ class Maintenance extends \App\Http\Controllers\Controller
                 ], 500);
             }
 
-            return back()->withInput()->withErrors( $validator );
+            return back()->withInput()->withErrors($validator);
         }
 
-        $this->class->where( 'id', '=', $id )->first();
-        $this->class->delete();
+        $class = $this->class->where('id', '=', $id)->first();
+        $class->delete();
 
         if( $request->ajax() ) {
             return response()->json([
