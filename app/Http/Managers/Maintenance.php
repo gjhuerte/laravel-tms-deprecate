@@ -17,7 +17,7 @@ class Maintenance extends \App\Http\Controllers\Controller
         'update' => 'update',
         'delete' => '',
         'base' => '',
-        'view' => 'admin.maintenance',
+        'view' => 'admin.maintenance.',
         'forms' => [
             'create',
             'save',
@@ -25,6 +25,11 @@ class Maintenance extends \App\Http\Controllers\Controller
         ],
         'errors' => [
             'fails'=> '',
+        ],
+        'titles' => [
+            'create' => 'Create Maintenance',
+            'edit' => 'Edit Maintenance',
+            'index' => 'Maintenance'
         ],
     ];
 
@@ -40,10 +45,10 @@ class Maintenance extends \App\Http\Controllers\Controller
             return datatables( $this->class->get() )->toJson();
         }
 
-        return view( $this->path['view'] . '.index')
+        return view( $this->path['view'] . 'bread.index')
                 ->with('columns', $this->class->columns )
                 ->with('data', $this->class->get() )
-                ->with('path', $this->path );
+                ->with('path', collect($this->path) );
     }
 
     /**
@@ -53,7 +58,7 @@ class Maintenance extends \App\Http\Controllers\Controller
      */
     public function create()
     {
-        return view( $this->path['view'] . '.create')
+        return view( $this->path['view'] . 'bread.create')
                 ->with('fields', $this->fields )
                 ->with('path', $this->path );
     }
@@ -120,7 +125,7 @@ class Maintenance extends \App\Http\Controllers\Controller
             return redirect( $this->redirectFailsUrl );
         }
 
-        return view( $this->path['view'] . '.show')
+        return view( $this->path['view'] . 'bread.show')
                 ->with( 'data', $data);
     }
 
@@ -139,7 +144,7 @@ class Maintenance extends \App\Http\Controllers\Controller
             return redirect( $this->redirectFailsUrl );
         }
 
-        return view( $this->path['view'] . '.edit')
+        return view( $this->path['view'] . 'bread.edit')
                 ->with( 'datum', $this->class->where('id', '=', $id )->first() )
                 ->with('fields', $this->fields )
                 ->with('path', $this->path );

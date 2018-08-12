@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
@@ -12,6 +13,10 @@ class PagesController extends Controller
 	 */
     public function getDashboard()
     {
-    	return view('dashboard.base-layout');
+    	if(Auth::check()) {
+    		return view('dashboard.base-layout');
+    	}
+
+    	return redirect('login');
     }
 }

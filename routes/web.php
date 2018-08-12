@@ -11,10 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
-
+Route::get('/', 'PagesController@getDashboard');
 Route::get('dashboard', 'PagesController@getDashboard');
 
+Route::namespace('Auth')->group(function() {
+	Route::get('login', 'AuthenticationController@getLoginForm');
+	Route::post('login', 'AuthenticationController@login');
+});
+
+Route::middleware(['auth'])->group(function() {
+	Route::get('settings', 'SettingsController@index');
+
+	Route::namespace('Auth')->group(function() {
+		Route::get('logout', 'AuthenticationController@logout');
+	});
+});
+
+App\Http\Packages\Ticketing\Routes::all();
 App\Http\Packages\Maintenance\Routes::all();

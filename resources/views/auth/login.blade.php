@@ -9,6 +9,7 @@
 		<div class="card-body">
 			@include('notification.alert')
 			<form method="post" action="{{ url('login') }}" class="form-horizontal">
+				<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 				<div class="form-group">
 					<label 
 						for="username"> Username

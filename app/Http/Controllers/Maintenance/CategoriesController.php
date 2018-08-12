@@ -30,7 +30,7 @@ class CategoriesController extends Manager\Maintenance
 	        'update' => 'category',
 	        'delete' => 'category',
 	        'base' => 'category',
-	        'view' => 'admin.maintenance',
+	        'view' => 'admin.maintenance.',
 	        'forms' => [
 	            'create' => 'category',
 	            'save' => 'category',
@@ -39,6 +39,11 @@ class CategoriesController extends Manager\Maintenance
 	        'errors' => [
 	            'fails'=> '',
 	        ],
+            'titles' => [
+                'create' => 'Create Category',
+                'edit' => 'Edit Category',
+                'index' => 'Category'
+            ],
 	    ];
 
     	$this->fields = [
