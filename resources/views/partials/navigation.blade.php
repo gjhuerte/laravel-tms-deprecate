@@ -11,9 +11,22 @@
 		<li class="nav-item">
 			<a class="nav-link" href="{{ url('ticket') }}">Tickets</a>
 		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="{{ url('maintenance') }}">Maintenance</a>
-		</li>
+      <li class="nav-item dropdown">
+        <a 
+        	class="nav-link dropdown-toggle" 
+        	href="#" 
+        	id="maintenance-navbar-dropdown" 
+        	role="button" 
+        	data-toggle="dropdown" 
+        	aria-haspopup="true" 
+        	aria-expanded="false" >
+          Maintenance
+        </a>
+        <div class="dropdown-menu" aria-labelledby="maintenance-navbar-dropdown">
+          <a class="dropdown-item" href="{{ url('user') }}">User</a>
+          <a class="dropdown-item" href="{{ url('category') }}">Category</a>
+        </div>
+      </li>
 		<li class="nav-item">
 			<a class="nav-link" href="{{ url('report') }}">Reports</a>
 		</li>

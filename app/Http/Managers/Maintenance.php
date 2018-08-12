@@ -48,7 +48,7 @@ class Maintenance extends \App\Http\Controllers\Controller
         return view( $this->path['view'] . 'bread.index')
                 ->with('columns', $this->class->columns )
                 ->with('data', $this->class->get() )
-                ->with('path', $this->path );
+                ->with('path', collect($this->path) );
     }
 
     /**
