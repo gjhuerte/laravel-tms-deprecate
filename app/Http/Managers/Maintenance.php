@@ -26,6 +26,11 @@ class Maintenance extends \App\Http\Controllers\Controller
         'errors' => [
             'fails'=> '',
         ],
+        'titles' => [
+            'create' => 'Create Maintenance',
+            'edit' => 'Edit Maintenance',
+            'index' => 'Maintenance'
+        ],
     ];
 
     /**

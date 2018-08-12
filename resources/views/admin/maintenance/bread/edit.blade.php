@@ -4,7 +4,7 @@
 @include('notification.alert')
 <div class="row p-3" style="background-color: white;">
 	<div class="col-sm-12 my-1">
-		<h1>Maintenance</h1>
+		<h1>{{ $path['titles']['edit'] }}</h1>
 	</div>
 	<div class="col-sm-12 my-1">
 		@include('notification.alert')

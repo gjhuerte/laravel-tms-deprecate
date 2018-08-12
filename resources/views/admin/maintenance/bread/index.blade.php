@@ -3,14 +3,14 @@
 @section('maintenance-body')
 <div class="row p-3" style="background-color: white;">
 	<div class="col-sm-12 my-1">
-		<h1>Maintenance</h1>
+		<h1>Maintenance: {{ $path['titles']['index'] }}</h1>
 	</div>
 	<div class="col-sm-12 my-1">
 		<a class="btn btn-outline-success" href="{{ url( $path['create'] ) }}">Create</a>
 	</div>
 	<div class="col-sm-12 my-1">
 		@include('notification.alert')
-		<table class="table table-hover table-bordered">
+		<table class="table table-hover table-bordered" id="maintenanceTable">
 			<thead>
 			@foreach( $columns as $key => $value )
 				@if( $value['select'] )
@@ -38,4 +38,7 @@
 		</table>
 	</div>
 </div>
+@endsection
+
+@section('scripts-include')
 @endsection

@@ -39,6 +39,11 @@ class CategoriesController extends Manager\Maintenance
 	        'errors' => [
 	            'fails'=> '',
 	        ],
+            'titles' => [
+                'create' => 'Create Category',
+                'edit' => 'Edit Category',
+                'index' => 'Category'
+            ],
 	    ];
 
     	$this->fields = [
