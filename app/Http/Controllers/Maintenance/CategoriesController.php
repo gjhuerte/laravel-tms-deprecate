@@ -13,7 +13,7 @@ class CategoriesController extends Manager\Maintenance
     {
     	$this->validatorClass = $this->class = new Model\Category;
 
-        $this->variables = [
+        $this->variable = [
             'indexAjaxUrl' => 'category',
             'baseUrl' => 'category',
             'viewBasePath' => 'admin.maintenance.',
@@ -27,9 +27,6 @@ class CategoriesController extends Manager\Maintenance
                     'isInsertable' => false,
                     'isEditable' => false,
                     'selectAttribute' => false, 
-                    'attributes' => [
-                        'attributeName' => 'attributeValue'
-                    ]
                 ],
                 'name' => [
                     'dataTableName' => 'name',
@@ -38,17 +35,19 @@ class CategoriesController extends Manager\Maintenance
                     'isEditable' => true,
                     'selectAttribute' => false, 
                     'attributes' => [
+                        'id' => 'name',
                         'type' => 'text',
                         'class' => 'form-control',
                         'name' => 'name',
+                        'placeholder' => 'Enter category name...',
                     ]
                 ],
             ],
             'fields' => [],
         ];
 
-    	foreach( $request->all() as $key => $value ) {
-    		array_push( $this->variables['fields'], $key, $value);
+    	foreach($request->all() as $key => $value) {
+    		$this->variable['fields'][$key] =  $value;
     	}
     }
 }

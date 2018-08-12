@@ -15,16 +15,14 @@ class Maintenance extends \App\Http\Controllers\Controller
      */
     public function index( Request $request )
     {
-
         if( $request->ajax() ) {
             return datatables( $this->class->get() )->toJson();
         }
 
-        $variables = ObjectParser::make($this->variables);
-
-        return view( $variables->viewBasePath . 'bread.index')
+        $variable = ObjectParser::make($this->variable);
+        return view( $variable->viewBasePath . 'bread.index')
                 ->with('columns', $this->class->columns)
-                ->with('variable', $variables);
+                ->with('variable', $variable);
     }
 
     /**
@@ -34,9 +32,9 @@ class Maintenance extends \App\Http\Controllers\Controller
      */
     public function create()
     {
-        return view( $this->path['view'] . 'bread.create')
-                ->with('fields', $this->fields )
-                ->with('path', $this->path );
+        $variable = ObjectParser::make($this->variable);
+        return view($variable->viewBasePath . 'bread.create')
+                ->with('variable', $variable);
     }
 
     /**
@@ -47,23 +45,16 @@ class Maintenance extends \App\Http\Controllers\Controller
      */
     public function store(Request $request)
     {
-        $fields = [];
-
-        foreach( $this->fields as $key => $args ) {
-            if( isset( $args['value']) ) {
-                $fields[ $key ] = $args['value']; 
-            }
-        }
-
-        $validator = Validator::make( $fields, $this->class->insertRules() );
+        $variable = ObjectParser::make($this->variable);
+        $validator = Validator::make((array)$variable->fields, $this->class->insertRules());
 
         if( $validator->fails() ) {
-            return back()->withInput()->withErrors( $validator );
+            return back()->withInput()->withErrors($validator);
         }
 
         foreach( $this->class->columns as $key => $value ) {
-            if( $value['save'] ) {
-                $this->class->$key = $this->fields[ $key ]['value'];
+            if( $variable->columns->$key->isInsertable ) {
+                $this->class->$key = $variable->fields->$key;
             }
         }
 
@@ -83,7 +74,7 @@ class Maintenance extends \App\Http\Controllers\Controller
             'message' => 'Item successfully created',
             'type' => 'success'
         ]);
-        return redirect( $this->path['base'] );
+        return redirect($variable->baseUrl);
     }
 
     /**
