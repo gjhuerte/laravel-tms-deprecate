@@ -94,7 +94,8 @@ class Maintenance extends \App\Http\Controllers\Controller
             return redirect( $variable->redirectFailsUrl );
         }
 
-        return view($variable->viewBasePath . 'bread.show')
+        return view( $variable->viewBasePath . 'bread.show')
+                ->with('model', $this->class->where('id', '=', $id )->first())
                 ->with('variable', $variable);
     }
 
@@ -130,13 +131,13 @@ class Maintenance extends \App\Http\Controllers\Controller
     {
         $id = filter_var( $id, FILTER_VALIDATE_INT);
         $variable = ObjectParser::make($this->variable);
+        $this->class = $this->class->where('id', '=', $id )->first();
         $validator = Validator::make((array)$variable->fields, $this->class->updateRules());
 
         if( $validator->fails() ) {
             return back()->withInput()->withErrors($validator);
         }
 
-        $this->class = $this->class->where('id', '=', $id )->first();
         foreach( $this->class->columns as $key => $value ) {
             if( $variable->columns->$key->isEditable ) {
                 $this->class->$key = $variable->fields->$key;

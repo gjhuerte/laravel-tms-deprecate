@@ -20,6 +20,9 @@
 			<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 			@include('admin.maintenance.bread.form')
 			<div class="form-group float-right">
+				<a href="{{ url("$variable->baseUrl") }}" class="btn btn-light">
+					<i class="fas fa-arrow-left"></i> Back
+				</a>
 				<input type="submit" name="button" value="Save" class="btn btn-primary" />
 			</div>
 		</form>

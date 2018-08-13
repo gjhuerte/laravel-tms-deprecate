@@ -50,13 +50,16 @@ $(document).ready(function() {
             return `
               <a 
                 href="{{ url("$variable->baseUrl") }}` + '/' + callback.id + `" 
-                class="btn btn-outline-secondary" >View</a>
+                class="btn btn-outline-secondary" >
+                <i class="fas fa-folder" aria-hidden="true"></i> View</a>
               <a 
                 href="{{ url("$variable->baseUrl") }}` + '/' + callback.id + `/edit" 
-                class="btn btn-outline-warning" >Edit</a>
+                class="btn btn-outline-warning" >
+                <i class="fas fa-pen" aria-hidden="true"></i> Edit</a>
               <button 
                 type="button" data-id="` + callback.id + `" 
-                class="btn-remove btn btn-outline-danger" >Remove</button>
+                class="btn-remove btn btn-outline-danger" >
+                <i class="fas fa-trash" aria-hidden="true"></i> Remove</button>
             `
           } },
       ],
@@ -79,16 +82,16 @@ $(document).ready(function() {
           $this.data('original-text', $(this).html());
           $this.html(loadingText);
         }
-
         swal({
-          title: "Are you sure?",
-          text: "This item will be removed?",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-        })
-        .then((willDelete) => {
-          if (willDelete) {
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.value) {
             $.ajax({
               headers: {
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -114,7 +117,7 @@ $(document).ready(function() {
             $this.html($this.data('original-text'));
             swal("Cancelled", "Operation Cancelled", "error");
           }
-        });
+        })
     });
 } );
 </script>

@@ -24,21 +24,21 @@ class Category extends Model
     public function insertRules()
     {
     	return [
-    		'name' => 'required|min:1',
+    		'name' => 'required|min:1|unique:' . $this->table . ',name',
     	];
     }
 
     public function updateRules()
     {
     	return [
-    		'name' => 'required|min:1',
+            'name' => 'required|min:1|unique:' . $this->table . ',name,' . $this->name . ',name',
     	];
     }
 
     public function checkIfIdExistsRules()
     {
     	return [
-    		'id' => "required|exists:$this->table,id",
+    		'id' => 'required|exists:' . $this->table . ',id',
     	];
     }
 }
