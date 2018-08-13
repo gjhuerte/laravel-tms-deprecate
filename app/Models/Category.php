@@ -41,4 +41,24 @@ class Category extends Model
     		'id' => 'required|exists:' . $this->table . ',id',
     	];
     }
+
+    public function scopeFilterByParent($query)
+    {
+        return $query->whereNull('parent_id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo( __NAMESPACE__ . '\\Category', 'parent_id', 'id');
+    }
+
+    protected $appends = [
+        'parent_category_name',
+    ];
+
+    public function getParentCategoryNameAttribute()
+    {
+        $parent_name = isset($this->parent) ? $this->parent->name : 'None';
+        return $parent_name;
+    }
 }

@@ -9,9 +9,9 @@
 		@include('notification.alert')
 		<table class="table table-hover table-bordered table-condensed" id="maintenance-table">
 			<thead>
-  			@foreach( $variable->columns as $key => $value )
-  				@if($value->isSelectable)
-  				<td>{{ ucfirst($key) }}</td>
+  			@foreach( $variable->columns as $key => $args )
+  				@if($args->isSelectable)
+  				<td>{{ ucfirst($args->name) }}</td>
   				@endif
   			@endforeach
 				<td></td>
@@ -41,9 +41,9 @@ $(document).ready(function() {
       serverSide: true,
       ajax: "{{ url($variable->indexAjaxUrl) }}",
       columns: [
-          @foreach( $variable->columns as $key => $value )
-            @if($value->isSelectable)
-            { data: "{{ $key }}" },
+          @foreach( $variable->columns as $key => $args )
+            @if($args->isSelectable)
+            { data: "{{ $args->dataTableName }}" },
             @endif
           @endforeach
           { data: function(callback){
