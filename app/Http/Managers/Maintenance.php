@@ -154,7 +154,7 @@ class Maintenance extends \App\Http\Controllers\Controller
 
         foreach( $this->class->columns as $key => $args ) {
             $args = ObjectParser::make($args);
-            if( $args->save ) {
+            if($args->update) {
                 $columnValue = null;
 
                 if(isset($args->defaultValue) && $args->defaultValue) {
