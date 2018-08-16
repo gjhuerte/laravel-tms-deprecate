@@ -1,53 +1,58 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid p-4" style="background-color: white;">
+<div class="container p-4 mt-4" style="background-color: white;">
 	<h1 class="display-4">Tickets</h1>
-	<div class="row my-2">
-		<div class="col-md-1">
-			<select 
-				id="ticket-category"
-				name="ticket-category"
-				class="form-control">
-				@if(isset($categories))
-					@foreach($categories as $category)
-					<option>{{ $category->name }}</option>
-					@endforeach
-				@endif		
-			</select>
-		</div>
-		<div class="col-md-1">
-			<select 
-				id="ticket-status"
-				name="ticket-status"
-				class="form-control">
-				<option>Open</option>
-				<option>Closed</option>			
-			</select>
-		</div>
-		<div class="col-md-1">
-			<select 
-				id="ticket-priority"
-				name="ticket-priority"
-				class="form-control">
-				@if(isset($levels))
-					@foreach($levels as $level)
-					<option>{{ $level->name }}</option>
-					@endforeach
-				@endif			
-			</select>
-		</div>
-	</div>
 	<table 
-		class="table table-condensed table-bordered table-hover" 
+		class="table table-striped table-condensed table-bordered table-hover"  
+		width="100%" 
+		cellspacing="0"
 		id="tickets-table" 
 		style="background-color: white;">
 		<thead>
-			<th>ID</th>
-			<th>Title</th>
-			<th>Details</th>
-			<th>Assigned</th>
-			<th class="no-sort"></th>
+			<tr rowspan="1">
+				<th colspan="5">
+					<div class="form-inline">
+						Category:
+						<select 
+							id="ticket-category"
+							name="ticket-category"
+							class="form-control mx-2">
+							@if(isset($categories))
+								@foreach($categories as $category)
+								<option>{{ $category->name }}</option>
+								@endforeach
+							@endif		
+						</select>
+						Status:
+						<select 
+							id="ticket-status"
+							name="ticket-status"
+							class="form-control mx-2">
+							<option>Open</option>
+							<option>Closed</option>			
+						</select>
+						Level:
+						<select 
+							id="ticket-priority"
+							name="ticket-priority"
+							class="form-control mx-2">
+							@if(isset($levels))
+								@foreach($levels as $level)
+								<option>{{ $level->name }}</option>
+								@endforeach
+							@endif			
+						</select>
+					</div>
+				</th>
+			</tr>
+			<tr>
+				<th>ID</th>
+				<th>Title</th>
+				<th>Assigned</th>
+				<th>Status</th>
+				<th class="no-sort"></th>
+			</tr>
 		</thead>
 	</table>
 </div>
@@ -75,11 +80,12 @@ $(document).ready(function() {
 		columns: [
 			{ data: 'id'},
 			{ data: 'title'},
-			{ data: 'details'},
 			{ data: 'assigned_personnel'},
+			{ data: 'status_name'},
 			{ data: function(callback){
 				return `
 				  <a 
+			{ data: 'details'},
 				    href="#` + '/' + callback.id + `" 
 				    class="btn btn-outline-secondary" >
 				    <i class="fas fa-folder" aria-hidden="true"></i> View</a>
@@ -95,7 +101,7 @@ $(document).ready(function() {
  	$("div.toolbar").html(`
 		<a 
 			id="new" 
-			href="#"  
+			href="{{ url('ticket/create') }}"  
 			class="btn btn-primary">
 			<i class="fas fa-plus" aria-hidden="true"></i> Create
 		</a>

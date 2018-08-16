@@ -126,7 +126,7 @@ class User extends Authenticatable
     }
 
     protected $appends = [
-        'full_name', 'organization_name'
+        'full_name', 'organization_name', 'status_name'
     ];
 
     public function getFullNameAttribute()
@@ -142,5 +142,10 @@ class User extends Authenticatable
     {
         $organization = isset($this->organization) ? $this->organization->name : 'None';
         return $organization;
+    }
+
+    public function getStatusNameAttribute()
+    {
+        return 'None';
     }
 }

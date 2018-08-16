@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class TicketsController extends Controller
 {
+    public $viewBasePath = 'ticket.';
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +24,7 @@ class TicketsController extends Controller
 
         $categories = Category::all();
         $levels = Level::all();
-        return view('ticket.index')
+        return view($this->viewBasePath . 'index')
                 ->with('categories', $categories)
                 ->with('levels', $levels);
     }
@@ -35,7 +36,7 @@ class TicketsController extends Controller
      */
     public function create()
     {
-        //
+        return view($this->viewBasePath . 'create');
     }
 
     /**
