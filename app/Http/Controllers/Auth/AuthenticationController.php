@@ -67,7 +67,7 @@ class AuthenticationController extends Controller
         session()->flash('notification', [
             'title' => 'Error!',
             'message' => 'Invalid credentials submitted',
-            'type' => 'error'
+            'type' => 'danger'
         ]);
 
         return back();

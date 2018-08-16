@@ -109,11 +109,11 @@ class OrganizationsController extends Maintenance
         $variable->columns->parent_id->select->values = [ null => 'None' ] + $this->parentOrganization->toArray();
         $validator = Validator::make([ 'id' => $id ], $this->class->checkIfIdExistsRules() );
 
-        if( $validator->fails() ) {
+        if($validator->fails()) {
             return redirect( $variable->redirectFailsUrl );
         }
 
-        return view( $variable->viewBasePath . 'bread.edit')
+        return view($variable->viewBasePath . 'bread.edit')
                 ->with('model', $this->class->where('id', '=', $id )->first())
                 ->with('variable', $variable);
     }
