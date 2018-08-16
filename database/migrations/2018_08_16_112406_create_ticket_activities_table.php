@@ -20,8 +20,14 @@ class CreateTicketActivitiesTable extends Migration
                     ->references('id')
                     ->on('users')
                     ->onUpdate('cascade')
-                    ->onDelete('cascade');
+                    ->onDelete('set null');
             $table->longtext('details');
+            $table->integer('ticket_id')->unsigned();
+            $table->foreign('ticket_id')
+                    ->references('id')
+                    ->on('tickets')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
             $table->timestamps();
         });
     }
