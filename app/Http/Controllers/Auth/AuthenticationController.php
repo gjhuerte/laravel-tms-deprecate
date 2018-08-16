@@ -40,7 +40,6 @@ class AuthenticationController extends Controller
         $user = new User;
 
         $validator = Validator::make($request->all(), $user->loginRules());
-
         if($validator->fails()) {
             return back()->withInput()->withErrors($validator);
         }

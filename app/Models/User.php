@@ -32,7 +32,7 @@ class User extends Authenticatable
             'update' => false,
             'select' => false,
             'isHashed' => true,
-            'defaultValue' => 123456789,
+            'defaultValue' => "123456789",
         ],
         'middlename' => [
             'save' => true,
