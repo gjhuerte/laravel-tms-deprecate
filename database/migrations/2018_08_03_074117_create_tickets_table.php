@@ -26,11 +26,11 @@ class CreateTicketsTable extends Migration
                     ->onUpdate('cascade')
                     ->onDelete('set null');
             $table->integer('created_by')->unsigned();
-            // $table->foreign('created_by')
-            //         ->references('id')
-            //         ->on('users')
-            //         ->onUpdate('cascade')
-            //         ->onDelete('set null');
+            $table->foreign('created_by')
+                    ->references('id')
+                    ->on('users')
+                    ->onUpdate('cascade')
+                    ->onDelete('set null');
             $table->integer('parent_id')->nullable()->unsigned();
             $table->foreign('parent_id')
                     ->references('id')
@@ -44,6 +44,7 @@ class CreateTicketsTable extends Migration
                     ->on('levels')
                     ->onUpdate('cascade')
                     ->onDelete('set null');
+            $table->string('status')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
