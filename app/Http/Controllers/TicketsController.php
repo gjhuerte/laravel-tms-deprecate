@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Ticket;
+use App\Models\Level;
+use App\Models\Ticket;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class TicketsController extends Controller
@@ -19,7 +21,11 @@ class TicketsController extends Controller
             return datatables($tickets)->toJson();
         }
 
-        return view('ticket.index');
+        $categories = Category::all();
+        $levels = Level::all();
+        return view('ticket.index')
+                ->with('categories', $categories)
+                ->with('levels', $levels);
     }
 
     /**

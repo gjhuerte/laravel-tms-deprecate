@@ -7,7 +7,10 @@
 	</div>
 	<div class="col-sm-12 my-1">
 		@include('notification.alert')
-		<table class="table table-hover table-bordered table-condensed" id="maintenance-table">
+		<table 
+      class="table table-hover table-bordered table-condensed" 
+      id="maintenance-table"
+      >
 			<thead>
   			@foreach( $variable->columns as $key => $args )
   				@if($args->isSelectable)
@@ -56,10 +59,12 @@ $(document).ready(function() {
                 href="{{ url("$variable->baseUrl") }}` + '/' + callback.id + `/edit" 
                 class="btn btn-outline-warning" >
                 <i class="fas fa-pen" aria-hidden="true"></i> Edit</a>
+              @if(isset($variable->isRemovable) && $variable->isRemovable)
               <button 
                 type="button" data-id="` + callback.id + `" 
                 class="btn-remove btn btn-outline-danger" >
                 <i class="fas fa-trash" aria-hidden="true"></i> Remove</button>
+              @endif
             `
           } },
       ],
@@ -74,10 +79,11 @@ $(document).ready(function() {
       </a>
 		`);
 
+    @if(isset($variable->isRemovable) && $variable->isRemovable)
     $('#maintenance-table').on('click', '.btn-remove', function(){
 				id = $(this).data('id');
         var $this = $(this);
-        var loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> Loading...';
+        var loadingText = '<i class="fas fa-circle-o-notch fa-spin"></i> Loading...';
         if ($(this).html() !== loadingText) {
           $this.data('original-text', $(this).html());
           $this.html(loadingText);
@@ -119,6 +125,7 @@ $(document).ready(function() {
           }
         })
     });
+    @endif
 } );
 </script>
 @endsection

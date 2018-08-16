@@ -18,12 +18,13 @@
 	</div>
 	<div class="col-sm-12 my-1">
 		@include('notification.alert')
-		@foreach( $variable->columns as $key => $value )
-			@if(isset($value->attributes))
+		@foreach( $variable->columns as $key => $args )
+            @if($args->isSelectable)
 			<div class="form-group">
-				<strong> {{ ucfirst($key) }} </strong> : {{ isset($model->$key) ? $model->$key : old("$key") }}
+				@php $name = $args->dataTableName @endphp
+				<strong> {{ ucfirst($args->name) }} </strong> : {{ $model->$name }}
 			</div>
-			@endif
+            @endif
 		@endforeach
 		<div class="form-group float-right">
 			<a href="{{ url("$variable->baseUrl") }}" class="btn btn-light">
@@ -33,4 +34,4 @@
 		</div>
 	</div>
 </div>
-@endsection
+@endsection 

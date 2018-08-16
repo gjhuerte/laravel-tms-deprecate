@@ -9,7 +9,7 @@
 		<ul class="breadcrumb">
 			<li class="breadcrumb-item">Maintenance</li>
 			<li class="breadcrumb-item">
-				<a href="{{ url("$variable->baseUrl") }}">Category</a>
+				<a href="{{ url("$variable->baseUrl") }}">{{ $variable->title }}</a>
 			</li>
 			<li class="breadcrumb-item">{{ $model->id }}</li>
 			<li class="breadcrumb-item active">Edit</li>

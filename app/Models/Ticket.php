@@ -12,4 +12,19 @@ class Ticket extends Model
     public $fillable = [
 
     ];
+
+    public function personnel()
+    {
+    	return $this->belongsTo( __NAMESPACE__ . '\\User', 'assigned_to', 'id');
+    }
+
+    protected $appends = [
+    	'assigned_personnel'
+    ];
+
+    public function getAssignedPersonnelAttribute()
+    {
+    	$fullname = isset($this->personnel) ? $this->personnel->full_name : "None";
+    	return $fullname;
+    }
 }

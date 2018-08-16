@@ -10,8 +10,12 @@
 			>
 			@foreach($args->select->values as $key => $value)
 			<option 
-				name="{{ $key }}"
-				{{ ( ( isset($model->category)) || old("$key") == $key ) ? 'selected' : '' }}>
+				value="{{ $key }}"
+				@if($key)
+				@php $model_name = $args->attributes->name @endphp
+				{{ ( ( isset($model->$model_name) && $model->$model_name == $key) || old("$key") == $key ) ? 'selected' : '' }}
+				@endif
+				>
 				{{ $value }}
 			</option>
 			@endforeach

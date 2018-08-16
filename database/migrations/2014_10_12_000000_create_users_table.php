@@ -30,11 +30,11 @@ class CreateUsersTable extends Migration
                     ->on('organizations')
                     ->onUpdate('cascade')
                     ->onDelete('set null');
-            $table->string('mobile', 20)->nullable();
+            $table->string('mobile', 30)->nullable();
             $table->string('username', 15)->unique();
             $table->string('email')->unique();
             $table->datetime('is_activated')->nullable();
-            $table->string('password');
+            $table->string('password', 256);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

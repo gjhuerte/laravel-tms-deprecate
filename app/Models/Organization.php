@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Organization extends Model
 {
-    protected $table = 'categories';
+    protected $table = 'organizations';
     protected $primaryKey = 'id';
     public $columns = [
         'id' => [
@@ -19,6 +19,11 @@ class Category extends Model
     		'update' => true,
     		'select' => true,
     	],
+        'abbreviation' => [
+            'save' => true,
+            'update' => true,
+            'select' => true,
+        ],
         'parent_id' => [
             'save' => true,
             'update' => true,
@@ -30,6 +35,8 @@ class Category extends Model
     {
     	return [
     		'name' => 'required|min:1|unique:' . $this->table . ',name',
+            'abbreviation' => 'required|min:1',
+            'parent_id' => 'nullable|exists:' . $this->table . ',id',
     	];
     }
 
@@ -37,6 +44,8 @@ class Category extends Model
     {
     	return [
             'name' => 'required|min:1|unique:' . $this->table . ',name,' . $this->name . ',name',
+            'abbreviation' => 'required|min:1',
+            'parent_id' => 'nullable|exists:' . $this->table . ',id',
     	];
     }
 
@@ -54,14 +63,14 @@ class Category extends Model
 
     public function parent()
     {
-        return $this->belongsTo( __NAMESPACE__ . '\\Category', 'parent_id', 'id');
+        return $this->belongsTo( __NAMESPACE__ . '\\Organization', 'parent_id', 'id');
     }
 
     protected $appends = [
-        'parent_category_name',
+        'parent_organization_name',
     ];
 
-    public function getParentCategoryNameAttribute()
+    public function getParentOrganizationNameAttribute()
     {
         $parent_name = isset($this->parent) ? $this->parent->name : 'None';
         return $parent_name;

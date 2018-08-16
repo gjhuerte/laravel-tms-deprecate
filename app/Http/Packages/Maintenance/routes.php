@@ -14,7 +14,10 @@ class Routes
 	public static function all()
 	{
 		Route::namespace('Maintenance')->group(function() {
+			Route::resource('organization', 'OrganizationsController');
+			Route::resource('level', 'LevelsController');
 			Route::resource('category', 'CategoriesController');
+			Route::resource('user', 'UsersController');
 		});
 	}
 }
