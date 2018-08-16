@@ -59,13 +59,13 @@ class Maintenance extends \App\Http\Controllers\Controller
                 $columnValue = null;
 
                 if(isset($args->defaultValue) && $args->defaultValue) {
-                    $columnValue = Hash::make($args->defaultValue);
+                    $columnValue = $args->defaultValue;
                 } else {
                     $columnValue = $variable->fields->$key;
                 }
 
                 if(isset($args->isHashed) && $args->isHashed) {
-                    $columnValue = Hash::make($columnValue);
+                    $columnValue = Hash::make("$columnValue");
                 } 
 
                 $this->class->$key = $columnValue;
@@ -158,13 +158,13 @@ class Maintenance extends \App\Http\Controllers\Controller
                 $columnValue = null;
 
                 if(isset($args->defaultValue) && $args->defaultValue) {
-                    $columnValue = Hash::make($args->defaultValue);
+                    $columnValue = $args->defaultValue;
                 } else {
                     $columnValue = $variable->fields->$key;
                 }
 
                 if(isset($args->isHashed) && $args->isHashed) {
-                    $columnValue = Hash::make($columnValue);
+                    $columnValue = Hash::make("$columnValue");
                 } 
 
                 $this->class->$key = $columnValue;
