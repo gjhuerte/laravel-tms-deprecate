@@ -11,6 +11,13 @@ class User extends Authenticatable
     protected $table = 'users';
     protected $primaryKey = 'id';
 
+    protected static $roles = [
+        'administration',
+        'designation',
+        'support',
+        'clients'
+    ];
+
     public $columns = [
         'id' => [
             'save' => false,
@@ -147,5 +154,10 @@ class User extends Authenticatable
     public function getStatusNameAttribute()
     {
         return 'None';
+    }
+
+    public function getAllRoles()
+    {
+        return User::$roles;
     }
 }
