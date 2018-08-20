@@ -20,7 +20,7 @@
 							class="form-control mx-2">
 							@if(isset($categories))
 								@foreach($categories as $category)
-								<option>{{ $category->name }}</option>
+								<option value="{{ $category->name }}">{{ $category->name }}</option>
 								@endforeach
 							@endif		
 						</select>
@@ -31,7 +31,7 @@
 							class="form-control mx-2">
 							@if(isset($status))
 								@foreach($status as $status)
-								<option>{{ $status }}</option>		
+								<option value="{{ $status }}">{{ $status }}</option>		
 								@endforeach
 							@endif
 						</select>
@@ -42,7 +42,7 @@
 							class="form-control mx-2">
 							@if(isset($levels))
 								@foreach($levels as $level)
-								<option>{{ $level->name }}</option>
+								<option value="{{ $level->name }}">{{ $level->name }}</option>
 								@endforeach
 							@endif			
 						</select>

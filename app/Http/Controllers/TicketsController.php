@@ -31,8 +31,10 @@ class TicketsController extends Controller
 
         $categories = Category::all();
         $levels = Level::all();
+        $status = Ticket::$statusList;
         return view($this->viewBasePath . 'index')
                 ->with('categories', $categories)
+                ->with('status', $status)
                 ->with('levels', $levels);
     }
 

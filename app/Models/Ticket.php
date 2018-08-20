@@ -14,7 +14,7 @@ class Ticket extends Model
 
     ];
 
-    protected static $statusList = [
+    public static $statusList = [
         0 => 'Initialized',
         1 => 'Verified',
         4 => 'Assigned',
