@@ -23,7 +23,28 @@
 	</div>
 </div>
 
-<div class="col-sm-6">
+<div class="col-sm-12">
+	<div class="form-group">
+		<label for="level">Level of Urgency</label>
+		<select
+			name="level"
+			class="form-control"
+			id="level"
+			name="level"
+		>
+		@foreach($levels as $key => $value)
+			<option
+				value="{{ $key }}"
+				@if(old('level') == $key)
+				selected
+				@endif
+			>{{ $value }}</option>
+		@endforeach
+		</select>
+	</div>
+</div>
+
+<div class="col-sm-12">
 	<div class="form-group">
 		<label for="category">Category</label>
 		<select
@@ -45,7 +66,7 @@
 </div>
 
 
-<div class="col-sm-6">
+<div class="col-sm-12">
 	<div class="form-group">
 		<label for="contact">Contact Information</label>
 		<input 

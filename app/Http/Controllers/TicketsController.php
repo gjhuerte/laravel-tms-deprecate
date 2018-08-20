@@ -39,8 +39,10 @@ class TicketsController extends Controller
     {
         $categories = Category::pluck('name', 'id')->toArray() + [null => 'None'];
         $tags = Tag::pluck('name')->toArray();
+        $levels = Level::pluck('name')->toArray();
         return view($this->viewBasePath . 'create')
                 ->with('categories', $categories)
+                ->with('levels', $levels)
                 ->with('tags', $tags);
     }
 
