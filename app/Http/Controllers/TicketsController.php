@@ -80,11 +80,11 @@ class TicketsController extends Controller
         $ticket->title = $title;
         $ticket->details = $details;
         $ticket->alt_contact = $contact;
-        $ticket->status = 'Initialized';
+        $ticket->status = $ticket->getStatusById(0);
         $ticket->created_by = Auth::user()->id;
         $ticket->generateInitActivity();
-        $ticket->tags->attach($tags);
-        $ticket->category->attach();
+        $ticket->tags()->attach($tags);
+        $ticket->category()->attach();
         $ticket->save();
 
         session()->flash('notification', [

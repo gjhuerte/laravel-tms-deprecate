@@ -6,11 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
+
     protected $table = 'tickets';
     protected $primaryKey = 'id';
     public $timestamps = 'true';
     public $fillable = [
 
+    ];
+
+    protected static $statusList = [
+        0 => 'Initialized',
+        1 => 'Verified',
+        4 => 'Assigned',
+        5 => 'Waiting for approval',
+        5 => 'Approved',
+        5 => 'Enqueue',
+        6 => 'Resolving',
+        7 => 'Resolved',
+        8 => 'Waiting for feedback',
+        9 => 'Closed'
     ];
 
     public function rules()
@@ -21,6 +35,21 @@ class Ticket extends Model
             'category' => 'required|exists:categories,id',
             'level' => 'required|exists:levels,id',
         ];
+    }
+
+    public function activity()
+    {
+        return $this->hasMany('App\Models\Ticket\Activity', 'ticket_id', 'id');
+    }
+
+    public function tag()
+    {
+        return $this->belongsToMany(__NAMESPACE__ . '\\Tag', 'ticket_tag', 'ticket_id', 'tag_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsToMany(__NAMESPACE__ . '\\Category', 'category_ticket', 'ticket_id', 'category_id');
     }
 
     public function personnel()
@@ -36,5 +65,22 @@ class Ticket extends Model
     {
     	$fullname = isset($this->personnel) ? $this->personnel->full_name : "None";
     	return $fullname;
+    }
+
+    public function generateInitActivity()
+    {
+        $details = 'The system generated a new ticket from users information';
+
+        $activity = new Ticket\Activity;
+        $activity->generateSelfAuthored([
+            'ticket_id' => $this->id,
+            'details' => $details
+        ]);
+    }
+
+    public function getStatusById($id)
+    {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        return Ticket::$statusList[$id];
     }
 }
