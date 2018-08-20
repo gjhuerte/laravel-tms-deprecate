@@ -14,12 +14,8 @@
 <div class="col-sm-12">
 	<div class="form-group">
 		<label for="details">Details</label>
-		<textarea 
-			class="form-control"
-			name="details"
-			id="details"
-			placeholder="Enter details here..."
-		>{{ isset($ticket->details) ? $ticket->details : old('details') }}</textarea>
+		<div name="details" id="details" style="height: 350px"></div>
+		<input type="hidden" id="details-form-field" name="details" />
 	</div>
 </div>
 
@@ -87,6 +83,7 @@
 			name="tags"
 			id="tags"
 			placeholder="Enter tags here separated by comma"
+			value="{{ old('tags') }}"
 		>
 	</div>
 </div>

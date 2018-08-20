@@ -81,7 +81,7 @@ $(document).ready(function() {
 			{ data: 'id'},
 			{ data: 'title'},
 			{ data: 'assigned_personnel'},
-			{ data: 'status_name'},
+			{ data: 'status'},
 			{ data: function(callback){
 				return `
 				  <a 

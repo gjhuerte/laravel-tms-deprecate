@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    protected $table = 'comments';
+    protected $table = 'ticket_comments';
     protected $primaryKey = 'id';
 }

@@ -37,7 +37,7 @@ class CreateTicketsTable extends Migration
                     ->on('tickets')
                     ->onUpdate('cascade')
                     ->onDelete('set null');
-            $table->datetime('date_assigned');
+            $table->datetime('date_assigned')->nullable();
             $table->integer('level_id')->nullable()->unsigned();
             $table->foreign('level_id')
                     ->references('id')

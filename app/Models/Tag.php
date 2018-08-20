@@ -8,6 +8,11 @@ class Tag extends Model
 {
     protected $table = 'tags';
     protected $primaryKey = 'id';
+
+    public $fillable = [
+        'name'
+    ];
+
     public $columns = [
         'id' => [
             'save' => false,

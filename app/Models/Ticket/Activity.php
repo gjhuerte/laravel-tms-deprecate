@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
-    protected $table = 'activities';
+    protected $table = 'ticket_activities';
     protected $primaryKey = 'id';
     public $timestamps = true;
 
@@ -22,7 +22,7 @@ class Activity extends Model
      * @param [array] $args
      * @return object $activity 
      */
-    public function generateSelfAuthoredTicket(array $args)
+    public function generateSelfAuthored(array $args)
     {
         $authored_by = isset($args['authored_by']) ? $args['authored_by'] : Auth::user()->id;
         $details = isset($args['details']) ? $args['details'] : 'No details specified.';

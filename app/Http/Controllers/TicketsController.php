@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Auth;
+use Validator;
 use App\Models\Tag;
 use App\Models\Level;
 use App\Models\Ticket;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Packages\Tag\TagManager;
 
 class TicketsController extends Controller
 {
@@ -39,7 +43,7 @@ class TicketsController extends Controller
      */
     public function create()
     {
-        $categories = Category::pluck('name', 'id')->toArray() + [null => 'None'];
+        $categories = Category::pluck('name', 'id')->toArray();
         $tags = Tag::pluck('name')->toArray();
         $levels = Level::pluck('name')->toArray();
         return view($this->viewBasePath . 'create')
@@ -56,14 +60,13 @@ class TicketsController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
         $url = filter_var($request->get('url'), FILTER_SANITIZE_URL);
         $title = filter_var($request->get('title'), FILTER_SANITIZE_STRING);
         $contact = filter_var($request->get('contact'), FILTER_SANITIZE_STRING);
         $level = filter_var($request->get('level'), FILTER_SANITIZE_NUMBER_INT);
-        $categories = filter_var($request->get('categories'), FILTER_SANITIZE_NUMBER_INT);
+        $category = filter_var($request->get('category'), FILTER_SANITIZE_NUMBER_INT);
         $details = strip_tags($request->get('details'), '<h1><h2><h3><h4><h5><p><span><ol><ul><li><a><br>');
-        $tags = App\Http\Managers\Tag\TagManager::sanitize($request->get('tags'));
+        $rawTags = TagManager::sanitize($request->get('tags'));
 
         $validator = Validator::make([
             'title' => $title,
@@ -76,16 +79,26 @@ class TicketsController extends Controller
             return back()->withInput()->withErrors($validator);
         }
 
+        DB::beginTransaction();
+
+        foreach($rawTags as $rawTag) {   
+            $tag = Tag::firstOrCreate([ 'name' => $rawTag ]);
+            $tags[] = $tag->id;
+        }
+
         $ticket = new Ticket;
         $ticket->title = $title;
         $ticket->details = $details;
         $ticket->alt_contact = $contact;
         $ticket->status = $ticket->getStatusById(0);
         $ticket->created_by = Auth::user()->id;
+        $ticket->save();
+
         $ticket->generateInitActivity();
         $ticket->tags()->attach($tags);
-        $ticket->category()->attach();
-        $ticket->save();
+        $ticket->categories()->attach($category);
+
+        DB::commit();
 
         session()->flash('notification', [
             'title' => 'Success!',

@@ -27,7 +27,7 @@ class Ticket extends Model
         9 => 'Closed'
     ];
 
-    public function rules()
+    public static function rules()
     {
         return [
             'title' => 'required|max:100',
@@ -42,12 +42,12 @@ class Ticket extends Model
         return $this->hasMany('App\Models\Ticket\Activity', 'ticket_id', 'id');
     }
 
-    public function tag()
+    public function tags()
     {
         return $this->belongsToMany(__NAMESPACE__ . '\\Tag', 'ticket_tag', 'ticket_id', 'tag_id');
     }
 
-    public function category()
+    public function categories()
     {
         return $this->belongsToMany(__NAMESPACE__ . '\\Category', 'category_ticket', 'ticket_id', 'category_id');
     }
