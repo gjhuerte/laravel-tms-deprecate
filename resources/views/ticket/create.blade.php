@@ -21,9 +21,14 @@
 		</div>
 		<div class="col-sm-12 my-1">
 			@include('notification.alert')
-			<form method="post" action="{{ url('ticket') }}">
-				<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-				@include('ticket.form')
+			<form 
+				method="post" 
+				action="{{ url('ticket') }}"
+				class="form-horizontal">
+				<div class="row">
+					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+					@include('ticket.form')
+				</div>
 				<div class="form-group float-right">
 					<a href="{{ url('ticket') }}" class="btn btn-light">
 						<i class="fas fa-arrow-left"></i> Back
