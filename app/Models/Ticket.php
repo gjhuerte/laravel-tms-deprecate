@@ -67,6 +67,11 @@ class Ticket extends Model
     	return $fullname;
     }
 
+    /**
+     * Generate initial status for the ticket
+     *
+     * @return void
+     */
     public function generateInitActivity()
     {
         $details = 'The system generated a new ticket from users information';
@@ -76,9 +81,17 @@ class Ticket extends Model
             'ticket_id' => $this->id,
             'details' => $details
         ]);
+
+        return $this;
     }
 
-    public function getStatusById($id)
+    /**
+     * Require an id and returns the status corresponding to the id given
+     *
+     * @param [integer] $id
+     * @return string $status equivalent to the given id
+     */
+    public function getStatusById(int $id)
     {
         $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
         return Ticket::$statusList[$id];
