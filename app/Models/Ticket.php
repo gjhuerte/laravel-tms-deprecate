@@ -37,7 +37,7 @@ class Ticket extends Model
         ];
     }
 
-    public function activity()
+    public function activities()
     {
         return $this->hasMany('App\Models\Ticket\Activity', 'ticket_id', 'id');
     }

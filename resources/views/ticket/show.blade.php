@@ -10,41 +10,7 @@
 		id="tickets-table" 
 		style="background-color: white;">
 		<thead>
-			<tr rowspan="1">
-				<th colspan="5">
-					<div class="form-inline">
-						Category:
-						<select 
-							id="ticket-category"
-							name="ticket-category"
-							class="form-control mx-2">
-							@if(isset($categories))
-								@foreach($categories as $category)
-								<option>{{ $category->name }}</option>
-								@endforeach
-							@endif		
-						</select>
-						Status:
-						<select 
-							id="ticket-status"
-							name="ticket-status"
-							class="form-control mx-2">
-							<option>Open</option>
-							<option>Closed</option>			
-						</select>
-						Level:
-						<select 
-							id="ticket-priority"
-							name="ticket-priority"
-							class="form-control mx-2">
-							@if(isset($levels))
-								@foreach($levels as $level)
-								<option>{{ $level->name }}</option>
-								@endforeach
-							@endif			
-						</select>
-					</div>
-				</th>
+			<tr>
 			</tr>
 			<tr>
 				<th>ID</th>
@@ -106,52 +72,6 @@ $(document).ready(function() {
 			<i class="fas fa-plus" aria-hidden="true"></i> Create
 		</a>
 	`);
-
-    $('#maintenance-table').on('click', '.btn-remove', function(){
-		id = $(this).data('id');
-        var $this = $(this);
-        var loadingText = '<i class="fas fa-circle-o-notch fa-spin"></i> Loading...';
-        if ($(this).html() !== loadingText) {
-          $this.data('original-text', $(this).html());
-          $this.html(loadingText);
-        }
-        swal({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-          if (result.value) {
-            $.ajax({
-              headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              },
-              type: 'delete',
-              url: '#' + "/" + id,
-              data: {
-                'id': id
-              },
-              dataType: 'json',
-              success: function(response){
-                swal('Operation Successful','Item removed successfully','success')
-              },
-              error: function(){
-                swal('Operation Unsuccessful','Error occurred while removing an item','error')
-              },
-              complete: function(){
-                $this.html($this.data('original-text'));
-                table.ajax.reload();
-              }
-            });
-          } else {
-            $this.html($this.data('original-text'));
-            swal("Cancelled", "Operation Cancelled", "error");
-          }
-        })
-    });
 } );
 </script>
 @endsection

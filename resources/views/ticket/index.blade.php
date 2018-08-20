@@ -88,12 +88,11 @@ $(document).ready(function() {
 			{ data: function(callback){
 				return `
 				  <a 
-			{ data: 'details'},
-				    href="#` + '/' + callback.id + `" 
+				    href="{{ url('ticket') }}/` + callback.id + `" 
 				    class="btn btn-outline-secondary" >
 				    <i class="fas fa-folder" aria-hidden="true"></i> View</a>
 				  <a 
-				    href="#` + '/' + callback.id + `/edit" 
+				    href="{{ url('ticket') }}/` + callback.id + `/edit" 
 				    class="btn btn-outline-warning" >
 				    <i class="fas fa-pen" aria-hidden="true"></i> Edit</a>
 				`

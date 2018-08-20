@@ -14,7 +14,7 @@ use App\Http\Packages\Tag\TagManager;
 
 class TicketsController extends Controller
 {
-    public $viewBasePath = 'ticket.';
+    public $viewBasePath = 'ticket';
     public $baseUrl = 'ticket';
 
     /**
@@ -32,7 +32,7 @@ class TicketsController extends Controller
         $categories = Category::all();
         $levels = Level::all();
         $status = Ticket::$statusList;
-        return view($this->viewBasePath . 'index')
+        return view($this->viewBasePath . '.index')
                 ->with('categories', $categories)
                 ->with('status', $status)
                 ->with('levels', $levels);
@@ -117,9 +117,25 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        $ticket = Ticket::with(['categories', 'tags'])->find($id);
+
+        $validator = Validator::make(['ticket' => $id], [
+            'ticket' => 'required|exists:tickets,id'
+        ]);
+
+        if($validator->fails()) {
+            return view('errors.404');
+        }
+
+        if($request->ajax()) {
+            return datatables($ticket->activities)->toJson();
+        }
+
+        return view($this->viewBasePath . '.show')
+                ->with('ticket', $ticket);
     }
 
     /**
