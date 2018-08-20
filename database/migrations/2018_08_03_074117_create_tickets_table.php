@@ -31,6 +31,12 @@ class CreateTicketsTable extends Migration
                     ->on('users')
                     ->onUpdate('cascade')
                     ->onDelete('set null');
+            $table->integer('author_id')->unsigned()->nullable();
+            $table->foreign('author_id')
+                    ->references('id')
+                    ->on('users')
+                    ->onUpdate('cascade')
+                    ->onDelete('set null');
             $table->integer('parent_id')->nullable()->unsigned();
             $table->foreign('parent_id')
                     ->references('id')
