@@ -55,16 +55,15 @@ class Navigation
 						'url' => 'level',
 						'name' => 'Level',
 					],
+					[
+						'url' => 'tag',
+						'name' => 'Tag',
+					],
 				],
 			],
 			[
 				'url' => 'reports',
 				'name' => 'Reports',
-				'hasSubNavigation' => false,
-			],
-			[
-				'url' => 'settings',
-				'name' => 'Settings',
 				'hasSubNavigation' => false,
 			],
 		];

@@ -8,6 +8,18 @@
 		placeholder="Enter title..."
 	/>
 </div>
+
+<div class="form-group">
+	<label for="contact">Contact Details</label>
+	<input 
+		value="{{ isset($ticket->alt_contact) ? $ticket->alt_contact : old('contact') }}"
+		class="form-control"
+		name="contact"
+		id="contact"
+		placeholder="Enter Contact Information..."
+	/>
+</div>
+
 <div class="form-group">
 	<label for="details">Details</label>
 	<textarea 
@@ -15,25 +27,44 @@
 		name="details"
 		id="details"
 		placeholder="Enter details here..."
-	>
-	{{ isset($ticket->details) ? $ticket->details : old('details') }}
-	</textarea>
+	>{{ isset($ticket->details) ? $ticket->details : old('details') }}</textarea>
 </div>
+
 <div class="form-group">
-	<label for=""></label>
-	<select 
+	<label for="category">Category</label>
+	<select
+		name="category"
 		class="form-control"
-		>
-		<option 
-			value=""
-			>
-		</option>
+		id="category"
+		name="category"
+	>
+	@foreach($categories as $key => $value)
+		<option
+			value="{{ $key }}"
+			@if(old('category') == $key)
+			selected
+			@endif
+		>{{ $value }}</option>
+	@endforeach
 	</select>
 </div>
+
 <div class="form-group">
-	<label for=""></label>
-	<input 
-		value=""
+	<label for="tags">Tags</label>
+	<input
+		type="text"
+		name="tags"
+		id="tags"
+		placeholder="Enter tags here separated by comma"
+	>
+</div>
+
+<div class="form-group">
+	<label for="notes">Additional Notes:</label>
+	<textarea 
 		class="form-control"
-	/>
+		name="notes"
+		id="notes"
+		placeholder="Enter additional notes here..."
+	>{{ isset($ticket->notes) ? $ticket->notes : old('notes') }}</textarea>
 </div>

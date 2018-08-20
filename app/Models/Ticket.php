@@ -13,6 +13,15 @@ class Ticket extends Model
 
     ];
 
+    public function rules()
+    {
+        return [
+            'title' => 'required|max:100',
+            'details' => 'required|max:1000',
+            'category' => 'required|exists:categories,id',
+        ];
+    }
+
     public function personnel()
     {
     	return $this->belongsTo( __NAMESPACE__ . '\\User', 'assigned_to', 'id');

@@ -18,12 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('firstname', 50);
             $table->string('middlename', 50)->nullable();
             $table->string('lastname', 50);
-            $table->integer('access_list_id')->unsigned()->nullable();
-            $table->foreign('access_list_id')
-                    ->references('id')
-                    ->on('access_lists')
-                    ->onUpdate('cascade')
-                    ->onDelete('set null');
+            $table->string('role')->nullable();
             $table->integer('organization_id')->unsigned()->nullable();
             $table->foreign('organization_id')
                     ->references('id')

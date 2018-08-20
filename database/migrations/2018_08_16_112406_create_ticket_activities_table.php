@@ -15,7 +15,7 @@ class CreateTicketActivitiesTable extends Migration
     {
         Schema::create('ticket_activities', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('authored_by')->unsigned();
+            $table->integer('authored_by')->unsigned()->nullable();
             $table->foreign('authored_by')
                     ->references('id')
                     ->on('users')

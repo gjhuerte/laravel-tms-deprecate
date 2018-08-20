@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Level;
 use App\Models\Ticket;
 use App\Models\Category;
@@ -36,7 +37,11 @@ class TicketsController extends Controller
      */
     public function create()
     {
-        return view($this->viewBasePath . 'create');
+        $categories = Category::pluck('name', 'id')->toArray() + [null => 'None'];
+        $tags = Tag::pluck('name')->toArray();
+        return view($this->viewBasePath . 'create')
+                ->with('categories', $categories)
+                ->with('tags', $tags);
     }
 
     /**
@@ -47,7 +52,7 @@ class TicketsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request->all();
     }
 
     /**
