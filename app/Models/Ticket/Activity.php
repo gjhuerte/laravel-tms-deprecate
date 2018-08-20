@@ -3,6 +3,7 @@
 namespace App\Models\Ticket;
 
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
@@ -14,6 +15,21 @@ class Activity extends Model
     public function ticket()
     {
         return $this->belongsTo('App\Models\Ticket', 'ticket_id', 'id');
+    }
+
+    protected $appends = [
+    	'parsed_created_at', 'author_fullname'
+    ];
+
+    public function getParsedCreatedAtAttribute()
+    {
+        return Carbon::parse($this->created_at)->diffForHumans();
+    }
+
+    public function getAuthorFullnameAttribute()
+    {
+    	$fullname = isset($this->author) ? $this->author->full_name : "None";
+    	return $fullname;
     }
 
     /**

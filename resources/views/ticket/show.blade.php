@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container p-4 mt-4" style="background-color: white;">
-	<h1 class="display-4">Tickets</h1>
+	<h1 class="display-4">Ticket: {{ $ticket->id }}</h1>
 	<table 
 		class="table table-striped table-condensed table-bordered table-hover"  
 		width="100%" 
@@ -11,22 +11,22 @@
 		style="background-color: white;">
 		<thead>
 			<tr>
-                <th style="font-weight: normal">{{ $ticket->title }}</th>
-                <th style="font-weight: normal">{{ $ticket->author_fullname }}</th>
+                <th colspan=2 style="font-weight: normal"><strong>Title: </strong>{{ $ticket->title }}</th>
+                <th colspan=2 style="font-weight: normal"><strong>Author: </strong>{{ $ticket->author_fullname }}</th>
 			</tr>
 			<tr>
-                <th style="font-weight: normal">{{ $ticket->details }}</th>
-                <th style="font-weight: normal">{{ $ticket->parsed_created_at }}</th>
+                <th colspan=2 style="font-weight: normal"><strong>Details: </strong>{{ $ticket->details }}</th>
+                <th colspan=2 style="font-weight: normal"><strong>Created At: </strong>{{ $ticket->parsed_created_at }}</th>
 			</tr>
 			<tr>
-                <th style="font-weight: normal">{{ $ticket->additional_info }}</th>
-                <th></th>
+                <th colspan=2 style="font-weight: normal"><strong>Remarks: </strong>{{ $ticket->additional_info }}</th>
+                <th colspan=2></th>
 			</tr>
 			<tr>
 				<th>Date</th>
 				<th>Details</th>
 				<th>Author</th>
-				<th class="no-sort"></th>
+				<th>Author</th>
 			</tr>
 		</thead>
 	</table>
@@ -56,18 +56,6 @@ $(document).ready(function() {
 			{ data: 'parsed_created_at'},
 			{ data: 'details'},
 			{ data: 'author_fullname'},
-			{ data: function(callback){
-				return `
-				  <a 
-				    href="#` + '/' + callback.id + `" 
-				    class="btn btn-outline-secondary" >
-				    <i class="fas fa-folder" aria-hidden="true"></i> View</a>
-				  <a 
-				    href="#` + '/' + callback.id + `/edit" 
-				    class="btn btn-outline-warning" >
-				    <i class="fas fa-pen" aria-hidden="true"></i> Edit</a>
-				`
-			} },
 		],
     } );
 

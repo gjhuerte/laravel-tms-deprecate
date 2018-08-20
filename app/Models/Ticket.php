@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
@@ -57,8 +58,13 @@ class Ticket extends Model
     	return $this->belongsTo( __NAMESPACE__ . '\\User', 'assigned_to', 'id');
     }
 
+    public function author()
+    {
+    	return $this->belongsTo( __NAMESPACE__ . '\\User', 'author_id', 'id');
+    }
+
     protected $appends = [
-    	'assigned_personnel', 'author_fullname'
+    	'assigned_personnel'
     ];
 
     public function getAssignedPersonnelAttribute()
@@ -66,13 +72,7 @@ class Ticket extends Model
     	$fullname = isset($this->personnel) ? $this->personnel->full_name : "None";
     	return $fullname;
     }
-
-    public function getAssignedPersonnelAttribute()
-    {
-    	$fullname = isset($this->personnel) ? $this->personnel->full_name : "None";
-    	return $fullname;
-    }
-
+    
     /**
      * Generate initial status for the ticket
      *
