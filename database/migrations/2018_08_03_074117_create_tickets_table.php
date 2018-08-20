@@ -17,8 +17,8 @@ class CreateTicketsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->longtext('details');
-            $table->string('alt_contact');
-            $table->longtext('additional_info');
+            $table->string('alt_contact')->nullable();
+            $table->longtext('additional_info')->nullable();
             $table->integer('assigned_to')->nullable()->unsigned();
             $table->foreign('assigned_to')
                     ->references('id')

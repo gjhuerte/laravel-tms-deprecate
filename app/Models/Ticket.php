@@ -19,6 +19,7 @@ class Ticket extends Model
             'title' => 'required|max:100',
             'details' => 'required|max:1000',
             'category' => 'required|exists:categories,id',
+            'level' => 'required|exists:levels,id',
         ];
     }
 
