@@ -96,4 +96,14 @@ class Ticket extends Model
         $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
         return Ticket::$statusList[$id];
     }
+
+    /**
+     * Returns list of all the status the ticket has
+     *
+     * @return array list of status
+     */
+    public function getAllStatus()
+    {
+        return Ticket::$statusList;
+    }
 }

@@ -29,11 +29,8 @@
 							id="ticket-status"
 							name="ticket-status"
 							class="form-control mx-2">
-							@if(isset($status))
-								@foreach($status as $status)
-								<option>{{ $status }}</option>		
-								@endforeach
-							@endif
+							<option>Open</option>
+							<option>Closed</option>			
 						</select>
 						Level:
 						<select 
