@@ -58,8 +58,14 @@ class Ticket extends Model
     }
 
     protected $appends = [
-    	'assigned_personnel'
+    	'assigned_personnel', 'author_fullname'
     ];
+
+    public function getAssignedPersonnelAttribute()
+    {
+    	$fullname = isset($this->personnel) ? $this->personnel->full_name : "None";
+    	return $fullname;
+    }
 
     public function getAssignedPersonnelAttribute()
     {

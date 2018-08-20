@@ -11,12 +11,21 @@
 		style="background-color: white;">
 		<thead>
 			<tr>
+                <th style="font-weight: normal">{{ $ticket->title }}</th>
+                <th style="font-weight: normal">{{ $ticket->author_fullname }}</th>
 			</tr>
 			<tr>
-				<th>ID</th>
-				<th>Title</th>
-				<th>Assigned</th>
-				<th>Status</th>
+                <th style="font-weight: normal">{{ $ticket->details }}</th>
+                <th style="font-weight: normal">{{ $ticket->parsed_created_at }}</th>
+			</tr>
+			<tr>
+                <th style="font-weight: normal">{{ $ticket->additional_info }}</th>
+                <th></th>
+			</tr>
+			<tr>
+				<th>Date</th>
+				<th>Details</th>
+				<th>Author</th>
 				<th class="no-sort"></th>
 			</tr>
 		</thead>
@@ -42,16 +51,14 @@ $(document).ready(function() {
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
 		"processing": true,
 		serverSide: true,
-		ajax: "{{ url('ticket') }}",
+		ajax: "{{ url('ticket/' . $ticket->id) }}",
 		columns: [
-			{ data: 'id'},
-			{ data: 'title'},
-			{ data: 'assigned_personnel'},
-			{ data: 'status'},
+			{ data: 'parsed_created_at'},
+			{ data: 'details'},
+			{ data: 'author_fullname'},
 			{ data: function(callback){
 				return `
 				  <a 
-			{ data: 'details'},
 				    href="#` + '/' + callback.id + `" 
 				    class="btn btn-outline-secondary" >
 				    <i class="fas fa-folder" aria-hidden="true"></i> View</a>
