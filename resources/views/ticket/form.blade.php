@@ -10,7 +10,7 @@
 </div>
 
 <div class="form-group">
-	<label for="contact">Contact Details</label>
+	<label for="contact">Contact Information</label>
 	<input 
 		value="{{ isset($ticket->alt_contact) ? $ticket->alt_contact : old('contact') }}"
 		class="form-control"
