@@ -56,12 +56,14 @@ class TicketsController extends Controller
      */
     public function store(Request $request)
     {
+        return $request->all();
         $url = filter_var($request->get('url'), FILTER_SANITIZE_URL);
         $title = filter_var($request->get('title'), FILTER_SANITIZE_STRING);
         $contact = filter_var($request->get('contact'), FILTER_SANITIZE_STRING);
         $level = filter_var($request->get('level'), FILTER_SANITIZE_NUMBER_INT);
         $categories = filter_var($request->get('categories'), FILTER_SANITIZE_NUMBER_INT);
         $details = strip_tags($request->get('details'), '<h1><h2><h3><h4><h5><p><span><ol><ul><li><a><br>');
+        $tags = App\Http\Managers\Tag\TagManager::sanitize($request->get('tags'));
 
         $validator = Validator::make([
             'title' => $title,
