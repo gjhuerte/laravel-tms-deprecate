@@ -48,7 +48,7 @@ class TicketsController extends Controller
         $categories = Category::pluck('name', 'id')->toArray();
         $tags = Tag::pluck('name')->toArray();
         $levels = Level::pluck('name')->toArray();
-        return view($this->viewBasePath . 'create')
+        return view($this->viewBasePath . '.create')
                 ->with('categories', $categories)
                 ->with('levels', $levels)
                 ->with('tags', $tags);
@@ -156,7 +156,7 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         //
     }
@@ -167,8 +167,68 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         //
+    }
+
+    /**
+     * close ticket functionality
+     * @param  Request $request [request]
+     * @param  [int]  $id      [ticket id]
+     * @return [type]           [description]
+     */
+    public function close(Request $request, int $id)
+    {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        $ticket = Ticket::find($id);
+
+        $validator = Validator::make(['ticket' => $id], [
+            'ticket' => 'required|exists:tickets,id'
+        ]);
+
+        if($validator->fails()) {
+            return view('errors.404');
+        }
+
+        $ticket->close();
+
+        session()->flash('notification', [
+            'title' => 'Success!',
+            'message' => 'Ticket successfully closed',
+            'type' => 'success'
+        ]);
+
+        return redirect($this->baseUrl);
+    }
+
+    /**
+     * reopen ticket functionality
+     * @param  Request $request [request]
+     * @param  [int]  $id      [ticket id]
+     * @return [type]           [description]
+     */
+    public function reopen(Request $request, int $id)
+    {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        $ticket = Ticket::find($id);
+
+        $validator = Validator::make(['ticket' => $id], [
+            'ticket' => 'required|exists:tickets,id'
+        ]);
+
+        if($validator->fails()) {
+            return view('errors.404');
+        }
+
+        $ticket->reopen();
+
+        session()->flash('notification', [
+            'title' => 'Success!',
+            'message' => 'Ticket successfully reopened',
+            'type' => 'success'
+        ]);
+
+        return redirect($this->baseUrl);
     }
 }

@@ -15,13 +15,14 @@ class CreateTicketActivitiesTable extends Migration
     {
         Schema::create('ticket_activities', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('authored_by')->unsigned()->nullable();
-            $table->foreign('authored_by')
+            $table->string('title');
+            $table->longtext('details');
+            $table->integer('author_id')->unsigned()->nullable();
+            $table->foreign('author_id')
                     ->references('id')
                     ->on('users')
                     ->onUpdate('cascade')
                     ->onDelete('set null');
-            $table->longtext('details');
             $table->integer('ticket_id')->unsigned();
             $table->foreign('ticket_id')
                     ->references('id')

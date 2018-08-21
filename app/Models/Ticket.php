@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,12 +21,12 @@ class Ticket extends Model
         1 => 'Verified',
         4 => 'Assigned',
         5 => 'Waiting for approval',
-        5 => 'Approved',
-        5 => 'Enqueue',
-        6 => 'Resolving',
-        7 => 'Resolved',
-        8 => 'Waiting for feedback',
-        9 => 'Closed'
+        6 => 'Approved',
+        7 => 'Enqueue',
+        8 => 'Resolving',
+        9 => 'Resolved',
+        10 => 'Waiting for feedback',
+        11 => 'Closed'
     ];
 
     public static function rules()
@@ -81,11 +82,67 @@ class Ticket extends Model
     public function generateInitActivity()
     {
         $details = 'The system generated a new ticket from users information';
+        $title = 'Ticket Initialization';
 
         $activity = new Ticket\Activity;
         $activity->generateSelfAuthored([
+            'title' => $title,
+            'details' => $details,
             'ticket_id' => $this->id,
-            'details' => $details
+        ]);
+
+        return $this;
+    }
+    
+    /**
+     * Generate close status for the ticket
+     *
+     * @return void
+     */
+    public function close()
+    {
+        $user = Auth::user()->firstname . ' ' . Auth::user()->lastname;
+        $details = 'User ' . $user . ' tags the ticket as closed';
+        $title = 'Ticket Closing';
+
+        /**
+         * tags the ticket as closed
+         */
+        $this->status = $this->getStatusById(11);
+        $this->save();
+
+        $activity = new Ticket\Activity;
+        $activity->generateSelfAuthored([
+            'title' => $title,
+            'details' => $details,
+            'ticket_id' => $this->id,
+        ]);
+
+        return $this;
+    }
+    
+    /**
+     * Generate reopen status for the ticket
+     *
+     * @return void
+     */
+    public function reopen()
+    {
+        $user = Auth::user()->firstname . ' ' . Auth::user()->lastname;
+        $details = 'User ' . $user . ' reopens the ticket';
+        $title = 'Ticket Reopening';
+
+        /**
+         * tags the ticket as reopen
+         */
+        $this->status = $this->getStatusById(0);
+        $this->save();
+
+        $activity = new Ticket\Activity;
+        $activity->generateSelfAuthored([
+            'title' => $title,
+            'details' => $details,
+            'ticket_id' => $this->id,
         ]);
 
         return $this;
