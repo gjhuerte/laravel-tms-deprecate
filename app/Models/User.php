@@ -138,8 +138,16 @@ class User extends Authenticatable
     }
 
     protected $appends = [
-        'full_name', 'organization_name', 'status_name'
+        'full_name', 'organization_name', 'status_name', 'first_and_last_name',
     ];
+
+    public function getFirstAndLastNameAttribute()
+    {
+        $firstname = $this->firstname;
+        $lastname = $this->lastname;
+
+        return trim("$firstname $lastname");
+    }
 
     public function getFullNameAttribute()
     {
