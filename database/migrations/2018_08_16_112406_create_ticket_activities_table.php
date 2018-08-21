@@ -17,8 +17,8 @@ class CreateTicketActivitiesTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->longtext('details');
-            $table->integer('authored_by')->unsigned()->nullable();
-            $table->foreign('authored_by')
+            $table->integer('author_id')->unsigned()->nullable();
+            $table->foreign('author_id')
                     ->references('id')
                     ->on('users')
                     ->onUpdate('cascade')
