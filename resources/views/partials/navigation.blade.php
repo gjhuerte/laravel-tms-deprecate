@@ -37,19 +37,14 @@
           {{ Auth::user()->full_name }}
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-          <a href="#" class="dropdown-item">Profile</a>
+          <a href="{{ url('profile/' . Auth::user()->username ) }}" class="dropdown-item">Profile</a>
           <a href="{{ url('settings') }}" class="dropdown-item">Settings</a>
+          <div class="dropdown-divider"></div>
           <a href="{{ url('logout') }}" class="dropdown-item">
-            <div class="dropdown-divider"></div>
             Logout
           </a>
         </div>
       </li>
-  		<li class="nav-item">
-  			<a class="nav-link" href="{{ url('profile/' . Auth::user()->username ) }}">
-          
-        </a>
-  		</li>
     </ul>
   </div>
 </nav>
