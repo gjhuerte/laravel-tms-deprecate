@@ -3,6 +3,13 @@
 @section('content')
 <div class="container p-4 mt-4" style="background-color: white;">
 	<h1 class="display-4 my-3">{{ $ticket->title }}</h1>
+	<nav aria-label="breadcrumb">
+	  <ol class="breadcrumb">
+	    <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
+	    <li class="breadcrumb-item"><a href="{{ url('ticket') }}">Ticket</a></li>
+	    <li class="breadcrumb-item active" aria-current="page">{{ $ticket->id }}</li>
+	  </ol>
+	</nav>
 	<table 
 		class="table table-striped table-condensed table-bordered table-hover"  
 		width="100%" 
@@ -27,7 +34,7 @@
 			<tr>
 				<th>Date</th>
 				<th>Details</th>
-				<th>Author</th>
+				<th>By</th>
 			</tr>
 		</thead>
 	</table>
