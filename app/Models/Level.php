@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Level extends Model
 {
-    protected $table = 'categories';
+    protected $table = 'levels';
     protected $primaryKey = 'id';
     public $columns = [
         'id' => [
@@ -19,7 +19,7 @@ class Category extends Model
     		'update' => true,
     		'select' => true,
     	],
-        'parent_id' => [
+        'details' => [
             'save' => true,
             'update' => true,
             'select' => true,
@@ -45,25 +45,5 @@ class Category extends Model
     	return [
     		'id' => 'required|exists:' . $this->table . ',id',
     	];
-    }
-
-    public function scopeFilterByParent($query)
-    {
-        return $query->whereNull('parent_id');
-    }
-
-    public function parent()
-    {
-        return $this->belongsTo( __NAMESPACE__ . '\\Category', 'parent_id', 'id');
-    }
-
-    protected $appends = [
-        'parent_category_name',
-    ];
-
-    public function getParentCategoryNameAttribute()
-    {
-        $parent_name = isset($this->parent) ? $this->parent->name : 'None';
-        return $parent_name;
     }
 }

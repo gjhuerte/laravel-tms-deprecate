@@ -1,48 +1,80 @@
 @extends('layouts.app')
 
+@section('styles-include')
+<link rel="stylesheet" href="{{ asset('css/richtext.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/selectize.bootstrap2.css') }}">
+@endsection
+
 @section('content')
-<div class="container-fluid mt-3 p-3">
-	<div class="float-left">
-		<div class="form-group mr-2 float-left">
-			<select 
-				id="ticket-category"
-				name="ticket-category"
-				class="form-control">
-				<option>Software Applications</option>
-				<option>Hardware</option>				
-			</select>
+<div class="container p-4 mt-3" style="background-color: white;">
+	<div class="row">
+		<div class="col-sm-12 my-1">
+			<h1 class="display-4">Ticket: Create</h1>
 		</div>
-		<div class="form-group mr-2 float-left">
-			<select 
-				id="ticket-status"
-				name="ticket-status"
-				class="form-control">
-				<option>Open</option>
-				<option>Closed</option>			
-			</select>
+		<div class="col-sm-12">
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="{{ url('ticket') }}">Ticket</a>
+				</li>
+				<li class="breadcrumb-item active">Create</li>
+			</ul>
 		</div>
-		<div class="form-group mr-2 float-left">
-			<select 
-				id="ticket-priority"
-				name="ticket-priority"
-				class="form-control">
-				<option>Level 5</option>
-				<option>Level 4</option>			
-			</select>
+		<div class="col-sm-12 my-1">
+			@include('notification.alert')
+			<form id="ticket-creation-form"
+				method="post" 
+				action="{{ url('ticket') }}"
+				class="form-horizontal">
+				<div class="row">
+					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+					@include('ticket.form')
+				</div>
+				<div class="form-group float-right">
+					<a href="{{ url('ticket') }}" class="btn btn-light">
+						<i class="fas fa-arrow-left"></i> Back
+					</a>
+					<input type="submit" name="button" value="Save" class="btn btn-primary" />
+				</div>
+			</form>
 		</div>
 	</div>
-	<div class="float-right">
-		<a href="{{ url('ticket/create') }}" class="btn btn-success">Create Ticket</a>
-	</div>
-	<div class="clearfix"></div>
-	<table class="table table-condensed table-bordered table-hover" id="ticketsTable" style="background-color: white;">
-		<thead>
-			<th>ID</th>
-			<th>Title</th>
-			<th>Category</th>
-			<th>Assigned</th>
-			<th>Status</th>
-		</thead>
-	</table>
 </div>
+@endsection
+
+@section('scripts-include')
+<!-- Main Quill library -->
+<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+<!-- Theme included stylesheets -->
+<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+<!-- Core build with no theme, formatting, non-essential modules -->
+<script type="text/javascript" src="{{ asset('js/standalone/selectize.min.js') }}"></script>
+<!-- Initialize Quill editor -->
+<script type="text/javascript">
+	var quill = new Quill('#details', {
+		placeholder: 'Compose an epic ticket details...',
+		theme: 'snow',
+	});
+
+	quill.setText('{{ old('details') }}');
+
+	$('#tags').selectize({
+		delimiter: ',',
+		persist: false,
+		valueField: 'name',
+		labelField: 'name',
+		options: [
+			@foreach($tags as $tag)
+			{ name: "{{ $tag }}" },
+			@endforeach
+		],
+		create: true,
+	});
+
+	$('#ticket-creation-form').on('submit', function(e){
+		$('#details-form-field').val(quill.getText());
+		return true;
+	})
+</script>
 @endsection

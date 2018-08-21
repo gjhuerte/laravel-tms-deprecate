@@ -2,6 +2,7 @@
 
 namespace App\Http\Managers;
 
+use \Hash;
 use \Validator;
 use \Illuminate\Http\Request;
 use App\Http\Packages\Object\ObjectParser;
@@ -52,9 +53,22 @@ class Maintenance extends \App\Http\Controllers\Controller
             return back()->withInput()->withErrors($validator);
         }
 
-        foreach( $this->class->columns as $key => $value ) {
-            if( $variable->columns->$key->isInsertable ) {
-                $this->class->$key = $variable->fields->$key;
+        foreach( $this->class->columns as $key => $args ) {
+            $args = ObjectParser::make($args);
+            if( $args->save ) {
+                $columnValue = null;
+
+                if(isset($args->defaultValue) && $args->defaultValue) {
+                    $columnValue = $args->defaultValue;
+                } else {
+                    $columnValue = $variable->fields->$key;
+                }
+
+                if(isset($args->isHashed) && $args->isHashed) {
+                    $columnValue = Hash::make("$columnValue");
+                } 
+
+                $this->class->$key = $columnValue;
             }
         }
 
@@ -94,7 +108,8 @@ class Maintenance extends \App\Http\Controllers\Controller
             return redirect( $variable->redirectFailsUrl );
         }
 
-        return view($variable->viewBasePath . 'bread.show')
+        return view( $variable->viewBasePath . 'bread.show')
+                ->with('model', $this->class->where('id', '=', $id )->first())
                 ->with('variable', $variable);
     }
 
@@ -130,16 +145,29 @@ class Maintenance extends \App\Http\Controllers\Controller
     {
         $id = filter_var( $id, FILTER_VALIDATE_INT);
         $variable = ObjectParser::make($this->variable);
+        $this->class = $this->class->where('id', '=', $id )->first();
         $validator = Validator::make((array)$variable->fields, $this->class->updateRules());
 
         if( $validator->fails() ) {
             return back()->withInput()->withErrors($validator);
         }
 
-        $this->class = $this->class->where('id', '=', $id )->first();
-        foreach( $this->class->columns as $key => $value ) {
-            if( $variable->columns->$key->isEditable ) {
-                $this->class->$key = $variable->fields->$key;
+        foreach( $this->class->columns as $key => $args ) {
+            $args = ObjectParser::make($args);
+            if($args->update) {
+                $columnValue = null;
+
+                if(isset($args->defaultValue) && $args->defaultValue) {
+                    $columnValue = $args->defaultValue;
+                } else {
+                    $columnValue = $variable->fields->$key;
+                }
+
+                if(isset($args->isHashed) && $args->isHashed) {
+                    $columnValue = Hash::make("$columnValue");
+                } 
+
+                $this->class->$key = $columnValue;
             }
         }
 
@@ -171,6 +199,11 @@ class Maintenance extends \App\Http\Controllers\Controller
      */
     public function destroy(Request $request, $id)
     {
+        $variable = ObjectParser::make($this->variable);
+        if(isset($variable->isRemovable) && $variable->isRemovable == false) {
+            return redirect($variable->baseUrl);
+        }
+
         $id = filter_var( $id, FILTER_VALIDATE_INT);
         $validator = Validator::make([
             'id' => $id

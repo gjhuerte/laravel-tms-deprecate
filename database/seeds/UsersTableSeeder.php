@@ -5,6 +5,7 @@ use Illuminate\Database\Seeder;
 class UsersTableSeeder extends Seeder
 {
 	protected $table = 'users';
+    
     /**
      * Run the database seeds.
      *
@@ -12,8 +13,8 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table ($this->table )->truncate();
-        DB::table( $this->table )->insert([
+        DB::table ($this->table)->truncate();
+        DB::table($this->table)->insert([
         	[
         		'username' => 'admin',
         		'password' => Hash::make('123456789'),

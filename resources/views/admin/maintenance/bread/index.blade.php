@@ -7,11 +7,14 @@
 	</div>
 	<div class="col-sm-12 my-1">
 		@include('notification.alert')
-		<table class="table table-hover table-bordered table-condensed" id="maintenance-table">
+		<table 
+      class="table table-hover table-bordered table-condensed" 
+      id="maintenance-table"
+      >
 			<thead>
-  			@foreach( $variable->columns as $key => $value )
-  				@if($value->isSelectable)
-  				<td>{{ ucfirst($key) }}</td>
+  			@foreach( $variable->columns as $key => $args )
+  				@if($args->isSelectable)
+  				<td>{{ ucfirst($args->name) }}</td>
   				@endif
   			@endforeach
 				<td></td>
@@ -41,22 +44,27 @@ $(document).ready(function() {
       serverSide: true,
       ajax: "{{ url($variable->indexAjaxUrl) }}",
       columns: [
-          @foreach( $variable->columns as $key => $value )
-            @if($value->isSelectable)
-            { data: "{{ $key }}" },
+          @foreach( $variable->columns as $key => $args )
+            @if($args->isSelectable)
+            { data: "{{ $args->dataTableName }}" },
             @endif
           @endforeach
           { data: function(callback){
             return `
               <a 
                 href="{{ url("$variable->baseUrl") }}` + '/' + callback.id + `" 
-                class="btn btn-outline-secondary" >View</a>
+                class="btn btn-outline-secondary my-1" >
+                <i class="fas fa-folder" aria-hidden="true"></i> View</a>
               <a 
                 href="{{ url("$variable->baseUrl") }}` + '/' + callback.id + `/edit" 
-                class="btn btn-outline-warning" >Edit</a>
+                class="btn btn-outline-warning my-1" >
+                <i class="fas fa-pen" aria-hidden="true"></i> Edit</a>
+              @if(isset($variable->isRemovable) && $variable->isRemovable)
               <button 
                 type="button" data-id="` + callback.id + `" 
-                class="btn-remove btn btn-outline-danger" >Remove</button>
+                class="btn-remove btn btn-outline-danger my-1" >
+                <i class="fas fa-trash" aria-hidden="true"></i> Remove</button>
+              @endif
             `
           } },
       ],
@@ -71,24 +79,25 @@ $(document).ready(function() {
       </a>
 		`);
 
+    @if(isset($variable->isRemovable) && $variable->isRemovable)
     $('#maintenance-table').on('click', '.btn-remove', function(){
 				id = $(this).data('id');
         var $this = $(this);
-        var loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> Loading...';
+        var loadingText = '<i class="fas fa-circle-o-notch fa-spin"></i> Loading...';
         if ($(this).html() !== loadingText) {
           $this.data('original-text', $(this).html());
           $this.html(loadingText);
         }
-
         swal({
-          title: "Are you sure?",
-          text: "This item will be removed?",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-        })
-        .then((willDelete) => {
-          if (willDelete) {
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.value) {
             $.ajax({
               headers: {
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -114,8 +123,9 @@ $(document).ready(function() {
             $this.html($this.data('original-text'));
             swal("Cancelled", "Operation Cancelled", "error");
           }
-        });
+        })
     });
+    @endif
 } );
 </script>
 @endsection

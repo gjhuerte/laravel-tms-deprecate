@@ -14,6 +14,11 @@ class Routes
 	public static function all()
 	{
 		Route::middleware(['auth'])->group(function() {
+			Route::prefix('ticket')->group(function() {
+				Route::get('{id}/close', 'TicketsController@close');
+				Route::get('{id}/reopen', 'TicketsController@reopen');
+			});
+
 			Route::resource('ticket', 'TicketsController');
 		});
 	}
