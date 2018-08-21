@@ -16,7 +16,7 @@ class CreateTicketCommentsTable extends Migration
         Schema::create('ticket_comments', function (Blueprint $table) {
             $table->increments('id');
             $table->longText('details');
-            $table->integer('authored_by')->unsigned();
+            $table->integer('authored_by')->unsigned()->nullable();
             $table->foreign('authored_by')
                     ->references('id')
                     ->on('users')

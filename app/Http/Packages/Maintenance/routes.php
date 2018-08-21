@@ -18,6 +18,7 @@ class Routes
 			Route::resource('level', 'LevelsController');
 			Route::resource('category', 'CategoriesController');
 			Route::resource('user', 'UsersController');
+			Route::resource('tag', 'TagsController');
 		});
 	}
 }

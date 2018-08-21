@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Auth;
+use Validator;
+use App\Models\Tag;
 use App\Models\Level;
 use App\Models\Ticket;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Packages\Tag\TagManager;
 
 class TicketsController extends Controller
 {
-    public $viewBasePath = 'ticket.';
+    public $viewBasePath = 'ticket';
+    public $baseUrl = 'ticket';
+
     /**
      * Display a listing of the resource.
      *
@@ -24,8 +31,10 @@ class TicketsController extends Controller
 
         $categories = Category::all();
         $levels = Level::all();
-        return view($this->viewBasePath . 'index')
+        $status = Ticket::$statusList;
+        return view($this->viewBasePath . '.index')
                 ->with('categories', $categories)
+                ->with('status', $status)
                 ->with('levels', $levels);
     }
 
@@ -36,7 +45,13 @@ class TicketsController extends Controller
      */
     public function create()
     {
-        return view($this->viewBasePath . 'create');
+        $categories = Category::pluck('name', 'id')->toArray();
+        $tags = Tag::pluck('name')->toArray();
+        $levels = Level::pluck('name')->toArray();
+        return view($this->viewBasePath . 'create')
+                ->with('categories', $categories)
+                ->with('levels', $levels)
+                ->with('tags', $tags);
     }
 
     /**
@@ -47,7 +62,53 @@ class TicketsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $url = filter_var($request->get('url'), FILTER_SANITIZE_URL);
+        $title = filter_var($request->get('title'), FILTER_SANITIZE_STRING);
+        $contact = filter_var($request->get('contact'), FILTER_SANITIZE_STRING);
+        $level = filter_var($request->get('level'), FILTER_SANITIZE_NUMBER_INT);
+        $category = filter_var($request->get('category'), FILTER_SANITIZE_NUMBER_INT);
+        $details = strip_tags($request->get('details'), '<h1><h2><h3><h4><h5><p><span><ol><ul><li><a><br>');
+        $rawTags = TagManager::sanitize($request->get('tags'));
+
+        $validator = Validator::make([
+            'title' => $title,
+            'details' => $details,
+            'category' => $category,
+            'level' => $level,
+        ], Ticket::rules());
+
+        if($validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }
+
+        DB::beginTransaction();
+
+        foreach($rawTags as $rawTag) {   
+            $tag = Tag::firstOrCreate([ 'name' => $rawTag ]);
+            $tags[] = $tag->id;
+        }
+
+        $ticket = new Ticket;
+        $ticket->title = $title;
+        $ticket->details = $details;
+        $ticket->alt_contact = $contact;
+        $ticket->status = $ticket->getStatusById(0);
+        $ticket->created_by = Auth::user()->id;
+        $ticket->save();
+
+        $ticket->generateInitActivity();
+        $ticket->tags()->attach($tags);
+        $ticket->categories()->attach($category);
+
+        DB::commit();
+
+        session()->flash('notification', [
+            'title' => 'Success!',
+            'message' => 'Ticket successfully generated',
+            'type' => 'success'
+        ]);
+
+        return redirect($this->baseUrl);
     }
 
     /**
@@ -56,9 +117,25 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        $ticket = Ticket::with(['categories', 'tags'])->find($id);
+
+        $validator = Validator::make(['ticket' => $id], [
+            'ticket' => 'required|exists:tickets,id'
+        ]);
+
+        if($validator->fails()) {
+            return view('errors.404');
+        }
+
+        if($request->ajax()) {
+            return datatables($ticket->activities)->toJson();
+        }
+
+        return view($this->viewBasePath . '.show')
+                ->with('ticket', $ticket);
     }
 
     /**

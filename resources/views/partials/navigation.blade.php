@@ -32,9 +32,22 @@
     @endforeach
     </ul>
     <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown hidden-md-down">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{ Auth::user()->full_name }}
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+          <a href="#" class="dropdown-item">Profile</a>
+          <a href="{{ url('settings') }}" class="dropdown-item">Settings</a>
+          <a href="{{ url('logout') }}" class="dropdown-item">
+            <div class="dropdown-divider"></div>
+            Logout
+          </a>
+        </div>
+      </li>
   		<li class="nav-item">
   			<a class="nav-link" href="{{ url('profile/' . Auth::user()->username ) }}">
-          {{ Auth::user()->full_name }}
+          
         </a>
   		</li>
     </ul>

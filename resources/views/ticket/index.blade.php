@@ -20,7 +20,7 @@
 							class="form-control mx-2">
 							@if(isset($categories))
 								@foreach($categories as $category)
-								<option>{{ $category->name }}</option>
+								<option value="{{ $category->name }}">{{ $category->name }}</option>
 								@endforeach
 							@endif		
 						</select>
@@ -29,8 +29,11 @@
 							id="ticket-status"
 							name="ticket-status"
 							class="form-control mx-2">
-							<option>Open</option>
-							<option>Closed</option>			
+							@if(isset($status))
+								@foreach($status as $status)
+								<option value="{{ $status }}">{{ $status }}</option>		
+								@endforeach
+							@endif
 						</select>
 						Level:
 						<select 
@@ -39,7 +42,7 @@
 							class="form-control mx-2">
 							@if(isset($levels))
 								@foreach($levels as $level)
-								<option>{{ $level->name }}</option>
+								<option value="{{ $level->name }}">{{ $level->name }}</option>
 								@endforeach
 							@endif			
 						</select>
@@ -81,16 +84,15 @@ $(document).ready(function() {
 			{ data: 'id'},
 			{ data: 'title'},
 			{ data: 'assigned_personnel'},
-			{ data: 'status_name'},
+			{ data: 'status'},
 			{ data: function(callback){
 				return `
 				  <a 
-			{ data: 'details'},
-				    href="#` + '/' + callback.id + `" 
+				    href="{{ url('ticket') }}/` + callback.id + `" 
 				    class="btn btn-outline-secondary" >
 				    <i class="fas fa-folder" aria-hidden="true"></i> View</a>
 				  <a 
-				    href="#` + '/' + callback.id + `/edit" 
+				    href="{{ url('ticket') }}/` + callback.id + `/edit" 
 				    class="btn btn-outline-warning" >
 				    <i class="fas fa-pen" aria-hidden="true"></i> Edit</a>
 				`
