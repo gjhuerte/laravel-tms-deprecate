@@ -11,6 +11,9 @@ class Activity extends Model
     protected $table = 'ticket_activities';
     protected $primaryKey = 'id';
     public $timestamps = true;
+    public $fillable = [
+        'title', 'details', 'ticket_id',
+    ];
 
     public function ticket()
     {
@@ -26,6 +29,11 @@ class Activity extends Model
         return Carbon::parse($this->created_at)->diffForHumans();
     }
 
+    /**
+     * added getter feature for fullname of user who's involved in the activity
+     * 
+     * @return [string] [fullname]
+     */
     public function getAuthorFullnameAttribute()
     {
     	$fullname = isset($this->author) ? $this->author->full_name : "None";
@@ -43,11 +51,13 @@ class Activity extends Model
         $authored_by = isset($args['authored_by']) ? $args['authored_by'] : Auth::user()->id;
         $details = isset($args['details']) ? $args['details'] : 'No details specified.';
         $ticket_id = isset($args['ticket_id']) ? $args['ticket_id'] : null;
+        $title = isset($args['title']) ? $args['title'] : 'No title specified.';
 
         $activity = new Activity;
         $activity->details = $details;
         $activity->authored_by = $authored_by;
         $activity->ticket_id = $ticket_id;
+        $activity->title = $title;
         $activity->save();
 
         return $activity;

@@ -34,7 +34,7 @@ class UsersController extends Maintenance
                 'id' => [
                     'dataTableName' => 'id',
                     'name' => 'ID',
-                    'isSelectable' => true,
+                    'isSelectable' => false,
                     'isInsertable' => false,
                     'isEditable' => false,
                     'selectAttribute' => false, 
@@ -143,6 +143,21 @@ class UsersController extends Maintenance
                         'id' => 'organization',
                         'class' => 'form-control',
                         'name' => 'organization_id',
+                    ]
+                ],
+                'role' => [
+                    'dataTableName' => 'role',
+                    'name' => 'Role',
+                    'isSelectable' => true,
+                    'isInsertable' => true,
+                    'isEditable' => true,
+                    'selectAttribute' => false, 
+                    'attributes' => [
+                        'id' => 'role',
+                        'type' => 'text',
+                        'class' => 'form-control',
+                        'name' => 'role',
+                        'placeholder' => 'Enter role...',
                     ]
                 ],
             ],

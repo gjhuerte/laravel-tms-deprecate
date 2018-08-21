@@ -53,16 +53,16 @@ $(document).ready(function() {
             return `
               <a 
                 href="{{ url("$variable->baseUrl") }}` + '/' + callback.id + `" 
-                class="btn btn-outline-secondary" >
+                class="btn btn-outline-secondary my-1" >
                 <i class="fas fa-folder" aria-hidden="true"></i> View</a>
               <a 
                 href="{{ url("$variable->baseUrl") }}` + '/' + callback.id + `/edit" 
-                class="btn btn-outline-warning" >
+                class="btn btn-outline-warning my-1" >
                 <i class="fas fa-pen" aria-hidden="true"></i> Edit</a>
               @if(isset($variable->isRemovable) && $variable->isRemovable)
               <button 
                 type="button" data-id="` + callback.id + `" 
-                class="btn-remove btn btn-outline-danger" >
+                class="btn-remove btn btn-outline-danger my-1" >
                 <i class="fas fa-trash" aria-hidden="true"></i> Remove</button>
               @endif
             `

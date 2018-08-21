@@ -81,11 +81,13 @@ class Ticket extends Model
     public function generateInitActivity()
     {
         $details = 'The system generated a new ticket from users information';
+        $title = 'Ticket Initialization';
 
         $activity = new Ticket\Activity;
         $activity->generateSelfAuthored([
+            'title' => $title,
+            'details' => $details,
             'ticket_id' => $this->id,
-            'details' => $details
         ]);
 
         return $this;

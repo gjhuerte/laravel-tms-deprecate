@@ -66,6 +66,11 @@ class User extends Authenticatable
             'update' => true,
             'select' => true,
         ],
+        'role' => [
+            'save' => true,
+            'update' => true,
+            'select' => true,
+        ],
     ];
 
     /**
