@@ -31,7 +31,7 @@ class Activity extends Model
 
     public function getParsedCreatedAtAttribute()
     {
-        return Carbon::parse($this->created_at)->diffForHumans();
+        return Carbon::parse($this->created_at)->format('M d, Y h:m A');
     }
 
     /**
