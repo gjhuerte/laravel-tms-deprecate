@@ -139,7 +139,8 @@ class Ticket extends Model
         $this->save();
 
         $activity = new Ticket\Activity;
-        $activity->generateSelfAuthored([
+
+        $activity->noAuthor()->generate([
             'title' => $title,
             'details' => $details,
             'ticket_id' => $this->id,

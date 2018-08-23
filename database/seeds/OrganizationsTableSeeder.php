@@ -17,7 +17,19 @@ class OrganizationsTableSeeder extends Seeder
         	[
         		'name' => 'System Administrators',
         		'abbreviation' => 'SA',
-        	]
+            ],
+        	[
+        		'name' => 'Client',
+        		'abbreviation' => 'CN',
+            ],
+        	[
+        		'name' => 'Assignators',
+        		'abbreviation' => 'AS',
+            ],
+        	[
+        		'name' => 'Technical Support',
+        		'abbreviation' => 'TS',
+            ],
         ]);
     }
 }
