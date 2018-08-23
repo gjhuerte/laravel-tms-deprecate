@@ -81,7 +81,7 @@ class Ticket extends Model
      */
     public function generateInitActivity()
     {
-        $details = 'The system generated a new ticket from users information';
+        $details = 'A new ticket has been generated.';
         $title = 'Ticket Initialization';
 
         $activity = new Ticket\Activity;
