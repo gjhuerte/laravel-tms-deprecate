@@ -41,7 +41,7 @@ class Activity extends Model
      */
     public function getAuthorFullnameAttribute()
     {
-    	$fullname = isset($this->author) ? $this->author->first_and_last_name : "None";
+    	$fullname = isset($this->author) ? $this->author->first_and_last_name : "System";
     	return $fullname;
     }
 

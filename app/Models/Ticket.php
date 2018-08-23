@@ -85,7 +85,7 @@ class Ticket extends Model
         $title = 'Ticket Initialization';
 
         $activity = new Ticket\Activity;
-        $activity->generateSelfAuthored([
+        $activity->noAuthor()->generate([
             'title' => $title,
             'details' => $details,
             'ticket_id' => $this->id,
@@ -112,7 +112,7 @@ class Ticket extends Model
         $this->save();
 
         $activity = new Ticket\Activity;
-        $activity->generateSelfAuthored([
+        $activity->noAuthor()->generate([
             'title' => $title,
             'details' => $details,
             'ticket_id' => $this->id,
@@ -139,7 +139,6 @@ class Ticket extends Model
         $this->save();
 
         $activity = new Ticket\Activity;
-
         $activity->noAuthor()->generate([
             'title' => $title,
             'details' => $details,
