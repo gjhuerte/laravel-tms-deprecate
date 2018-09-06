@@ -15,8 +15,8 @@ class Routes
 	{
 		Route::middleware(['auth'])->group(function() {
 			Route::prefix('ticket')->group(function() {
-				Route::get('{id}/close', 'TicketsController@close');
-				Route::get('{id}/reopen', 'TicketsController@reopen');
+				Route::post('{id}/close', 'TicketsController@close');
+				Route::post('{id}/reopen', 'TicketsController@reopen');
 			});
 
 			Route::resource('ticket', 'TicketsController');

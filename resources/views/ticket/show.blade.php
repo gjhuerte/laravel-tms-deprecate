@@ -101,21 +101,22 @@ $(document).ready(function() {
 	`);
 
 	$('#close-button, #reopen-button').on('click', function(e) {
-        var $this = $(this);
+    var $this = $(this);
 		var alertDetails = $(this).data('alert')
 		var buttonTitle = $(this).data('button-title')
 		var redirectUrl = $(this).data('url')
-        var loadingText = '<i class="fas fa-circle-o-notch fa-spin"></i> Loading...';
+		var loadingText = '<i class="fas fa-circle-o-notch fa-spin"></i> Loading...';
 
-        if ($(this).html() !== loadingText) {
-          $this.data('original-text', $(this).html());
-          $this.html(loadingText);
-        }
+		if ($(this).html() !== loadingText) {
+			$this.data('original-text', $(this).html());
+			$this.html(loadingText);
+		}
 		
 		swal({
-		  title: 'Are you sure?',
+		  // title: 'Are you sure?',
+			content: "input",
 		  text: alertDetails,
-		  type: 'warning',
+		  // type: 'warning',
 		  showCancelButton: true,
 		  confirmButtonColor: '#3085d6',
 		  cancelButtonColor: '#d33',
