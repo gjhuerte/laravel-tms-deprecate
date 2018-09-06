@@ -6,7 +6,7 @@
 	<nav aria-label="breadcrumb">
 	  <ol class="breadcrumb">
 	    <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-	    <li class="breadcrumb-item"><a href="{{ url('ticket') }}">Ticket</a></li>
+	    <li class="breadcrumb-item"><a href="{{ url($ticket->getIndexUrl()) }}">Ticket</a></li>
 	    <li class="breadcrumb-item active" aria-current="page">{{ $ticket->id }}</li>
 	  </ol>
 	</nav>
@@ -59,7 +59,7 @@ $(document).ready(function() {
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
 		"processing": true,
 		serverSide: true,
-		ajax: "{{ url('ticket/' . $ticket->id) }}",
+		ajax: "{{ url($ticket->getTicketActivitiesUrl()) }}",
 		columns: [
 			{ data: 'parsed_created_at'},
 			{ data: 'details'},
@@ -70,13 +70,13 @@ $(document).ready(function() {
  	$("div.toolbar").html(`
 		<a 
 			id="add-resolution-button" 
-			href="{{ url("ticket/$ticket->id/add-action") }}"  
+			href="{{ url($ticket->getAddActivityUrl()) }}"  
 			class="btn btn-success">
 			<i class="fas fa-edit" aria-hidden="true"></i> Add resolution
 		</a>
 		<a 
 			id="transfer-button" 
-			href="{{ url("ticket/$ticket->id/transfer") }}"  
+			href="{{ url($ticket->getAssignStaffUrl()) }}"  
 			class="btn btn-primary">
 			<i class="fas fa-share" aria-hidden="true"></i> Assign Staff
 		</a>
@@ -85,7 +85,7 @@ $(document).ready(function() {
 			id="close-button" 
 			class="btn btn-danger"
 			data-alert="Do you really want to close this ticket?"
-			data-url="{{ url("ticket/$ticket->id/close") }}"  
+			data-url="{{ url($ticket->getClosedUrl()) }}"  
 			data-button-title="close">
 			<i class="fas fa-door-closed" aria-hidden="true"></i> Close ticket
 		</button>
@@ -94,7 +94,7 @@ $(document).ready(function() {
 			id="reopen-button" 
 			class="btn btn-secondary"
 			data-alert="Do you really want to reopen this ticket?"
-			data-url="{{ url("ticket/$ticket->id/reopen") }}"  
+			data-url="{{ url($ticket->getReopenUrl()) }}"  
 			data-button-title="reopen">
 			<i class="fas fa-door-open" aria-hidden="true"></i> Reopen ticket
 		</button>

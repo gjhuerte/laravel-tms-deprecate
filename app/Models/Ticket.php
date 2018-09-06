@@ -5,9 +5,12 @@ namespace App\Models;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Packages\Ticketing\UrlCatalog;
 
 class Ticket extends Model
 {
+
+    use UrlCatalog;
 
     protected $table = 'tickets';
     protected $primaryKey = 'id';
