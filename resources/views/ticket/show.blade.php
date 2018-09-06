@@ -69,30 +69,66 @@ $(document).ready(function() {
 
  	$("div.toolbar").html(`
 		<a 
-			id="new" 
+			id="add-resolution-button" 
 			href="{{ url("ticket/$ticket->id/add-action") }}"  
 			class="btn btn-success">
 			<i class="fas fa-edit" aria-hidden="true"></i> Add resolution
 		</a>
 		<a 
-			id="new" 
+			id="transfer-button" 
 			href="{{ url("ticket/$ticket->id/transfer") }}"  
 			class="btn btn-primary">
-			<i class="fas fa-share" aria-hidden="true"></i> Transfer
+			<i class="fas fa-share" aria-hidden="true"></i> Assign Staff
 		</a>
-		<a 
-			id="new" 
-			href="{{ url("ticket/$ticket->id/close") }}"  
-			class="btn btn-danger">
+		<button 
+			type="button"
+			id="close-button" 
+			class="btn btn-danger"
+			data-alert="Do you really want to close this ticket?"
+			data-url="{{ url("ticket/$ticket->id/close") }}"  
+			data-button-title="close">
 			<i class="fas fa-door-closed" aria-hidden="true"></i> Close ticket
-		</a>
-		<a 
-			id="new" 
-			href="{{ url("ticket/$ticket->id/reopen") }}"  
-			class="btn btn-secondary">
+		</button>
+		<button 
+			type="button"
+			id="reopen-button" 
+			class="btn btn-secondary"
+			data-alert="Do you really want to reopen this ticket?"
+			data-url="{{ url("ticket/$ticket->id/reopen") }}"  
+			data-button-title="reopen">
 			<i class="fas fa-door-open" aria-hidden="true"></i> Reopen ticket
-		</a>
+		</button>
 	`);
+
+	$('#close-button, #reopen-button').on('click', function(e) {
+        var $this = $(this);
+		var alertDetails = $(this).data('alert')
+		var buttonTitle = $(this).data('button-title')
+		var redirectUrl = $(this).data('url')
+        var loadingText = '<i class="fas fa-circle-o-notch fa-spin"></i> Loading...';
+
+        if ($(this).html() !== loadingText) {
+          $this.data('original-text', $(this).html());
+          $this.html(loadingText);
+        }
+		
+		swal({
+		  title: 'Are you sure?',
+		  text: alertDetails,
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Yes, ' + buttonTitle + ' it!'
+		}).then((result) => {
+		  if (result.value) {
+			  window.location.href=redirectUrl
+		  } else {
+		    $this.html($this.data('original-text'));
+		    swal("Cancelled", "Operation Cancelled", "error");
+		  }
+		})
+	})
 } );
 </script>
 @endsection

@@ -131,7 +131,7 @@ class TicketsController extends Controller
         }
 
         if($request->ajax()) {
-            return datatables($ticket->activities)->toJson();
+            return datatables($ticket->activities->sortByDesc('parsed_created_at'))->toJson();
         }
 
         return view($this->viewBasePath . '.show')
