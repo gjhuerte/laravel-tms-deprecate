@@ -70,7 +70,7 @@ class Navigation
 	 *
 	 * @return object navigation
 	 */
-	public function getAll()
+	protected function getAll()
 	{
 		return ObjectParser::make([
 			self::$home,
