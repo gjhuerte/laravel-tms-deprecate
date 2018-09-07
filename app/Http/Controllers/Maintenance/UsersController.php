@@ -10,8 +10,7 @@ use App\Http\Managers\Maintenance;
 
 class UsersController extends Maintenance
 {
-    public $variable = [];
-
+    
     /**
      * Constructor
      * @param Request $request [description]

@@ -10,8 +10,7 @@ use App\Http\Packages\Object\ObjectParser;
 
 class OrganizationsController extends Maintenance
 {
-    public $variable = [];
-
+    
     /**
      * Constructor
      * @param Request $request [description]

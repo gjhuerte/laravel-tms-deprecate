@@ -10,21 +10,32 @@ use App\Http\Controllers\Controller as BaseController;
 
 class Maintenance extends BaseController
 {
+    private $class;
+    private $variable = [];
+    private $validatorClass;
+    private $useDefaultFunction = true;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index( Request $request )
+    public function index(Request $request)
     {
-        if($request->ajax()) {
-            return datatables( $this->class->get() )->toJson();
-        }
+        // initialize methods which you can use
+        $this->init();
 
-        $variable = ObjectParser::make($this->variable);
-        return view( $variable->viewBasePath . 'bread.index')
-                ->with('columns', $this->class->columns)
-                ->with('variable', $variable);
+        if($this->useDefaultFunction) {
+            
+            if($request->ajax()) {
+                return datatables($this->class->get())->toJson();
+            }
+
+            $variable = ObjectParser::make($this->variable);
+            return view($variable->viewBasePath . 'bread.index')
+                    ->with('columns', $this->class->columns)
+                    ->with('variable', $variable);
+        }
     }
 
     /**
@@ -34,9 +45,15 @@ class Maintenance extends BaseController
      */
     public function create()
     {
-        $variable = ObjectParser::make($this->variable);
-        return view($variable->viewBasePath . 'bread.create')
-                ->with('variable', $variable);
+        // initialize methods which you can use
+        $this->init();
+
+        if($this->useDefaultFunction) {
+            
+            $variable = ObjectParser::make($this->variable);
+            return view($variable->viewBasePath . 'bread.create')
+                    ->with('variable', $variable);
+        }
     }
 
     /**
@@ -47,40 +64,46 @@ class Maintenance extends BaseController
      */
     public function store(Request $request)
     {
-        $variable = ObjectParser::make($this->variable);
-        $validator = Validator::make((array)$variable->fields, $this->class->insertRules());
+        // initialize methods which you can use
+        $this->init();
 
-        if($validator->fails()) {
-            return back()->withInput()->withErrors($validator);
-        }
+        if($this->useDefaultFunction) {
+            
+            $variable = ObjectParser::make($this->variable);
+            $validator = Validator::make((array)$variable->fields, $this->class->insertRules());
 
-        foreach($this->class->columns as $key => $args) {
-            $args = ObjectParser::make($args);
-
-            if( $args->save ) {
-                $column = $variable->fields->$key;
-                $this->class->$key = setColumnValue($args, $column);
+            if($validator->fails()) {
+                return back()->withInput()->withErrors($validator);
             }
-        }
 
-        $this->class->save();
+            foreach($this->class->columns as $key => $args) {
+                $args = ObjectParser::make($args);
 
-        if($request->ajax()) {
-            return response()->json([
-                'status' => 'ok',
-                'errors' => [],
+                if( $args->save ) {
+                    $column = $variable->fields->$key;
+                    $this->class->$key = setColumnValue($args, $column);
+                }
+            }
+
+            $this->class->save();
+
+            if($request->ajax()) {
+                return response()->json([
+                    'status' => 'ok',
+                    'errors' => [],
+                    'title' => 'Success!',
+                    'message' => 'Item successfully created',
+                ], 200);
+            }
+
+            session()->flash('notification', [
                 'title' => 'Success!',
                 'message' => 'Item successfully created',
-            ], 200);
+                'type' => 'success'
+            ]);
+
+            return redirect($variable->baseUrl);
         }
-
-        session()->flash('notification', [
-            'title' => 'Success!',
-            'message' => 'Item successfully created',
-            'type' => 'success'
-        ]);
-
-        return redirect($variable->baseUrl);
     }
 
     /**
@@ -90,18 +113,24 @@ class Maintenance extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id)
-    { 
-        $id = filter_var( $id, FILTER_VALIDATE_INT);
-        $variable = ObjectParser::make($this->variable);
-        $validator = Validator::make([ 'id' => $id ], $this->class->checkIfIdExistsRules() );
+    {
+        // initialize methods which you can use
+        $this->init();
 
-        if($validator->fails()) {
-            return redirect( $variable->redirectFailsUrl );
+        if($this->useDefaultFunction) {
+            
+            $id = filter_var( $id, FILTER_VALIDATE_INT);
+            $variable = ObjectParser::make($this->variable);
+            $validator = Validator::make([ 'id' => $id ], $this->class->checkIfIdExistsRules() );
+
+            if($validator->fails()) {
+                return redirect( $variable->redirectFailsUrl );
+            }
+
+            return view($variable->viewBasePath . 'bread.show')
+                    ->with('model', $this->class->where('id', '=', $id )->first())
+                    ->with('variable', $variable);
         }
-
-        return view($variable->viewBasePath . 'bread.show')
-                ->with('model', $this->class->where('id', '=', $id )->first())
-                ->with('variable', $variable);
     }
 
     /**
@@ -112,17 +141,23 @@ class Maintenance extends BaseController
      */
     public function edit(Request $request, $id)
     {
-        $id = filter_var( $id, FILTER_VALIDATE_INT);
-        $variable = ObjectParser::make($this->variable);
-        $validator = Validator::make([ 'id' => $id ], $this->class->checkIfIdExistsRules() );
+        // initialize methods which you can use
+        $this->init();
 
-        if($validator->fails()) {
-            return redirect( $variable->redirectFailsUrl );
+        if($this->useDefaultFunction) {
+            
+            $id = filter_var( $id, FILTER_VALIDATE_INT);
+            $variable = ObjectParser::make($this->variable);
+            $validator = Validator::make([ 'id' => $id ], $this->class->checkIfIdExistsRules() );
+
+            if($validator->fails()) {
+                return redirect( $variable->redirectFailsUrl );
+            }
+
+            return view($variable->viewBasePath . 'bread.edit')
+                    ->with('model', $this->class->where('id', '=', $id )->first())
+                    ->with('variable', $variable);
         }
-
-        return view($variable->viewBasePath . 'bread.edit')
-                ->with('model', $this->class->where('id', '=', $id )->first())
-                ->with('variable', $variable);
     }
 
     /**
@@ -134,42 +169,48 @@ class Maintenance extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $id = filter_var( $id, FILTER_VALIDATE_INT);
-        $variable = ObjectParser::make($this->variable);
-        $this->class = $this->class->where('id', '=', $id )->first();
-        $validator = Validator::make((array)$variable->fields, $this->class->updateRules());
+        // initialize methods which you can use
+        $this->init();
 
-        if($validator->fails()) {
-            return back()->withInput()->withErrors($validator);
-        }
+        if($this->useDefaultFunction) {
+            
+            $id = filter_var( $id, FILTER_VALIDATE_INT);
+            $variable = ObjectParser::make($this->variable);
+            $this->class = $this->class->where('id', '=', $id)->first();
+            $validator = Validator::make((array)$variable->fields, $this->class->updateRules());
 
-        foreach($this->class->columns as $key => $args) {
-            $args = ObjectParser::make($args);
-
-            if($args->update) {
-                $column = $variable->fields->$key;
-                $this->class->$key = setColumnValue($args, $column);
+            if($validator->fails()) {
+                return back()->withInput()->withErrors($validator);
             }
-        }
 
-        $this->class->save();
+            foreach($this->class->columns as $key => $args) {
+                $args = ObjectParser::make($args);
 
-        if( $request->ajax() ) {
-            return response()->json([
-                'status' => 'ok',
-                'errors' => [],
+                if($args->update) {
+                    $column = $variable->fields->$key;
+                    $this->class->$key = setColumnValue($args, $column);
+                }
+            }
+
+            $this->class->save();
+
+            if( $request->ajax() ) {
+                return response()->json([
+                    'status' => 'ok',
+                    'errors' => [],
+                    'title' => 'Success!',
+                    'message' => 'Item successfully updated',
+                ], 200);
+            }
+
+            session()->flash('notification', [
                 'title' => 'Success!',
                 'message' => 'Item successfully updated',
-            ], 200);
+                'type' => 'success'
+            ]);
+
+            return redirect($variable->baseUrl);
         }
-
-        session()->flash('notification', [
-            'title' => 'Success!',
-            'message' => 'Item successfully updated',
-            'type' => 'success'
-        ]);
-
-        return redirect($variable->baseUrl);
     }
 
     /**
@@ -180,49 +221,55 @@ class Maintenance extends BaseController
      */
     public function destroy(Request $request, $id)
     {
-        $variable = ObjectParser::make($this->variable);
-        if(isset($variable->isRemovable) && $variable->isRemovable == false) {
-            return redirect($variable->baseUrl);
-        }
+        // initialize methods which you can use
+        $this->init();
 
-        $id = filter_var( $id, FILTER_VALIDATE_INT);
-        $validator = Validator::make([
-            'id' => $id
-        ], $this->class->checkIfIdExistsRules());
+        if($this->useDefaultFunction) {
+            
+            $variable = ObjectParser::make($this->variable);
+            if(isset($variable->isRemovable) && $variable->isRemovable == false) {
+                return redirect($variable->baseUrl);
+            }
 
-        if($validator->fails()) {
+            $id = filter_var( $id, FILTER_VALIDATE_INT);
+            $validator = Validator::make([
+                'id' => $id
+            ], $this->class->checkIfIdExistsRules());
+
+            if($validator->fails()) {
+
+                if($request->ajax()) {
+                    return response()->json([
+                        'status' => 'error',
+                        'errors' => $validator->errors(),
+                        'message' => 'Error occured while processing your request',
+                        'title' => 'Error!',
+                    ], 500);
+                }
+
+                return back()->withInput()->withErrors($validator);
+            }
+
+            $class = $this->class->where('id', '=', $id)->first();
+            $class->delete();
 
             if($request->ajax()) {
                 return response()->json([
-                    'status' => 'error',
-                    'errors' => $validator->errors(),
-                    'message' => 'Error occured while processing your request',
-                    'title' => 'Error!',
-                ], 500);
+                    'status' => 'ok',
+                    'errors' => [],
+                    'title' => 'Success!',
+                    'message' => 'Item successfully removed',
+                ], 200);
             }
 
-            return back()->withInput()->withErrors($validator);
-        }
-
-        $class = $this->class->where('id', '=', $id)->first();
-        $class->delete();
-
-        if($request->ajax()) {
-            return response()->json([
-                'status' => 'ok',
-                'errors' => [],
+            session()->flash('notification', [
                 'title' => 'Success!',
                 'message' => 'Item successfully removed',
-            ], 200);
+                'type' => 'success'
+            ]);
+
+            return redirect( $this->path['base'] );
         }
-
-        session()->flash('notification', [
-            'title' => 'Success!',
-            'message' => 'Item successfully removed',
-            'type' => 'success'
-        ]);
-
-        return redirect( $this->path['base'] );
     }
 
     /**
