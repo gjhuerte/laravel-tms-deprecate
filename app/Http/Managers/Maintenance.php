@@ -10,10 +10,10 @@ use App\Http\Controllers\Controller as BaseController;
 
 class Maintenance extends BaseController
 {
-    private $class;
-    private $variable = [];
-    private $validatorClass;
-    private $useDefaultFunction = true;
+    protected $class;
+    protected $variable = [];
+    protected $validatorClass;
+    protected $useDefaultFunction = true;
 
     /**
      * Display a listing of the resource.
@@ -271,6 +271,14 @@ class Maintenance extends BaseController
             return redirect( $this->path['base'] );
         }
     }
+
+    /**
+     * Default init function for the class. No functionality
+     * on the parent class
+     *
+     * @return void
+     */
+    private function init() { }
 
     /**
      * set the value of a column based on the arguments provided 
