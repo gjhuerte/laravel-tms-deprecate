@@ -1,11 +1,20 @@
 @extends('layouts.app')
 
+@section('styles-include')
+<style type="text/css">
+	body {
+		background-color: #2c3e50;
+	}
+
+	a:hover {
+		text-decoration: none;
+	}
+</style>
+@endsection
+
 @section('content')
 <div class="offset-md-4 col-md-4 mt-5 pt-5">
-	<div class="card">
-		<div class="card-header">
-			<strong> Ticketing Management System </strong>
-		</div>
+	<div class="card p-3">
 		<div class="card-body">
 			@include('notification.alert')
 			<form method="post" action="{{ url('login') }}" class="form-horizontal">
