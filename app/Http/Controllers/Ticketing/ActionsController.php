@@ -26,7 +26,7 @@ class ActionsController extends Controller
      * @param Request $request
      * @return void
      */
-    public function processAction(Request $request)
+    public function process(Request $request)
     {
         return redirect('ticket/create');
     }
