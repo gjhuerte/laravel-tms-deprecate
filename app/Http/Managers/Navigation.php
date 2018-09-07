@@ -16,10 +16,11 @@ class Navigation
         $navigationList = ObjectParser::make($navigation->getList());
         return $navigationList;
 	}
-
+	
 	/**
-	 * [getList description]
-	 * @return [type] [description]
+	 * Returns the list of navigation to be placed on header
+	 *
+	 * @return array navigation
 	 */
 	public function getList()
 	{
