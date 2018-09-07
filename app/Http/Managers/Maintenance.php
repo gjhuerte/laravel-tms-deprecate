@@ -2,12 +2,13 @@
 
 namespace App\Http\Managers;
 
-use \Hash;
-use \Validator;
-use \Illuminate\Http\Request;
+use Hash;
+use Validator;
+use Illuminate\Http\Request;
 use App\Http\Packages\Object\ObjectParser;
+use App\Http\Controllers\Controller as BaseController;
 
-class Maintenance extends \App\Http\Controllers\Controller
+class Maintenance extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,7 @@ class Maintenance extends \App\Http\Controllers\Controller
      */
     public function index( Request $request )
     {
-        if( $request->ajax() ) {
+        if($request->ajax()) {
             return datatables( $this->class->get() )->toJson();
         }
 
@@ -49,32 +50,22 @@ class Maintenance extends \App\Http\Controllers\Controller
         $variable = ObjectParser::make($this->variable);
         $validator = Validator::make((array)$variable->fields, $this->class->insertRules());
 
-        if( $validator->fails() ) {
+        if($validator->fails()) {
             return back()->withInput()->withErrors($validator);
         }
 
-        foreach( $this->class->columns as $key => $args ) {
+        foreach($this->class->columns as $key => $args) {
             $args = ObjectParser::make($args);
+
             if( $args->save ) {
-                $columnValue = null;
-
-                if(isset($args->defaultValue) && $args->defaultValue) {
-                    $columnValue = $args->defaultValue;
-                } else {
-                    $columnValue = $variable->fields->$key;
-                }
-
-                if(isset($args->isHashed) && $args->isHashed) {
-                    $columnValue = Hash::make("$columnValue");
-                } 
-
-                $this->class->$key = $columnValue;
+                $column = $variable->fields->$key;
+                $this->class->$key = setColumnValue($args, $column);
             }
         }
 
         $this->class->save();
 
-        if( $request->ajax() ) {
+        if($request->ajax()) {
             return response()->json([
                 'status' => 'ok',
                 'errors' => [],
@@ -104,11 +95,11 @@ class Maintenance extends \App\Http\Controllers\Controller
         $variable = ObjectParser::make($this->variable);
         $validator = Validator::make([ 'id' => $id ], $this->class->checkIfIdExistsRules() );
 
-        if( $validator->fails() ) {
+        if($validator->fails()) {
             return redirect( $variable->redirectFailsUrl );
         }
 
-        return view( $variable->viewBasePath . 'bread.show')
+        return view($variable->viewBasePath . 'bread.show')
                 ->with('model', $this->class->where('id', '=', $id )->first())
                 ->with('variable', $variable);
     }
@@ -125,11 +116,11 @@ class Maintenance extends \App\Http\Controllers\Controller
         $variable = ObjectParser::make($this->variable);
         $validator = Validator::make([ 'id' => $id ], $this->class->checkIfIdExistsRules() );
 
-        if( $validator->fails() ) {
+        if($validator->fails()) {
             return redirect( $variable->redirectFailsUrl );
         }
 
-        return view( $variable->viewBasePath . 'bread.edit')
+        return view($variable->viewBasePath . 'bread.edit')
                 ->with('model', $this->class->where('id', '=', $id )->first())
                 ->with('variable', $variable);
     }
@@ -148,26 +139,16 @@ class Maintenance extends \App\Http\Controllers\Controller
         $this->class = $this->class->where('id', '=', $id )->first();
         $validator = Validator::make((array)$variable->fields, $this->class->updateRules());
 
-        if( $validator->fails() ) {
+        if($validator->fails()) {
             return back()->withInput()->withErrors($validator);
         }
 
-        foreach( $this->class->columns as $key => $args ) {
+        foreach($this->class->columns as $key => $args) {
             $args = ObjectParser::make($args);
+
             if($args->update) {
-                $columnValue = null;
-
-                if(isset($args->defaultValue) && $args->defaultValue) {
-                    $columnValue = $args->defaultValue;
-                } else {
-                    $columnValue = $variable->fields->$key;
-                }
-
-                if(isset($args->isHashed) && $args->isHashed) {
-                    $columnValue = Hash::make("$columnValue");
-                } 
-
-                $this->class->$key = $columnValue;
+                $column = $variable->fields->$key;
+                $this->class->$key = setColumnValue($args, $column);
             }
         }
 
@@ -209,9 +190,9 @@ class Maintenance extends \App\Http\Controllers\Controller
             'id' => $id
         ], $this->class->checkIfIdExistsRules());
 
-        if( $validator->fails() ) {
+        if($validator->fails()) {
 
-            if( $request->ajax() ) {
+            if($request->ajax()) {
                 return response()->json([
                     'status' => 'error',
                     'errors' => $validator->errors(),
@@ -226,7 +207,7 @@ class Maintenance extends \App\Http\Controllers\Controller
         $class = $this->class->where('id', '=', $id)->first();
         $class->delete();
 
-        if( $request->ajax() ) {
+        if($request->ajax()) {
             return response()->json([
                 'status' => 'ok',
                 'errors' => [],
@@ -242,5 +223,30 @@ class Maintenance extends \App\Http\Controllers\Controller
         ]);
 
         return redirect( $this->path['base'] );
+    }
+
+    /**
+     * set the value of a column based on the arguments provided 
+     *
+     * @param object $args list of arguments for a given column
+     * @param string $columnValue value the column should have
+     * @return void
+     */
+    private function setColumnValue($args, $columnValue)
+    {
+
+        // check if the model sets default value for the column
+        // if set, apply the value
+        if(isset($args->defaultValue) && $args->defaultValue) {
+            $columnValue = $args->defaultValue;
+        }
+
+        // check if the model allows hashing of the column
+        // if allowed, hash the column value
+        if(isset($args->isHashed) && $args->isHashed) {
+            $columnValue = Hash::make("$columnValue");
+        } 
+
+        return $columnValue;
     }
 }
