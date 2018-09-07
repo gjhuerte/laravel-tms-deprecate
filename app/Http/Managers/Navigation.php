@@ -61,24 +61,23 @@ class Navigation
 	public static function all()
 	{
 		$navigation = new Navigation;
-		$navigationList = ObjectParser::make($navigation->getAll());
 		
-        return $navigationList;
+        return $navigation->getAll();
 	}
 	
 	/**
 	 * Returns the list of navigation to be placed on header
 	 *
-	 * @return array navigation
+	 * @return object navigation
 	 */
 	public function getAll()
 	{
-		return [
+		return ObjectParser::make([
 			self::$home,
 			self::$ticketing,
 			self::$maintenance,
 			self::$reports,
-		];
+		]);
 	}
 
 	/**
