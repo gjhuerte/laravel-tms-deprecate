@@ -6,66 +6,87 @@ use App\Http\Packages\Object\ObjectParser;
 
 class Navigation
 {
+
+	private static $home = [
+		'url' => '/',
+		'name' => 'Home',
+		'hasSubNavigation' => false,
+	];
+
+	private static $ticketing = [
+		'url' => 'ticket',
+		'name' => 'Ticket',
+		'hasSubNavigation' => false,
+	];
+
+	private static $maintenance = [
+		'url' => '#',
+		'name' => 'Maintenance',
+		'hasSubNavigation' => true,
+		'subNavigation' =>  [
+			[
+				'url' => 'user',
+				'name' => 'User',
+			],
+			[
+				'url' => 'category',
+				'name' => 'Category',
+			],
+			[
+				'url' => 'organization',
+				'name' => 'Organization',
+			],
+			[
+				'url' => 'level',
+				'name' => 'Level',
+			],
+			[
+				'url' => 'tag',
+				'name' => 'Tag',
+			],
+		],
+	];
+
+	private static $reports = [
+		'url' => 'reports',
+		'name' => 'Reports',
+		'hasSubNavigation' => false,
+	];
+
 	/**
-	 * [all description]
-	 * @return [type] [description]
+	 * Returns all the navigation listed
+	 *
+	 * @return object navigation
 	 */
 	public static function all()
 	{
 		$navigation = new Navigation;
-        $navigationList = ObjectParser::make($navigation->getList());
-        return $navigationList;
+		
+        return $navigation->getAll();
+	}
+	
+	/**
+	 * Returns the list of navigation to be placed on header
+	 *
+	 * @return object navigation
+	 */
+	protected function getAll()
+	{
+		return ObjectParser::make([
+			self::$home,
+			self::$ticketing,
+			self::$maintenance,
+			self::$reports,
+		]);
 	}
 
 	/**
-	 * [getList description]
-	 * @return [type] [description]
+	 * Returns list of navigation used in maintenance
+	 *
+	 * @return object maintenance list 
 	 */
-	public function getList()
+	protected function getMaintenanceOnly()
 	{
-		return [
-			[
-				'url' => '/',
-				'name' => 'Home',
-				'hasSubNavigation' => false,
-			],
-			[
-				'url' => 'ticket',
-				'name' => 'Ticket',
-				'hasSubNavigation' => false,
-			],
-			[
-				'url' => '#',
-				'name' => 'Maintenance',
-				'hasSubNavigation' => true,
-				'subNavigation' =>  [
-					[
-						'url' => 'user',
-						'name' => 'User',
-					],
-					[
-						'url' => 'category',
-						'name' => 'Category',
-					],
-					[
-						'url' => 'organization',
-						'name' => 'Organization',
-					],
-					[
-						'url' => 'level',
-						'name' => 'Level',
-					],
-					[
-						'url' => 'tag',
-						'name' => 'Tag',
-					],
-				],
-			],
-			[
-				'url' => 'reports',
-				'name' => 'Reports',
-				'hasSubNavigation' => false,
-			],
-		];
+		return ObjectParser::make(self::$maintenance);
 	}
 }

@@ -10,7 +10,6 @@ use App\Http\Packages\Object\ObjectParser;
 
 class CategoriesController extends Maintenance
 {
-    public $variable = [];
 
     /**
      * Constructor
