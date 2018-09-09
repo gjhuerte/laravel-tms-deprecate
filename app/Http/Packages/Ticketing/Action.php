@@ -8,6 +8,13 @@ use App\Http\Interfaces\Ticket\Action as ActionInterface;
 
 class Action implements ActionInterface
 {
+
+	/**
+	 * Create an activity for initialized ticket
+	 * 
+	 * @param  int    $id ticket id
+	 * @return object     this
+	 */
 	public function initialize(int $id)
 	{
         $details = 'A new ticket has been generated.';
