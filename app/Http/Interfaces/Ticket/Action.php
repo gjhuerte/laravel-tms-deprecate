@@ -4,7 +4,7 @@ namespace App\Http\Interfaces\Ticket;
 
 interface Action
 {
-	public function initialize(array $args);
+	public function initialize(int $id);
 	public function verify(int $ticketId, int $userId, array $args);
 	public function requireApproval(int $ticketId);
 	public function approved(int $ticketId, int $userId);
