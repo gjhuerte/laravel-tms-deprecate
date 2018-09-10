@@ -11,7 +11,6 @@ class Ticket extends Model
 {
 
     use UrlCatalog;
-
     protected $table = 'tickets';
     protected $primaryKey = 'id';
     public $timestamps = 'true';
