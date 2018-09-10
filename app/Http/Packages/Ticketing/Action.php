@@ -36,6 +36,35 @@ class Action implements ActionInterface
 	// public function assign(int $ticketId, int $userId);
 	// public function transfer(int $sourceId, int $destinationId);
 	// public function create(array $args);
-	// public function close(int $ticketId, string $description);
+	 
+	/**
+	 * Tags the argument ticket as closed
+	 * 
+	 * @param  int    $ticketId ticket id to be tagged as closed
+	 * @param  string $remarks  additional remarks when closing the ticket
+	 * @return pointer reference
+	 */
+	public function close(int $ticketId, string $remarks)
+	{
+        $user = Auth::user()->firstname . ' ' . Auth::user()->lastname;
+        $details = 'User ' . $user . ' tags the ticket as closed';
+        $title = 'Ticket Closing';
+
+        /**
+         * tags the ticket as closed
+         */
+        $this->status = $this->getStatusById(11);
+        $this->save();
+
+        $activity = new Ticket\Activity;
+        $activity->noAuthor()->generate([
+            'title' => $title,
+            'details' => $details,
+            'ticket_id' => $this->id,
+        ]);
+
+        return $this;
+	}
+	
 	// public function resolve(int $ticketId, string $description);
 }
