@@ -2,10 +2,18 @@
 
 namespace App\Http\Packages\Ticketing;
 
+use App\Nodels\Ticket;
 use App\Http\Interfaces\Ticket\ActionChecker as ActionCheckerInterface;
 
 class ActionChecker implements ActionCheckerInterface
 {
+
+	private $ticket;
+
+	public function __construct()
+	{
+		$ticket = new Ticket;
+	}
 
 	/**
 	 * Check if the status of the ticket is closed or not
@@ -15,7 +23,11 @@ class ActionChecker implements ActionCheckerInterface
 	 */
 	protected function isClosed(int $ticketId)
 	{
-		return true;
+		if($ticket->getStatusById(11)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
