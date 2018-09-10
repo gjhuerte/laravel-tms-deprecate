@@ -18,7 +18,16 @@ class ActionChecker implements ActionCheckerInterface
 		return true;
 	}
 
-	// public function isInitialized(int $ticketId){ return true }
-	// public function isTransferred(int $ticketId){ return true }
-	// public function isResolved(int $ticketId){ return true }
+	/**
+	 * Check if the status of the ticket is initialized or not
+	 * 
+	 * @param  int     $ticketId ticket id for checking
+	 * @return boolean           true if the ticket action is closed else false
+	 */
+	public function isInitialized(int $ticketId){ 
+		return true; 
+	}
+
+	// public function isTransferred(int $ticketId){ return true; }
+	// public function isResolved(int $ticketId){ return true; }
 }
