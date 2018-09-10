@@ -4,7 +4,7 @@ namespace App\Http\Packages\Ticketing;
 
 use App\Http\Interfaces\UrlCatalog as UrlCatalogInterface;
 
-trait UrlCatalog
+class UrlCatalog implements UrlCatalogInterface
 {
 
 	/**
