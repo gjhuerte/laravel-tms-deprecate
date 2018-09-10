@@ -51,7 +51,15 @@ class ActionChecker implements ActionCheckerInterface
 	 * @param  int     $ticketId ticket id for checking
 	 * @return boolean           true if the ticket has been transferred else false
 	 */
-	public function isTransferred(int $ticketId){ return true; }
+	public function isTransferred(int $ticketId)
+	{
+
+		if($ticket->getStatusById(4)) {
+			return true;
+		}
+
+		return false;
+	}
 
 	/**
 	 * Check if the ticket has been resolved
@@ -59,5 +67,13 @@ class ActionChecker implements ActionCheckerInterface
 	 * @param  int     $ticketId ticket id for checking
 	 * @return boolean           true if the ticket has been resolved  else false
 	 */
-	public function isResolved(int $ticketId){ return true; }
+	public function isResolved(int $ticketId)
+	{
+
+		if($ticket->getStatusById(9)) {
+			return true;
+		}
+
+		return false;
+	}
 }
