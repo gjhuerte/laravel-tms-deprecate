@@ -35,5 +35,12 @@ class ActionChecker implements ActionCheckerInterface
 	 * @return boolean           true if the ticket has been transferred else false
 	 */
 	public function isTransferred(int $ticketId){ return true; }
-	// public function isResolved(int $ticketId){ return true; }
+
+	/**
+	 * Check if the ticket has been resolved
+	 * 
+	 * @param  int     $ticketId ticket id for checking
+	 * @return boolean           true if the ticket has been resolved  else false
+	 */
+	public function isResolved(int $ticketId){ return true; }
 }
