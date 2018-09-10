@@ -60,11 +60,40 @@ class Action implements ActionInterface
         $activity->noAuthor()->generate([
             'title' => $title,
             'details' => $details,
-            'ticket_id' => $this->id,
+            'ticket_id' => $ticketId,
         ]);
 
         return $this;
 	}
-	
+
+	/**
+	 * Tags the closed ticket as open
+	 * 
+	 * @param  int    $ticketId ticket id to be tagged as closed
+	 * @param  string $remarks  additional remarks when closing the ticket
+	 * @return pointer reference
+	 */
+	protected function reopen($ticketId, $remarks)
+	{
+        $user = Auth::user()->firstname . ' ' . Auth::user()->lastname;
+        $details = 'User ' . $user . ' reopens the ticket';
+        $title = 'Ticket Reopening';
+
+        /**
+         * tags the ticket as reopen
+         */
+        $this->status = $this->getStatusById(0);
+        $this->save();
+
+        $activity = new Ticket\Activity;
+        $activity->noAuthor()->generate([
+            'title' => $title,
+            'details' => $details,
+            'ticket_id' => $ticketId,
+        ]);
+
+        return $this;
+	}
+
 	// public function resolve(int $ticketId, string $description);
 }
