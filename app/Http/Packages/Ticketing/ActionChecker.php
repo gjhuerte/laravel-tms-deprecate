@@ -11,7 +11,7 @@ class ActionChecker implements ActionCheckerInterface
 	 * Check if the status of the ticket is closed or not
 	 * 
 	 * @param  int     $ticketId ticket id for checking
-	 * @return boolean           true if the ticket action is closed else false
+	 * @return boolean           true if the ticket status is closed else false
 	 */
 	protected function isClosed(int $ticketId)
 	{
@@ -22,12 +22,18 @@ class ActionChecker implements ActionCheckerInterface
 	 * Check if the status of the ticket is initialized or not
 	 * 
 	 * @param  int     $ticketId ticket id for checking
-	 * @return boolean           true if the ticket action is closed else false
+	 * @return boolean           true if the ticket status is initialized else false
 	 */
 	public function isInitialized(int $ticketId){ 
 		return true; 
 	}
 
-	// public function isTransferred(int $ticketId){ return true; }
+	/**
+	 * Check if the ticket has been transferred even once
+	 * 
+	 * @param  int     $ticketId ticket id for checking
+	 * @return boolean           true if the ticket has been transferred else false
+	 */
+	public function isTransferred(int $ticketId){ return true; }
 	// public function isResolved(int $ticketId){ return true; }
 }
