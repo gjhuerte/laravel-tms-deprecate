@@ -7,7 +7,8 @@ use App\Http\Packages\Ticketing\UrlCatalog;
 
 class Routes
 {
-	use UrlCatalog;
+
+    use UrlCatalog;
 	private static $params;
 	private static $middleware;
 
