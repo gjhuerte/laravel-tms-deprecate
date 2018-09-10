@@ -4,11 +4,13 @@ namespace App\Http\Packages\Ticketing;
 
 use App\Models\Ticket as Ticket;
 use App\Models\Ticket\Activity as Activity;
+use App\Http\Packages\Ticketing\ActionChecker;
 use App\Http\Interfaces\Ticket\Action as ActionInterface;
 
 class Action implements ActionInterface
 {
 
+    use ActionChecker;
 	/**
 	 * Create an activity for initialized ticket
 	 * 
