@@ -14,5 +14,6 @@ interface Action
 	public function create(array $args);
 	public function close(int $ticketId, string $description);
 	public function reopen(int $ticketId, string $description);
+	public function isClosed($ticketId);
 	public function resolve(int $ticketId, string $description);
 }
