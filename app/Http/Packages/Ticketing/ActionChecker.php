@@ -36,8 +36,13 @@ class ActionChecker implements ActionCheckerInterface
 	 * @param  int     $ticketId ticket id for checking
 	 * @return boolean           true if the ticket status is initialized else false
 	 */
-	public function isInitialized(int $ticketId){ 
-		return true; 
+	public function isInitialized(int $ticketId)
+	{ 
+		if($ticket->getStatusById(0)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
