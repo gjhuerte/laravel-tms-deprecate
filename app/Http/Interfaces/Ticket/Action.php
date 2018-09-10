@@ -13,5 +13,6 @@ interface Action
 	public function transfer(int $sourceId, int $destinationId);
 	public function create(array $args);
 	public function close(int $ticketId, string $description);
+	public function reopen(int $ticketId, string $description);
 	public function resolve(int $ticketId, string $description);
 }
