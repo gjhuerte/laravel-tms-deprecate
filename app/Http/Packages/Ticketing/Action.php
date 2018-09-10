@@ -15,7 +15,7 @@ class Action implements ActionInterface
 	 * @param  int    $id ticket id
 	 * @return object     this
 	 */
-	public function initialize(int $id)
+	protected function initialize(int $id)
 	{
         $details = 'A new ticket has been generated.';
         $title = 'Ticket Initialization';
@@ -29,13 +29,13 @@ class Action implements ActionInterface
 
         return $this;
 	}
-	// public function verify(int $ticketId, int $userId, array $args);
-	// public function requireApproval(int $ticketId);
-	// public function approved(int $ticketId, int $userId);
-	// public function enqueueToStaff(int $ticketId, int $staffId);
-	// public function assign(int $ticketId, int $userId);
-	// public function transfer(int $sourceId, int $destinationId);
-	// public function create(array $args);
+	// protected function verify(int $ticketId, int $userId, array $args);
+	// protected function requireApproval(int $ticketId);
+	// protected function approved(int $ticketId, int $userId);
+	// protected function enqueueToStaff(int $ticketId, int $staffId);
+	// protected function assign(int $ticketId, int $userId);
+	// protected function transfer(int $sourceId, int $destinationId);
+	// protected function create(array $args);
 	 
 	/**
 	 * Tags the argument ticket as closed
@@ -44,7 +44,7 @@ class Action implements ActionInterface
 	 * @param  string $remarks  additional remarks when closing the ticket
 	 * @return pointer reference
 	 */
-	public function close(int $ticketId, string $remarks)
+	protected function close(int $ticketId, string $remarks)
 	{
         $user = Auth::user()->firstname . ' ' . Auth::user()->lastname;
         $details = 'User ' . $user . ' tags the ticket as closed';
@@ -95,5 +95,5 @@ class Action implements ActionInterface
         return $this;
 	}
 
-	// public function resolve(int $ticketId, string $description);
+	// protected function resolve(int $ticketId, string $description);
 }
