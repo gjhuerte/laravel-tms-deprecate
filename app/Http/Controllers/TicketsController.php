@@ -92,7 +92,7 @@ class TicketsController extends Controller
         $ticket->title = $title;
         $ticket->details = $details;
         $ticket->alt_contact = $contact;
-        $ticket->status = $ticket->getStatusById(0);
+        $ticket->status = $ticket->initialize();
         $ticket->created_by = Auth::user()->id;
         $ticket->save();
 
