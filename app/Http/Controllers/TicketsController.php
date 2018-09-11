@@ -31,7 +31,8 @@ class TicketsController extends Controller
 
         $categories = Category::all();
         $levels = Level::all();
-        $status = Ticket::$statusList;
+        $status = Ticket::getAllStatus();
+
         return view($this->viewBasePath . '.index')
                 ->with('categories', $categories)
                 ->with('status', $status)
@@ -76,7 +77,7 @@ class TicketsController extends Controller
         $ticket->title = $title;
         $ticket->details = $details;
         $ticket->alt_contact = $contact;
-        $ticket->initialize($rawTags, $categories);
+        $ticket->initialize($rawTags, $categories)->redirectBackIfHasError();
 
         DB::commit();
 
@@ -99,7 +100,7 @@ class TicketsController extends Controller
     {
         $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
         $ticket = Ticket::with(['categories', 'tags'])->find($id);
-        $ticket->basicIdValidation();
+        $ticket->basicIdValidation()->returnsNotFoundPage();
 
         if($request->ajax()) {
             return datatables($ticket->activities->sortByDesc('parsed_created_at'))->toJson();
@@ -119,7 +120,7 @@ class TicketsController extends Controller
     {
         $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
         $ticket = Ticket::find($id);
-        $ticket->basicIdValidation();
+        $ticket->basicIdValidation()->redirectBackIfHasError();
         $ticket->close();
 
         session()->flash('notification', [
@@ -141,7 +142,7 @@ class TicketsController extends Controller
     {
         $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
         $ticket = Ticket::find($id);
-        $ticket->basicIdValidation();
+        $ticket->basicIdValidation()->redirectBackIfHasError();
         $ticket->reopen();
 
         session()->flash('notification', [
@@ -165,7 +166,7 @@ class TicketsController extends Controller
         $userId = filter_var($request->get('user'), 'FILTER_SANITIZE_NUMBER_INT');
         $ticket = Ticket::find($id);
         $ticket->user_id = $userId;
-        $ticket->basicIdValidationWithUser();
+        $ticket->basicIdValidationWithUser()->redirectBackIfHasError();
         $ticket->assign();
 
         session()->flash('notification', [

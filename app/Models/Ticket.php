@@ -34,6 +34,7 @@ class Ticket extends Model
     protected $primaryKey = 'id';
     public $timestamps = 'true';
     public $fillable = [];
+    protected $validator;
 
     public static function rules()
     {
@@ -80,19 +81,27 @@ class Ticket extends Model
     	return $fullname;
     }
 
-    public function basicIdValidation()
+    /**
+     * Validates the ticket id if exists
+     * 
+     * @return
+     */
+    protected function basicIdValidation()
     {
-
-        $validator = Validator::make(['ticket' => $this->id], [
+        $this->validator = Validator::make(['ticket' => $this->id], [
             'ticket' => 'required|exists:tickets,id',
         ]);
 
-        if($validator->fails()) {
-            return back()->withInput()->withErrors($validator);
-        }
+        return $this;
     }
 
-    public function basicIdValidationWithUser()
+    /**
+     * Validates the ticket id if exists and if the user exists in 
+     * database
+     * 
+     * @return
+     */
+    protected function basicIdValidationWithUser()
     {
         $args = [
             'ticket' => $this->id,
@@ -107,5 +116,33 @@ class Ticket extends Model
         if($validator->fails()) {
             return back()->withInput()->withErrors($validator);
         }
+    }
+
+    /**
+     * Redirect back if has error
+     * 
+     * @return
+     */
+    protected function redirectBackIfHasError()
+    {
+        if($this->validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Redirect to not found if has error
+     * 
+     * @return
+     */
+    protected function redirectNotFoundIfHasError()
+    {   
+        if($this->validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }
+
+        return $this;
     }
 }
