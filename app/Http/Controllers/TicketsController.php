@@ -163,4 +163,28 @@ class TicketsController extends Controller
 
         return redirect($this->baseUrl);
     }
+
+    /**
+     * assign ticket functionality
+     * @param  Request $request [request]
+     * @param  [int]  $id      [ticket id]
+     * @return [type]           [description]
+     */
+    public function assign(Request $request, int $id)
+    {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        $userId = filter_var($request->get('user'), 'FILTER_SANITIZE_NUMBER_INT');
+        $ticket = Ticket::find($id);
+        $ticket->user_id = $userId;
+        $ticket->basicIdValidationWithUser();
+        $ticket->assign();
+
+        session()->flash('notification', [
+            'title' => 'Success!',
+            'message' => 'Ticket successfully reopened',
+            'type' => 'success'
+        ]);
+
+        return redirect($this->baseUrl);
+    }
 }

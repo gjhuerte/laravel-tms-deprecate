@@ -83,12 +83,29 @@ class Ticket extends Model
     public function basicIdValidation()
     {
 
-        $validator = Validator::make(['ticket' => $id], [
-            'ticket' => 'required|exists:tickets,id'
+        $validator = Validator::make(['ticket' => $this->id], [
+            'ticket' => 'required|exists:tickets,id',
         ]);
 
         if($validator->fails()) {
-            return view('errors.404');
+            return back()->withInput()->withErrors($validator);
+        }
+    }
+
+    public function basicIdValidationWithUser()
+    {
+        $args = [
+            'ticket' => $this->id,
+            'user' => $this->user_id,
+        ];
+
+        $validator = Validator::make($args, [
+            'ticket' => 'required|exists:tickets,id',
+            'user' => 'required|exists:user,id',
+        ]);
+
+        if($validator->fails()) {
+            return back()->withInput()->withErrors($validator);
         }
     }
 }
