@@ -6,11 +6,13 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Packages\Ticketing\Status;
+use App\Http\Packages\Ticketing\Action;
 use App\Http\Packages\Ticketing\UrlCatalog;
 
 class Ticket extends Model
 {
 
+    use Action;
     use Status;
     use UrlCatalog;
 
@@ -25,6 +27,7 @@ class Ticket extends Model
     const RESOLVED = 'Resolved';
     const WAITINGFORFEEDBACK = 'Waiting for feedback';
     const CLOSED = 'Closed';
+    const REOPENED = 'Reopened';
 
     protected $table = 'tickets';
     protected $primaryKey = 'id';
@@ -74,27 +77,5 @@ class Ticket extends Model
     {
     	$fullname = isset($this->personnel) ? $this->personnel->full_name : "None";
     	return $fullname;
-    }
-
-    /**
-     * Returns list of all the status the ticket has
-     *
-     * @return array list of status
-     */
-    public function getAllStatus()
-    {
-        return [
-            Ticket::INITIALIZED,
-            Ticket::VERIFIED,
-            Ticket::ASSIGNED,
-            Ticket::TRANSFERRED,
-            Ticket::WAITINGFORAPPROVAL,
-            Ticket::APPROVED,
-            Ticket::ENQUEUE,
-            Ticket::RESOLVING,
-            Ticket::RESOLVED,
-            Ticket::WAITINGFORFEEDBACK,
-            Ticket::CLOSED,
-        ];
     }
 }

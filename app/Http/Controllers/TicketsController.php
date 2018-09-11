@@ -83,22 +83,11 @@ class TicketsController extends Controller
 
         DB::beginTransaction();
 
-        foreach($rawTags as $rawTag) {   
-            $tag = Tag::firstOrCreate([ 'name' => $rawTag ]);
-            $tags[] = $tag->id;
-        }
-
         $ticket = new Ticket;
         $ticket->title = $title;
         $ticket->details = $details;
         $ticket->alt_contact = $contact;
-        $ticket->status = $ticket->initialize();
-        $ticket->created_by = Auth::user()->id;
-        $ticket->save();
-
-        $ticket->generateInitActivity();
-        $ticket->tags()->attach($tags);
-        $ticket->categories()->attach($category);
+        $ticket->initialize($rawTags, $categories);
 
         DB::commit();
 
