@@ -2,6 +2,7 @@
 
 namespace App\Http\Packages\Ticketing;
 
+use Validator;
 use App\Models\Ticket as Ticket;
 use App\Models\Ticket\Activity as Activity;
 use App\Http\Packages\Ticketing\ActionChecker;
@@ -18,6 +19,18 @@ trait Action
 	 */
 	protected function initialize(array $rawTags = [], array $categories = [])
 	{
+
+        $validator = Validator::make([
+            'title' => $this->title,
+            'details' => $this->details,
+            'category' => $this->category,
+            'level' => $this->level,
+        ], Ticket::rules());
+
+        if($validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }
+
         $this->status = $this->getInitializedStatus();
         $this->created_by = Auth::user()->id;
         $this->save();

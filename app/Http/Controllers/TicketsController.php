@@ -70,17 +70,6 @@ class TicketsController extends Controller
         $details = strip_tags($request->get('details'), '<h1><h2><h3><h4><h5><p><span><ol><ul><li><a><br>');
         $rawTags = TagManager::sanitize($request->get('tags'));
 
-        $validator = Validator::make([
-            'title' => $title,
-            'details' => $details,
-            'category' => $category,
-            'level' => $level,
-        ], Ticket::rules());
-
-        if($validator->fails()) {
-            return back()->withInput()->withErrors($validator);
-        }
-
         DB::beginTransaction();
 
         $ticket = new Ticket;
