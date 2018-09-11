@@ -11,6 +11,7 @@ trait Action
 {
 
     use ActionChecker;
+    
 	/**
 	 * Create an activity for initialized ticket
 	 * 
