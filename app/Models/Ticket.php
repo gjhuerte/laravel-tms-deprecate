@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Auth;
+use Validator;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Packages\Ticketing\Status;
@@ -77,5 +78,17 @@ class Ticket extends Model
     {
     	$fullname = isset($this->personnel) ? $this->personnel->full_name : "None";
     	return $fullname;
+    }
+
+    public function basicIdValidation()
+    {
+
+        $validator = Validator::make(['ticket' => $id], [
+            'ticket' => 'required|exists:tickets,id'
+        ]);
+
+        if($validator->fails()) {
+            return view('errors.404');
+        }
     }
 }

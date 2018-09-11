@@ -110,14 +110,7 @@ class TicketsController extends Controller
     {
         $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
         $ticket = Ticket::with(['categories', 'tags'])->find($id);
-
-        $validator = Validator::make(['ticket' => $id], [
-            'ticket' => 'required|exists:tickets,id'
-        ]);
-
-        if($validator->fails()) {
-            return view('errors.404');
-        }
+        $ticket->basicIdValidation();
 
         if($request->ajax()) {
             return datatables($ticket->activities->sortByDesc('parsed_created_at'))->toJson();
@@ -125,40 +118,6 @@ class TicketsController extends Controller
 
         return view($this->viewBasePath . '.show')
                 ->with('ticket', $ticket);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, int $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(int $id)
-    {
-        //
     }
 
     /**
@@ -171,15 +130,7 @@ class TicketsController extends Controller
     {
         $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
         $ticket = Ticket::find($id);
-
-        $validator = Validator::make(['ticket' => $id], [
-            'ticket' => 'required|exists:tickets,id'
-        ]);
-
-        if($validator->fails()) {
-            return view('errors.404');
-        }
-
+        $ticket->basicIdValidation();
         $ticket->close();
 
         session()->flash('notification', [
@@ -201,15 +152,7 @@ class TicketsController extends Controller
     {
         $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
         $ticket = Ticket::find($id);
-
-        $validator = Validator::make(['ticket' => $id], [
-            'ticket' => 'required|exists:tickets,id'
-        ]);
-
-        if($validator->fails()) {
-            return view('errors.404');
-        }
-
+        $ticket->basicIdValidation();
         $ticket->reopen();
 
         session()->flash('notification', [
