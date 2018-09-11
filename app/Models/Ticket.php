@@ -10,6 +10,17 @@ use App\Http\Packages\Ticketing\UrlCatalog;
 class Ticket extends Model
 {
 
+    const INITIALIZED = 'Initialized';
+    const VERIFIED = 'Verified';
+    const ASSIGNED = 'Assigned';
+    const WAITINGFORAPPROVAL = 'Waiting for approval';
+    const APPROVED = 'Approved';
+    const ENQUEUE = 'Enqueue';
+    const RESOLVING = 'Resolving';
+    const RESOLVED = 'Resolved';
+    const WAITINGFORFEEDBACK = 'Waiting for feedback';
+    const CLOSED = 'Closed';
+
     use UrlCatalog;
     protected $table = 'tickets';
     protected $primaryKey = 'id';
@@ -28,21 +39,6 @@ class Ticket extends Model
         10 => 'Waiting for feedback',
         11 => 'Closed'
     ];
-
-    public function __construct()
-    {
-        DEFINE('INITIALIZED', 'Initialized');
-        DEFINE('VERIFIED', 'Verified');
-        DEFINE('ASSIGNED', 'Assigned');
-        DEFINE('TRANSFERRED', 'transferred');
-        DEFINE('WAITINGFORAPPROVAL', 'Waiting for approval');
-        DEFINE('APPROVED', 'Approved');
-        DEFINE('ENQUEUE', 'Enqueue');
-        DEFINE('RESOLVING', 'Resolving');
-        DEFINE('RESOLVED', 'Resolved');
-        DEFINE('WAITINGFORAPPROVAL', 'Waiting for feedback');
-        DEFINE('CLOSED', 'Closed');
-    }
 
     public static function rules()
     {
@@ -87,80 +83,6 @@ class Ticket extends Model
     {
     	$fullname = isset($this->personnel) ? $this->personnel->full_name : "None";
     	return $fullname;
-    }
-    
-    /**
-     * Generate initial status for the ticket
-     *
-     * @return void
-     */
-    public function generateInitActivity()
-    {
-        $details = 'A new ticket has been generated.';
-        $title = 'Ticket Initialization';
-
-        $activity = new Ticket\Activity;
-        $activity->noAuthor()->generate([
-            'title' => $title,
-            'details' => $details,
-            'ticket_id' => $this->id,
-        ]);
-
-        return $this;
-    }
-    
-    /**
-     * Generate close status for the ticket
-     *
-     * @return void
-     */
-    public function close()
-    {
-        $user = Auth::user()->firstname . ' ' . Auth::user()->lastname;
-        $details = 'User ' . $user . ' tags the ticket as closed';
-        $title = 'Ticket Closing';
-
-        /**
-         * tags the ticket as closed
-         */
-        $this->status = $this->getStatusById(11);
-        $this->save();
-
-        $activity = new Ticket\Activity;
-        $activity->noAuthor()->generate([
-            'title' => $title,
-            'details' => $details,
-            'ticket_id' => $this->id,
-        ]);
-
-        return $this;
-    }
-    
-    /**
-     * Generate reopen status for the ticket
-     *
-     * @return void
-     */
-    public function reopen()
-    {
-        $user = Auth::user()->firstname . ' ' . Auth::user()->lastname;
-        $details = 'User ' . $user . ' reopens the ticket';
-        $title = 'Ticket Reopening';
-
-        /**
-         * tags the ticket as reopen
-         */
-        $this->status = $this->getStatusById(0);
-        $this->save();
-
-        $activity = new Ticket\Activity;
-        $activity->noAuthor()->generate([
-            'title' => $title,
-            'details' => $details,
-            'ticket_id' => $this->id,
-        ]);
-
-        return $this;
     }
 
     /**
