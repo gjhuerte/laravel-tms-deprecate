@@ -3,33 +3,38 @@
 namespace App\Models;
 
 use Auth;
+use Validator;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Packages\Ticketing\Status;
+use App\Http\Packages\Ticketing\Action;
 use App\Http\Packages\Ticketing\UrlCatalog;
 
 class Ticket extends Model
 {
 
+    use Action;
+    use Status;
     use UrlCatalog;
+
+    const INITIALIZED = 'Initialized';
+    const VERIFIED = 'Verified';
+    const ASSIGNED = 'Assigned';
+    const TRANSFERRED = 'Transferred';
+    const WAITINGFORAPPROVAL = 'Waiting for approval';
+    const APPROVED = 'Approved';
+    const ENQUEUE = 'Enqueue';
+    const RESOLVING = 'Resolving';
+    const RESOLVED = 'Resolved';
+    const WAITINGFORFEEDBACK = 'Waiting for feedback';
+    const CLOSED = 'Closed';
+    const REOPENED = 'Reopened';
+
     protected $table = 'tickets';
     protected $primaryKey = 'id';
     public $timestamps = 'true';
-    public $fillable = [
-
-    ];
-
-    public static $statusList = [
-        0 => 'Initialized',
-        1 => 'Verified',
-        4 => 'Assigned',
-        5 => 'Waiting for approval',
-        6 => 'Approved',
-        7 => 'Enqueue',
-        8 => 'Resolving',
-        9 => 'Resolved',
-        10 => 'Waiting for feedback',
-        11 => 'Closed'
-    ];
+    public $fillable = [];
+    protected $validator;
 
     public static function rules()
     {
@@ -75,100 +80,69 @@ class Ticket extends Model
     	$fullname = isset($this->personnel) ? $this->personnel->full_name : "None";
     	return $fullname;
     }
-    
+
     /**
-     * Generate initial status for the ticket
-     *
-     * @return void
+     * Validates the ticket id if exists
+     * 
+     * @return
      */
-    public function generateInitActivity()
+    protected function basicIdValidation()
     {
-        $details = 'A new ticket has been generated.';
-        $title = 'Ticket Initialization';
-
-        $activity = new Ticket\Activity;
-        $activity->noAuthor()->generate([
-            'title' => $title,
-            'details' => $details,
-            'ticket_id' => $this->id,
-        ]);
-
-        return $this;
-    }
-    
-    /**
-     * Generate close status for the ticket
-     *
-     * @return void
-     */
-    public function close()
-    {
-        $user = Auth::user()->firstname . ' ' . Auth::user()->lastname;
-        $details = 'User ' . $user . ' tags the ticket as closed';
-        $title = 'Ticket Closing';
-
-        /**
-         * tags the ticket as closed
-         */
-        $this->status = $this->getStatusById(11);
-        $this->save();
-
-        $activity = new Ticket\Activity;
-        $activity->noAuthor()->generate([
-            'title' => $title,
-            'details' => $details,
-            'ticket_id' => $this->id,
-        ]);
-
-        return $this;
-    }
-    
-    /**
-     * Generate reopen status for the ticket
-     *
-     * @return void
-     */
-    public function reopen()
-    {
-        $user = Auth::user()->firstname . ' ' . Auth::user()->lastname;
-        $details = 'User ' . $user . ' reopens the ticket';
-        $title = 'Ticket Reopening';
-
-        /**
-         * tags the ticket as reopen
-         */
-        $this->status = $this->getStatusById(0);
-        $this->save();
-
-        $activity = new Ticket\Activity;
-        $activity->noAuthor()->generate([
-            'title' => $title,
-            'details' => $details,
-            'ticket_id' => $this->id,
+        $this->validator = Validator::make(['ticket' => $this->id], [
+            'ticket' => 'required|exists:tickets,id',
         ]);
 
         return $this;
     }
 
     /**
-     * Require an id and returns the status corresponding to the id given
-     *
-     * @param [integer] $id
-     * @return string $status equivalent to the given id
+     * Validates the ticket id if exists and if the user exists in 
+     * database
+     * 
+     * @return
      */
-    public function getStatusById(int $id)
+    protected function basicIdValidationWithUser()
     {
-        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
-        return Ticket::$statusList[$id];
+        $args = [
+            'ticket' => $this->id,
+            'user' => $this->user_id,
+        ];
+
+        $validator = Validator::make($args, [
+            'ticket' => 'required|exists:tickets,id',
+            'user' => 'required|exists:user,id',
+        ]);
+
+        if($validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }
     }
 
     /**
-     * Returns list of all the status the ticket has
-     *
-     * @return array list of status
+     * Redirect back if has error
+     * 
+     * @return
      */
-    public function getAllStatus()
+    protected function redirectBackIfHasError()
     {
-        return Ticket::$statusList;
+        if($this->validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Redirect to not found if has error
+     * 
+     * @return
+     */
+    protected function redirectNotFoundIfHasError()
+    {   
+        if($this->validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }
+
+        return $this;
     }
 }

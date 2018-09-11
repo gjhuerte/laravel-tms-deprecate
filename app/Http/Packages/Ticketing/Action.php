@@ -2,23 +2,40 @@
 
 namespace App\Http\Packages\Ticketing;
 
+use Validator;
 use App\Models\Ticket as Ticket;
 use App\Models\Ticket\Activity as Activity;
 use App\Http\Packages\Ticketing\ActionChecker;
-use App\Http\Interfaces\Ticket\Action as ActionInterface;
 
-class Action implements ActionInterface
+trait Action
 {
 
     use ActionChecker;
+    
 	/**
 	 * Create an activity for initialized ticket
 	 * 
 	 * @param  int    $id ticket id
 	 * @return object     this
 	 */
-	protected function initialize(int $id)
+	protected function initialize(array $rawTags = [], array $categories = [])
 	{
+
+        $validator = Validator::make([
+            'title' => $this->title,
+            'details' => $this->details,
+            'category' => $this->category,
+            'level' => $this->level,
+        ], Ticket::rules());
+
+        if($validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }
+
+        $this->status = $this->getInitializedStatus();
+        $this->created_by = Auth::user()->id;
+        $this->save();
+
         $details = 'A new ticket has been generated.';
         $title = 'Ticket Initialization';
 
@@ -29,8 +46,23 @@ class Action implements ActionInterface
             'ticket_id' => $id,
         ]);
 
+        if(count($rawTags) <= 0) {
+
+            foreach($rawTags as $rawTags) {   
+                $tag = Tag::firstOrCreate([ 'name' => $rawTag ]);
+                $tags[] = $tag->id;
+            }
+
+            $ticket->tags()->attach($tags);
+        }
+
+        if(count($categories) <= 0) {
+            $ticket->categories()->attach($category);
+        }
+
         return $this;
 	}
+
 	// protected function verify(int $ticketId, int $userId, array $args);
 	// protected function requireApproval(int $ticketId);
 	// protected function approved(int $ticketId, int $userId);
@@ -55,7 +87,7 @@ class Action implements ActionInterface
         /**
          * tags the ticket as closed
          */
-        $this->status = $this->getStatusById(11);
+        $this->status = $this->getClosedStatus();
         $this->save();
 
         $activity = new Ticket\Activity;
@@ -84,7 +116,7 @@ class Action implements ActionInterface
         /**
          * tags the ticket as reopen
          */
-        $this->status = $this->getStatusById(0);
+        $this->status = $this->getReopenedStatus();
         $this->save();
 
         $activity = new Ticket\Activity;
