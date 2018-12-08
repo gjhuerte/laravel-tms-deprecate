@@ -17,7 +17,7 @@
 	<div class="card p-3">
 		<div class="card-body">
 			@include('notification.alert')
-			<form method="post" action="{{ url('login') }}" class="form-horizontal">
+            <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 				<div class="form-group">
 					<label 
