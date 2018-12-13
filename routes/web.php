@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'PagesController@getDashboard');
+Route::get('home', 'PagesController@getDashboard');
 Route::get('dashboard', 'PagesController@getDashboard');
 
 Route::middleware(['auth'])->group(function() {
