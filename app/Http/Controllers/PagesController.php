@@ -13,6 +13,8 @@ class PagesController extends Controller
 	 */
     public function getDashboard()
     {
+		// Checks if the user is authenticated
+		// and returns the dashboard layout
     	if(Auth::check()) {
     		return view('dashboard.base-layout');
     	}
