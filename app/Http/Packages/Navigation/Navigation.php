@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Managers;
+namespace App\Http\Packages\Navigation;
 
 use App\Http\Packages\Object\ObjectParser;
 

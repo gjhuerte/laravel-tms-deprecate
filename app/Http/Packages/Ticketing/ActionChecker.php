@@ -3,9 +3,8 @@
 namespace App\Http\Packages\Ticketing;
 
 use App\Nodels\Ticket;
-use App\Http\Interfaces\Ticket\ActionChecker as ActionCheckerInterface;
 
-class ActionChecker implements ActionCheckerInterface
+class ActionChecker
 {
 
 	private $ticket;
