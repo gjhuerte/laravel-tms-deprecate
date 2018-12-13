@@ -16,7 +16,16 @@ Route::get('home', 'PagesController@getDashboard');
 Route::get('dashboard', 'PagesController@getDashboard');
 
 Route::middleware(['auth'])->group(function() {
-	Route::get('settings', 'SettingsController@index');
+
+	Route::namespace('user')->group(function() {
+		Route::get('profile/{id}', [
+			'as' => 'user.profile',
+			'uses' => 'ProfileController@index'
+		]);
+		
+		Route::get('settings', 'SettingController@index');
+	});
+	
 });
 
 App\Http\Packages\Ticketing\Routes::all();
