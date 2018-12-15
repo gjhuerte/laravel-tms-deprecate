@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Maintenance;
+namespace App\Http\Controllers\Ticketing;
 
 use Illuminate\Http\Request;
+use App\Models\Ticket\Ticket;
 use App\Http\Controllers\Controller;
 
-class TagController extends Controller
+
+class TicketController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +17,11 @@ class TagController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()) {
-            return datatables($tags)->toJson();
+            $tickets = Ticket::all();
+            return datatables($tickets)->toJson();
         }
 
-        return view('admin.maintenance.tag.index');
+        return view('ticket.index');
     }
 
     /**
@@ -28,7 +31,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        return view('ticket.create');
     }
 
     /**
@@ -37,9 +40,10 @@ class TagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TicketStoreRequest $request)
     {
-        //
+        $this->dispatch(new CreateTicket($request->all()));
+        return redirect()->route('ticket.index');
     }
 
     /**
@@ -50,7 +54,8 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        return view('ticket.show', compact('ticket'));
     }
 
     /**
@@ -61,7 +66,8 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        return view('ticket.edit', compact('ticket'));
     }
 
     /**
@@ -71,19 +77,9 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TicketUpdateRequest $request, $id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $this->dispatch(new UpdateTicket($request->all(), $id));
+        return redirect()->route('ticket.index');
     }
 }
