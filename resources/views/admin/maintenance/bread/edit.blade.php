@@ -25,6 +25,7 @@
 				<a href="{{ url("$variable->baseUrl") }}" class="btn btn-light">
 					<i class="fas fa-arrow-left"></i> Back
 				</a>
+				
 				<input type="submit" name="button" value="Update" class="btn btn-primary" />
 			</div>
 		</form>

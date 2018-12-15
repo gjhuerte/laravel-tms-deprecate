@@ -25,10 +25,6 @@ class Navigation
 		'hasSubNavigation' => true,
 		'subNavigation' =>  [
 			[
-				'url' => 'user',
-				'name' => 'User',
-			],
-			[
 				'url' => 'category',
 				'name' => 'Category',
 			],
@@ -39,10 +35,6 @@ class Navigation
 			[
 				'url' => 'level',
 				'name' => 'Level',
-			],
-			[
-				'url' => 'tag',
-				'name' => 'Tag',
 			],
 		],
 	];

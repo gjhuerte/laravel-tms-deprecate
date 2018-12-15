@@ -6,6 +6,7 @@
 	<div class="col-sm-12 my-1">
 		<h1 class="display-4">Edit: {{ $variable->title }}</h1>
 	</div>
+	
 	<div class="col-sm-12">
 		<ul class="breadcrumb">
 			<li class="breadcrumb-item">Maintenance</li>
@@ -16,8 +17,10 @@
 			<li class="breadcrumb-item active">Edit</li>
 		</ul>
 	</div>
+
 	<div class="col-sm-12 my-1">
 		@include('notification.alert')
+
 		@foreach( $variable->columns as $key => $args )
             @if($args->isSelectable)
 			<div class="form-group">
@@ -26,6 +29,7 @@
 			</div>
             @endif
 		@endforeach
+		
 		<div class="form-group float-right">
 			<a href="{{ url("$variable->baseUrl") }}" class="btn btn-light">
 				<i class="fas fa-arrow-left"></i> Back

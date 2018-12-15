@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', 'PagesController@getDashboard');
-Route::get('home', 'PagesController@getDashboard');
-Route::get('dashboard', 'PagesController@getDashboard');
+Route::get('/', 'DashboardController@index');
+Route::get('home', 'DashboardController@index');
+Route::get('dashboard', 'DashboardController@index');
 
 Route::middleware(['auth'])->group(function() {
 

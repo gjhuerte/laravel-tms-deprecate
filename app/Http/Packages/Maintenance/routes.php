@@ -17,8 +17,6 @@ class Routes
 			Route::resource('organization', 'OrganizationController');
 			Route::resource('level', 'LevelController');
 			Route::resource('category', 'CategoryController');
-			Route::resource('user', 'UserController');
-			Route::resource('tag', 'TagController');
 		});
 	}
 }
