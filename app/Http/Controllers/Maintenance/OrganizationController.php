@@ -3,7 +3,13 @@
 namespace App\Http\Controllers\Maintenance;
 
 use Illuminate\Http\Request;
+use App\Models\User\Organization;
 use App\Http\Controllers\Controller;
+use App\Jobs\Organization\CreateOrganization;
+use App\Jobs\Organization\UpdateOrganization;
+use App\Jobs\Organization\RemoveOrganization;
+use App\Http\Requests\OrganizationRequest\OrganizationStoreRequest;
+use App\HttpRequests\OrganizationRequest\OrganizationUpdateRequest;
 
 class OrganizationController extends Controller
 {
@@ -12,9 +18,14 @@ class OrganizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($rquest->ajax()) {
+            $organizations = Organization::all();
+            return datatables($organizations)->toJson();
+        }
+
+        return view('maintenance.organization.index');
     }
 
     /**
@@ -24,7 +35,7 @@ class OrganizationController extends Controller
      */
     public function create()
     {
-        //
+        return view('maintenance.organization.create');
     }
 
     /**
@@ -33,20 +44,10 @@ class OrganizationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrganizationStoreRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $this->dispatch(new CreateOrganization($request->all()));
+        return redirect()->route('organization.index');
     }
 
     /**
@@ -57,7 +58,8 @@ class OrganizationController extends Controller
      */
     public function edit($id)
     {
-        //
+        $organization = Organization::findOrFail($id);
+        return view('maintenance.organizatoin.edit', compact('organization'));
     }
 
     /**
@@ -67,9 +69,10 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(OrganizationUpdateRequest $request, $id)
     {
-        //
+        $this->dispatch(new UpdateOrganization($request->all(), $id));
+        return redirect()->route('organization.index');
     }
 
     /**
@@ -80,6 +83,7 @@ class OrganizationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->dispatch(new RemoveOrganization($id));
+        return redirect()->route('organization.index');
     }
 }
