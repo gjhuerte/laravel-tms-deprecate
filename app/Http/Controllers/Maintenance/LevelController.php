@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Maintenance;
 
 use Illuminate\Http\Request;
+use App\Jobs\Level\CreateLevel;
+use App\Jobs\Level\UpdateLevel;
+use App\Jobs\Level\RemoveLevel;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LevelRequest\LevelStoreRequest;
+use App\Http\Requests\LevelRequest\LevelUpdateRequest;
 
 class LevelController extends Controller
 {
@@ -12,9 +17,14 @@ class LevelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->ajax()) {
+            $levels = Level::all();
+            return datatables($levels)->toJson();
+        }
+
+        return view('maintenance.level.index');
     }
 
     /**
@@ -24,7 +34,7 @@ class LevelController extends Controller
      */
     public function create()
     {
-        //
+        return response()->route('level.create');
     }
 
     /**
@@ -33,20 +43,10 @@ class LevelController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LevelStoreRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $this->dispatch(new CreateLevel($request->all()));
+        return redirect()->route('level.index');
     }
 
     /**
@@ -57,7 +57,8 @@ class LevelController extends Controller
      */
     public function edit($id)
     {
-        //
+        $level = Level::findOrFail($id);
+        return view('maintenance.level.edit', compact('level'));
     }
 
     /**
@@ -67,9 +68,10 @@ class LevelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(LevelUpdateRequest $request, $id)
     {
-        //
+        $this->dispatch(new UpdateLevel($request->all(), $id));
+        return redirect()->route('level.index');
     }
 
     /**
@@ -80,6 +82,7 @@ class LevelController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->dispatch(new RemoveLevel($id));
+        return redirect()->route('level.index');
     }
 }
