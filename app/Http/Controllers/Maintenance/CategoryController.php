@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Maintenance;
 use Illuminate\Http\Request;
 use App\Models\Ticket\Category;
 use App\Http\Controllers\Controller;
+use App\Jobs\Category\CreateCategory;
+use App\Jobs\Category\UpdateCategory;
+use App\Jobs\Category\RemoveCategory;
+use App\Http\Requests\CategoryRequest\CategoryStoreRequest;
+use App\Http\Requests\CategoryRequest\CategoryUpdateRequest;
 
 class CategoryController extends Controller
 {
@@ -13,9 +18,14 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->ajax()) {
+            $categories = Category::all();
+            return datatables($categories)->toJson();
+        }
+
+        return view('maintenance.category.index');
     }
 
     /**
@@ -25,7 +35,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('maintenance.category.create');
     }
 
     /**
@@ -34,20 +44,10 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryStoreRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $this->dispatch(new CreateCategory($request->all()));
+        return redirect()->route('category.index');
     }
 
     /**
@@ -58,7 +58,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        return view('maintenance.category.edit', compact('category'));
     }
 
     /**
@@ -68,9 +69,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryUpdateRequest $request, $id)
     {
-        //
+        $this->dispatch(new UpdateCategory($request->all(), $id));
+        return redirect()->route('category.index');
     }
 
     /**
@@ -81,6 +83,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->dispatch(new RemoveCategory($id));
+        return redirect()->route('category.index');
     }
 }
