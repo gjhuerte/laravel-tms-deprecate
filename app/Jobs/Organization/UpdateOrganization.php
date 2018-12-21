@@ -37,8 +37,8 @@ class UpdateOrganization implements ShouldQueue
         $request = collect($this->request);
 
         Organization::findOrFail($this->id)->update([
-            'name' => $request->name,
-            'abbreviation' => $request->abbreviation
+            'name' => $request-['name'],
+            'abbreviation' => $request['abbreviation'],
         ]);
     }
 }

@@ -35,8 +35,8 @@ class CreateLevel implements ShouldQueue
         $request = collect($this->request);
 
         Level::create([
-            'name' => $request->name,
-            'details' => $request->details,
+            'name' => $request['name'],
+            'details' => $request['details'],
         ]);
     }
 }

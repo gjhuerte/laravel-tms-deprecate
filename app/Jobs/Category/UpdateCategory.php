@@ -37,9 +37,9 @@ class UpdateCategory implements ShouldQueue
         $request = collect($this->request);
 
         Category::findOrFail($this->id)->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'parent_id' => $request->parent_category
+            'name' => $request['name'],
+            'description' => $request['description'],
+            'parent_id' => $request['parent_category'],
         ]);
     }
 }

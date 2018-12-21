@@ -35,8 +35,8 @@ class CreateOrganization implements ShouldQueue
         $request = collect($this->request);
 
         Organization::create([
-            'name' => $request->name,
-            'abbreviation' => $request->abbreviation
+            'name' => $request-['name'],
+            'abbreviation' => $request['abbreviation'],
         ]);
     }
 }

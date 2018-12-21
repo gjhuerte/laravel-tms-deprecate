@@ -37,8 +37,8 @@ class UpdateLevel implements ShouldQueue
         $request = collect($this->request);
 
         Level::findOrFail($this->id)->update([
-            'name' => $request->name,
-            'details' => $request->details,
+            'name' => $request['name'],
+            'details' => $request['details'],
         ]);
     }
 }
