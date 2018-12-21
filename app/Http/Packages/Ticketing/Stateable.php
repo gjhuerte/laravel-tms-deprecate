@@ -4,14 +4,14 @@ namespace App\Http\Packages\Ticketing;
 
 use App\Models\Ticket;
 
-trait Status
+trait Stateable
 {
     /**
      * Returns list of all the status the ticket has
      *
      * @return array list of status
      */
-    public function getAllStatus()
+    public function allStatus()
     {
         return [
             Ticket::INITIALIZED,
@@ -34,7 +34,7 @@ trait Status
 	 * 
 	 * @return string initialized
 	 */
-	protected function getInitializedStatus()
+	protected function initializedStatus()
 	{
 		return Ticket::INITIALIZED;
 	}
@@ -44,7 +44,7 @@ trait Status
 	 * 
 	 * @return string initialized
 	 */
-	protected function getClosedStatus()
+	protected function closedStatus()
 	{
 		return Ticket::CLOSED;
 	}
@@ -54,7 +54,7 @@ trait Status
 	 * 
 	 * @return string initialized
 	 */
-	protected function getReopenedStatus()
+	protected function reopenedStatus()
 	{
 		return Ticket::REOPENED;
 	}

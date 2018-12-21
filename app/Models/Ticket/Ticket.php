@@ -2,20 +2,17 @@
 
 namespace App\Models\Ticket;
 
-use Auth;
-use Validator;
-use Carbon\Carbon;
+use app\Models\User\User;
+use App\Models\Ticket\Tag;
+use App\Models\Ticket\Activity;
+use App\Models\Ticket\Category;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Packages\Ticketing\Status;
-use App\Http\Packages\Ticketing\Action;
-use App\Http\Packages\Ticketing\UrlCatalog;
+use App\Http\Packages\Ticketing\Stateable;
 
 class Ticket extends Model
 {
 
-    use Action;
-    use Status;
-    use UrlCatalog;
+    use Stateable;
 
     const INITIALIZED = 'Initialized';
     const VERIFIED = 'Verified';
@@ -34,115 +31,74 @@ class Ticket extends Model
     protected $primaryKey = 'id';
     public $timestamps = 'true';
     public $fillable = [];
-    protected $validator;
 
-    public static function rules()
-    {
-        return [
-            'title' => 'required|max:100',
-            'details' => 'required|max:1000',
-            'category' => 'required|exists:categories,id',
-            'level' => 'required|exists:levels,id',
-        ];
-    }
-
-    public function activities()
-    {
-        return $this->hasMany('App\Models\Ticket\Activity', 'ticket_id', 'id');
-    }
-
-    public function tags()
-    {
-        return $this->belongsToMany(__NAMESPACE__ . '\\Tag', 'ticket_tag', 'ticket_id', 'tag_id');
-    }
-
-    public function categories()
-    {
-        return $this->belongsToMany(__NAMESPACE__ . '\\Category', 'category_ticket', 'ticket_id', 'category_id');
-    }
-
-    public function personnel()
-    {
-    	return $this->belongsTo( __NAMESPACE__ . '\\User', 'assigned_to', 'id');
-    }
-
-    public function author()
-    {
-    	return $this->belongsTo( __NAMESPACE__ . '\\User', 'author_id', 'id');
-    }
-
+    /**
+     * Additional columns when querying using eloquent model
+     *
+     * @var array
+     */
     protected $appends = [
     	'assigned_personnel'
     ];
 
+    /**
+     * Fetch the assigned personnel from the personnels table
+     *
+     * @return string
+     */
     public function getAssignedPersonnelAttribute()
     {
-    	$fullname = isset($this->personnel) ? $this->personnel->full_name : "None";
-    	return $fullname;
+    	return isset($this->personnel) ? $this->personnel->full_name : 'None';
     }
 
     /**
-     * Validates the ticket id if exists
-     * 
-     * @return
+     * Link to activities table
+     *
+     * @return object
      */
-    protected function basicIdValidation()
+    public function activities()
     {
-        $this->validator = Validator::make(['ticket' => $this->id], [
-            'ticket' => 'required|exists:tickets,id',
-        ]);
-
-        return $this;
+        return $this->hasMany(Activity::class, 'ticket_id', 'id');
     }
 
     /**
-     * Validates the ticket id if exists and if the user exists in 
-     * database
-     * 
-     * @return
+     * Link to tags table
+     *
+     * @return object
      */
-    protected function basicIdValidationWithUser()
+    public function tags()
     {
-        $args = [
-            'ticket' => $this->id,
-            'user' => $this->user_id,
-        ];
-
-        $validator = Validator::make($args, [
-            'ticket' => 'required|exists:tickets,id',
-            'user' => 'required|exists:user,id',
-        ]);
-
-        if($validator->fails()) {
-            return back()->withInput()->withErrors($validator);
-        }
+        return $this->belongsToMany(Tag::class, 'ticket_tag', 'ticket_id', 'tag_id');
     }
 
     /**
-     * Redirect back if has error
-     * 
-     * @return
+     * Link to categories table
+     *
+     * @return object
      */
-    protected function redirectBackIfHasError()
+    public function categories()
     {
-        if($this->validator->fails()) {
-            return back()->withInput()->withErrors($validator);
-        }
-
-        return $this;
+        return $this->belongsToMany(Category::class, 'category_ticket', 'ticket_id', 'category_id');
     }
 
     /**
-     * Redirect to not found if has error
-     * 
-     * @return
+     * Link to personnels table
+     *
+     * @return object
      */
-    protected function redirectNotFoundIfHasError()
-    {   
-        if($this->validator->fails()) {
-            return back()->withInput()->withErrors($validator);
-        }
-
-        return $this;
+    public function personnel()
+    {
+    	return $this->belongsTo(User::class, 'assigned_to', 'id');
     }
+
+    /**
+     * Link to authors table
+     *
+     * @return object
+     */
+    public function author()
+    {
+    	return $this->belongsTo(User::class, 'author_id', 'id');
+    }
+
 }
