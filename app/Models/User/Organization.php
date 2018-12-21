@@ -8,71 +8,45 @@ class Organization extends Model
 {
     protected $table = 'organizations';
     protected $primaryKey = 'id';
-    public $columns = [
-        'id' => [
-            'save' => false,
-            'update' => false,
-            'select' => true,
-        ],
-    	'name' => [
-    		'save' => true,
-    		'update' => true,
-    		'select' => true,
-    	],
-        'abbreviation' => [
-            'save' => true,
-            'update' => true,
-            'select' => true,
-        ],
-        'parent_id' => [
-            'save' => true,
-            'update' => true,
-            'select' => true,
-        ],
-    ];
 
-    public function insertRules()
-    {
-    	return [
-    		'name' => 'required|min:1|unique:' . $this->table . ',name',
-            'abbreviation' => 'required|min:1',
-            'parent_id' => 'nullable|exists:' . $this->table . ',id',
-    	];
-    }
-
-    public function updateRules()
-    {
-    	return [
-            'name' => 'required|min:1|unique:' . $this->table . ',name,' . $this->name . ',name',
-            'abbreviation' => 'required|min:1',
-            'parent_id' => 'nullable|exists:' . $this->table . ',id',
-    	];
-    }
-
-    public function checkIfIdExistsRules()
-    {
-    	return [
-    		'id' => 'required|exists:' . $this->table . ',id',
-    	];
-    }
-
-    public function scopeFilterByParent($query)
-    {
-        return $query->whereNull('parent_id');
-    }
-
-    public function parent()
-    {
-        return $this->belongsTo( __NAMESPACE__ . '\\Organization', 'parent_id', 'id');
-    }
-
+    /**
+     * Columns used when querying using eloquent model
+     *
+     * @var array
+     */
     protected $appends = [
         'parent_organization_name',
     ];
 
+    /**
+     * Fetch the parent name of the current organization
+     *
+     * @return string
+     */
     public function getParentOrganizationNameAttribute()
     {
-        $parent_name = isset($this->parent) ? $this->parent->name : 'None';
-        return $parent_name;
+        return optional($this->parent)->name;
+    }
+
+    /**
+     * Link to the parent organization model
+     *
+     * @return object
+     */
+    public function parent()
+    {
+        return $this->belongsTo(Organization::class, 'parent_id', 'id');
+    }
+
+    /**
+     * Filter the organization where the organization has
+     * no parent id
+     *
+     * @param Builder $query
+     * @return object
+     */
+    public function scopeOnlyParent($query)
+    {
+        return $query->whereNull('parent_id');
     }
 }

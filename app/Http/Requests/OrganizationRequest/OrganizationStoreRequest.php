@@ -24,7 +24,9 @@ class OrganizationStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+    		'name' => 'required|min:1|unique:' . $this->table . ',name',
+            'abbreviation' => 'required|min:1',
+            'parent_id' => 'nullable|exists:' . $this->table . ',id',
         ];
     }
 }

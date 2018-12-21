@@ -30,6 +30,13 @@ class Ticket extends Model
     protected $table = 'tickets';
     protected $primaryKey = 'id';
     public $timestamps = 'true';
+
+    /**
+     * Columns used when inserting to database using
+     * the create function of model
+     *
+     * @var array
+     */
     public $fillable = [];
 
     /**

@@ -2,75 +2,24 @@
 
 namespace App\Models\User;
 
+use App\Models\User\Organization;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    
     protected $table = 'users';
     protected $primaryKey = 'id';
 
-    protected static $roles = [
-        'administration',
-        'designation',
-        'support',
-        'clients'
-    ];
-
-    public $columns = [
-        'id' => [
-            'save' => false,
-            'update' => false,
-            'select' => true,
-        ],
-        'firstname' => [
-            'save' => true,
-            'update' => true,
-            'select' => true,
-        ],
-        'username' => [
-            'save' => true,
-            'update' => true,
-            'select' => true,
-        ],
-        'password' => [
-            'save' => true,
-            'update' => false,
-            'select' => false,
-            'isHashed' => true,
-            'defaultValue' => "123456789",
-        ],
-        'middlename' => [
-            'save' => true,
-            'update' => true,
-            'select' => true,
-        ],
-        'lastname' => [
-            'save' => true,
-            'update' => true,
-            'select' => true,
-        ],
-        'email' => [
-            'save' => true,
-            'update' => true,
-            'select' => true,
-        ],
-        'mobile' => [
-            'save' => true,
-            'update' => true,
-            'select' => true,
-        ],
-        'organization_id' => [
-            'save' => true,
-            'update' => true,
-            'select' => true,
-        ],
-        'role' => [
-            'save' => true,
-            'update' => true,
-            'select' => true,
-        ],
+    /**
+     * All available roles for the user
+     *
+     * @var array
+     */
+    protected static $availablePositions = [
+        'administration', 'designation', 'support','clients',
     ];
 
     /**
@@ -83,6 +32,15 @@ class User extends Authenticatable
     ];
 
     /**
+     * Columns used when querying using the eloquent model
+     *
+     * @var array
+     */
+    protected $appends = [
+        'full_name', 'organization_name', 'status_name', 'first_and_last_name',
+    ];
+
+    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -91,86 +49,44 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function loginRules()
-    {
-        return [
-            'username' => "required|exists:users,username",
-            'password' => 'required' 
-        ];
-    }
-
-    public function insertRules()
-    {
-        return [
-            'lastname' => 'required|max:30',
-            'username' => 'required|max:30',
-            'firstname' => 'required|max:30',
-            'middlename' => 'nullable|max:30',
-            'mobile' => 'nullable|max:30',
-            'email' => 'required|email',
-            'organization_id' => 'nullable|exists:organizations,id',
-        ];
-    }
-
-    public function updateRules()
-    {
-        return [
-            'lastname' => 'required|max:30',
-            'username' => 'required|max:30',
-            'firstname' => 'required|max:30',
-            'middlename' => 'nullable|max:30',
-            'mobile' => 'nullable|max:30',
-            'email' => 'required|email',
-            'organization_id' => 'nullable|exists:organizations,id',
-        ];
-    }
-
-    public function checkIfIdExistsRules()
-    {
-        return [
-            'id' => 'required|exists:' . $this->table . ',id',
-        ];
-    }
-
-    public function organization()
-    {
-        return $this->belongsTo( __NAMESPACE__ . '\\Organization', 'organization_id', 'id');
-    }
-
-    protected $appends = [
-        'full_name', 'organization_name', 'status_name', 'first_and_last_name',
-    ];
-
+    /**
+     * Name formatted using firstname then the lastname
+     *
+     * @return void
+     */
     public function getFirstAndLastNameAttribute()
     {
-        $firstname = $this->firstname;
-        $lastname = $this->lastname;
-
-        return trim("$firstname $lastname");
+        return $this->firstname . ' ' . $this->lastname;
     }
 
+    /**
+     * Name formatted using lastname followed by a comma then
+     * the firstname and the middlename
+     *
+     * @return void
+     */
     public function getFullNameAttribute()
     {
-        $firstname = $this->firstname;
-        $middlename = $this->middlename;
-        $lastname = $this->lastname;
-
-        return trim("$lastname, $firstname $middlename");
+        return $this->lastname . ', ' . $this->firstname . ' ' . $this->middlename;
     }
 
+    /**
+     * Fetch the organization name
+     *
+     * @return string
+     */
     public function getOrganizationNameAttribute()
     {
-        $organization = isset($this->organization) ? $this->organization->name : 'None';
-        return $organization;
+        return optional($this->organization)->name;
     }
 
-    public function getStatusNameAttribute()
+    /**
+     * Link to the users organization model
+     *
+     * @return object
+     */
+    public function organization()
     {
-        return 'None';
-    }
-
-    public function getAllRoles()
-    {
-        return User::$roles;
+        return $this->belongsTo(Organization::class, 'organization_id', 'id');
     }
 }
