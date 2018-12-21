@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Packages\Maintenance;
+namespace App\Routes\Web\Maintenance;
 
-use Route;
+use Illuminate\Support\Facades\Route;
 
 class Routes
 {
