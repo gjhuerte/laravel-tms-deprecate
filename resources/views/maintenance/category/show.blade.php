@@ -1,41 +1,38 @@
-@extends('admin.maintenance.app')
+@extends('layouts.app')
 
-@section('maintenance-body')
-@include('notification.alert')
-<div class="row p-3" style="background-color: white;">
-	<div class="col-sm-12 my-1">
-		<h1 class="display-4">Edit: {{ $variable->title }}</h1>
-	</div>
-	
-	<div class="col-sm-12">
-		<ul class="breadcrumb">
-			<li class="breadcrumb-item">Maintenance</li>
-			<li class="breadcrumb-item">
-				<a href="{{ url("$variable->baseUrl") }}">Category</a>
-			</li>
-			<li class="breadcrumb-item">{{ $model->id }}</li>
-			<li class="breadcrumb-item active">Edit</li>
-		</ul>
-	</div>
+@section('content')
 
-	<div class="col-sm-12 my-1">
-		@include('notification.alert')
+	@include('notification.alert')
 
-		@foreach( $variable->columns as $key => $args )
-            @if($args->isSelectable)
-			<div class="form-group">
-				@php $name = $args->dataTableName @endphp
-				<strong> {{ ucfirst($args->name) }} </strong> : {{ $model->$name }}
-			</div>
-            @endif
-		@endforeach
+	<div class="row p-3" style="background-color: white;">
+		<div class="col-sm-12 my-1">
+			<h1 class="display-4">Category: {{ $category->name }}</h1>
+		</div>
 		
-		<div class="form-group float-right">
-			<a href="{{ url("$variable->baseUrl") }}" class="btn btn-light">
-				<i class="fas fa-arrow-left"></i> Back
-			</a>
-			<input type="submit" name="button" value="Update" class="btn btn-primary" />
+		<div class="col-sm-12">
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item">Maintenance</li>
+				<li class="breadcrumb-item">
+					<a href="">Category</a>
+				</li>
+				<li class="breadcrumb-item">{{ $category->id }}</li>
+				<li class="breadcrumb-item active">Edit</li>
+			</ul>
+		</div>
+
+		<div class="col-sm-12 my-1">
+			@include('notification.alert')
+
+			<div class="form-group">
+				<strong> </strong> : 
+			</div>
+			
+			<div class="form-group float-right">
+				<a href="" class="btn btn-light">
+					<i class="fas fa-arrow-left"></i> Back
+				</a>
+				<input type="submit" name="button" value="Update" class="btn btn-primary" />
+			</div>
 		</div>
 	</div>
-</div>
 @endsection 

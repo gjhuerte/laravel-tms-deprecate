@@ -1,6 +1,6 @@
-@extends('admin.maintenance.app')
+@extends('layouts.app')
 
-@section('maintenance-body')
+@section('content')
 <div class="row">
     <div class="col-sm-12 my-1">
         <h1 class="display-4">{{ __('Maintenance') }}: {{ __('Category') }}</h1>

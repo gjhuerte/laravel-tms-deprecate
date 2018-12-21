@@ -10,6 +10,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div class="col-md-6 my-1">
 			<p class="text-center h3 mb-3">Announcements</p>
 			<div class="card">
@@ -17,6 +18,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div class="col-md-3 my-1">
 			<p class="text-center h3 mb-3">Reports</p>
 			<div class="card">

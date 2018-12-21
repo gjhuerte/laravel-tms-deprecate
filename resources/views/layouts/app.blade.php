@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-        <title>{{ ( isset( $title ) ? $title . ' - ' : '' ) . config('app.name') }}</title>
+        <title>{{ $title ?? config('app.name') }}</title>
 
         <!-- Style sheets for the application -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
@@ -14,11 +14,14 @@
 
         <!-- Scripts for the application -->
         <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+
+        @yield('styles-prepend')
+        
     </head>
     <body>
 
         <!-- Navigation Section -->
-        @if( Auth::check() )
+        @if(Auth::check())
             @include('partials.navigation')
         @endif <!-- End of Navigation Section -->
 
@@ -32,7 +35,9 @@
             @include('partials.footer')
         </section> <!-- End of Footer section -->
 
-        <script>
+        @yield('scripts-prepend')
+
+        <script type="text/javascript">
 
             // This script is for the notification on the application
             // This will help notify the user whatever the application wants
