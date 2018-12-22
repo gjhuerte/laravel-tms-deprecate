@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Maintenance;
 
 use Illuminate\Http\Request;
-use App\Models\Ticket\Category;
 use App\Http\Controllers\Controller;
 use App\Jobs\Category\CreateCategory;
 use App\Jobs\Category\UpdateCategory;
@@ -20,11 +19,6 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax()) {
-            $categories = Category::all();
-            return datatables($categories)->toJson();
-        }
-
         return view('maintenance.category.index');
     }
 

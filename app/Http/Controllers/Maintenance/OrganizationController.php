@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Maintenance;
 
 use Illuminate\Http\Request;
-use App\Models\User\Organization;
 use App\Http\Controllers\Controller;
 use App\Jobs\Organization\CreateOrganization;
 use App\Jobs\Organization\UpdateOrganization;
@@ -20,11 +19,6 @@ class OrganizationController extends Controller
      */
     public function index(Request $request)
     {
-        if($rquest->ajax()) {
-            $organizations = Organization::all();
-            return datatables($organizations)->toJson();
-        }
-
         return view('maintenance.organization.index');
     }
 
