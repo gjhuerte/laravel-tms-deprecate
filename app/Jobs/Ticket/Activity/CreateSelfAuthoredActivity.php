@@ -3,23 +3,29 @@
 namespace App\Jobs\Ticket\Activity;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Jobs\Ticket\Activity\CreateActivity;
 
 class CreateSelfAuthoredActivity implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    protected $activity;
+    protected $id;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($activity, $id)
     {
-        //
+        $this->activity = $activity;
+        $this->id = $id;
     }
 
     /**
@@ -29,18 +35,11 @@ class CreateSelfAuthoredActivity implements ShouldQueue
      */
     public function handle()
     {
-        $author_id = isset($args['author_id']) ? $args['author_id'] : Auth::user()->id;
-        $details = isset($args['details']) ? $args['details'] : 'No details specified.';
-        $ticket_id = isset($args['ticket_id']) ? $args['ticket_id'] : null;
-        $title = isset($args['title']) ? $args['title'] : 'No title specified.';
-
-        $activity = new Activity;
-        $activity->details = $details;
-        $activity->author_id = $author_id;
-        $activity->ticket_id = $ticket_id;
-        $activity->title = $title;
-        $activity->save();
-
-        return $activity;
+        $this->dispatch(new CreateActivity([
+            'title' => $this->activity['title'],
+            'details' => $this->activity['details'],
+            'ticket_id' => $this->id,
+            'author_id' => Auth::id(),
+        ]));
     }
 }

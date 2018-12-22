@@ -12,14 +12,18 @@ class ApprovalTicket implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $ticket;
+    protected $id;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($ticket, $id)
     {
-        //
+        $this->ticket = $ticket;
+        $this->id = $id;
     }
 
     /**
@@ -29,6 +33,12 @@ class ApprovalTicket implements ShouldQueue
      */
     public function handle()
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        $ticket->update([ 'status' => Ticket::approvedStatus() ]);
+
+        $this->dispatch(new CreateActivity([
+            'title' => 'Ticket ' . $ticket->code . ' approved by ' . Auth::user()->full_name,
+            'details' => $this->ticket['details'],
+        ], $this->id));
     }
 }

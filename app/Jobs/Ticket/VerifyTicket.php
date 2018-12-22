@@ -12,14 +12,18 @@ class VerifyTicket implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $ticket;
+    protected $id;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($ticket, $id)
     {
-        //
+        $this->ticket = $ticket;
+        $this->id = $id;
     }
 
     /**
@@ -29,6 +33,12 @@ class VerifyTicket implements ShouldQueue
      */
     public function handle()
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        $ticket->update([ 'status' => Ticket::verifiedStatus() ]);
+
+        $this->dispatch(new CreateActivity([
+            'title' => 'Ticket ' . $ticket->code . ' verification',
+            'details' => $this->ticket['details'],
+        ], $this->id));
     }
 }

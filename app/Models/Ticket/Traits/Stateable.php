@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Packages\Ticketing;
+namespace App\Models\Ticket\Traits;
 
 use App\Models\Ticket;
 
@@ -27,16 +27,66 @@ trait Stateable
             Ticket::CLOSED,
             Ticket::REOPENED,
         ];
-    }
+	}
+
+	/**
+	 * Enqueue the ticket to a staff
+	 *
+	 * @return string
+	 */
+	public function enqueuedStatus()
+	{
+		return Ticket::ENQUEUE;
+	}
 
 	/**
 	 * Returns the initialized status for ticket
 	 * 
 	 * @return string initialized
 	 */
-	protected function initializedStatus()
+	public function initializedStatus()
 	{
 		return Ticket::INITIALIZED;
+	}
+	
+	/**
+	 * Use the verified status and return the value from it
+	 *
+	 * @return string
+	 */
+	public function verifiedStatus()
+	{
+		return Ticket::VERIFIED;
+	}
+	
+	/**
+	 * Use the assigned status and return the value from it
+	 *
+	 * @return string
+	 */
+	public function assignedStatus()
+	{
+		return Ticket::ASSIGNED;
+	}
+
+	/**
+	 * Returns the approved status 
+	 *
+	 * @return string
+	 */
+	public function approvedStatus()
+	{
+		return Ticket::APPROVED;
+	}
+
+	/**
+	 * Returns the approved status 
+	 *
+	 * @return string
+	 */
+	public function resolvedStatus()
+	{
+		return Ticket::RESOLVED;
 	}
 
 	/**
@@ -44,7 +94,7 @@ trait Stateable
 	 * 
 	 * @return string initialized
 	 */
-	protected function closedStatus()
+	public function closedStatus()
 	{
 		return Ticket::CLOSED;
 	}
@@ -54,7 +104,7 @@ trait Stateable
 	 * 
 	 * @return string initialized
 	 */
-	protected function reopenedStatus()
+	public function reopenedStatus()
 	{
 		return Ticket::REOPENED;
 	}

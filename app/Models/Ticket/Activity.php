@@ -19,7 +19,7 @@ class Activity extends Model
      * @var array
      */
     public $fillable = [
-        'title', 'details', 'ticket_id',
+        'title', 'details', 'ticket_id', 'author_id'
     ];
 
     /**

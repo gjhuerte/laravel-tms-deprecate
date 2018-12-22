@@ -7,7 +7,7 @@ use App\Models\Ticket\Tag;
 use App\Models\Ticket\Activity;
 use App\Models\Ticket\Category;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Packages\Ticketing\Stateable;
+use App\Models\Ticket\Traits\Stateable;
 
 class Ticket extends Model
 {
@@ -37,7 +37,10 @@ class Ticket extends Model
      *
      * @var array
      */
-    public $fillable = [];
+    public $fillable = [
+        'title', 'details', 'alt_contact', 'additional_info', 'assigned_to', 'created_by',
+        'author_id', 'parent_id', 'date_assigend', 'level_id', 'status',
+    ];
 
     /**
      * Additional columns when querying using eloquent model

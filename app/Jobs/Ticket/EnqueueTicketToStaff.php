@@ -3,6 +3,7 @@
 namespace App\Jobs\Ticket;
 
 use Illuminate\Bus\Queueable;
+use App\Models\Ticket\Ticket;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,14 +13,16 @@ class EnqueueTicketToStaff implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $id;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id)
     {
-        //
+        $this->id = $id;
     }
 
     /**
@@ -29,6 +32,8 @@ class EnqueueTicketToStaff implements ShouldQueue
      */
     public function handle()
     {
-        //
+        Ticket::findOrFail($id)->update([
+            'status' => Ticket::enqueuedStatus(),
+        ]);
     }
 }
