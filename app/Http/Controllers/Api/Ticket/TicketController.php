@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Ticket;
 
 use Illuminate\Http\Request;
+use App\Models\Ticket\Ticket;
 use App\Http\Controllers\Controller;
 
 class TicketController extends Controller
@@ -14,7 +15,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        return json_encode(Ticket::all());
     }
 
     /**
@@ -57,7 +58,8 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ticket = Ticket::findOrFail($this->id);
+        return json_encode($ticket);
     }
 
     /**

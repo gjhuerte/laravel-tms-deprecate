@@ -16,7 +16,7 @@ class Routes
 	{
 		$routes = new Routes;
 		Route::middleware(['auth'])->group(function() {
-			Route::prefix('ticket')->namespace('ticketing')->group(function() {
+			Route::prefix('ticket')->namespace('ticket')->group(function() {
 				Route::get('ticket/{id}/resolve', 'ResolveTicketController@create');
 				Route::post('ticket/{id}/resolve', 'ResolveTicketController@resolve');
 
