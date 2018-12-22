@@ -1,15 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Maintenance;
+namespace App\Http\Controllers\Api\Tag;
 
-use App\Models\Ticket\Tag;
 use Illuminate\Http\Request;
-use App\Jobs\Ticket\Tag\CreateTag;
-use App\Jobs\Ticket\Tag\RemoveTag;
-use App\Jobs\Ticket\Tag\UpdateTag;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TicketRequest\TagRequest\TagStoreRequest;
-use App\Http\Requests\TicketRequest\TagRequest\TagUpdateRequest;
 
 class TagController extends Controller
 {
@@ -20,7 +14,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        return view('maintenance.tag.index');
+        //
     }
 
     /**
@@ -30,7 +24,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        return view('maintenance.tag.create');
+        //
     }
 
     /**
@@ -39,10 +33,9 @@ class TagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TagStoreRequest $request)
+    public function store(Request $request)
     {
-        $this->dispatch(new CreateTag($request->all()));
-        return redirect()->route('tag.index');
+        //
     }
 
     /**
@@ -53,8 +46,7 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        $tag = Tag::findOrFail($id);
-        return view('maintenance.tag.show', compact('tag'));
+        //
     }
 
     /**
@@ -65,8 +57,7 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        $tag = Tag::findOrFail($id);
-        return view('maintenance.tag.edit', compact('tag'));
+        //
     }
 
     /**
@@ -76,10 +67,9 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TagUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $this->dispatch(new UpdateTag($request->all(), $id));
-        return redirect()->route('tag.index');
+        //
     }
 
     /**
@@ -90,7 +80,6 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
-        $this->dispatch(new RemoveTag($id));
-        return redirect()->route('tag.index');
+        //
     }
 }
