@@ -9,18 +9,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+
+    const HEAD_ADMINISTRATOR = 'head administrator';
+    const ADMINISTRATOR = 'administrator';
+    const DESIGNATOR = 'designator';
+    const VERIFIER = 'verifier';
+    const SUPPORT = 'support';
+    const CLIENT_MANAGER = 'client manager';
+    const CLIENT = 'client';
     
     protected $table = 'users';
     protected $primaryKey = 'id';
-
-    /**
-     * All available roles for the user
-     *
-     * @var array
-     */
-    protected static $availablePositions = [
-        'administration', 'designation', 'support','clients',
-    ];
 
     /**
      * The attributes that are mass assignable.
