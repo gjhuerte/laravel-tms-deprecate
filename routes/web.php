@@ -28,6 +28,6 @@ Route::middleware(['auth'])->group(function() {
 	
 });
 
-App\Routes\Web\Ticketing\Routes::all();
+App\Routes\Web\Ticket\Routes::all();
 App\Routes\Web\Maintenance\Routes::all();
 Auth::routes();

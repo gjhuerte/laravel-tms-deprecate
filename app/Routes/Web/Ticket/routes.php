@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Routes\Web\Ticketing;
+namespace App\Routes\Web\Ticket;
 
 use Illuminate\Support\Facades\Route;
 

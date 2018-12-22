@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::namespace('api')->group(function() {
     Route::namespace('ticket')->group(function() {
-        Route::get('ticket', 'TicketController@index');
+        Route::resource('ticket', 'TicketController', [ 'only' => array('index', 'show', 'store')]);
+        Route::post('ticket/activity/add', 'ActivityController@store');
     });
 });

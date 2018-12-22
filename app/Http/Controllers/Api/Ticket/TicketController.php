@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api\Ticket;
 use Illuminate\Http\Request;
 use App\Models\Ticket\Ticket;
 use App\Http\Controllers\Controller;
+use App\Jobs\Api\Ticket\CreateTicketWithUser;
+use App\Jobs\Api\Ticket\FetchMyAccessibleTicket;
+use App\Jobs\Api\Ticket\FetchAllMyAccessibleTicket;
 
 class TicketController extends Controller
 {
@@ -15,17 +18,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        return json_encode(Ticket::all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $this->dispatch(new FetchAllMyAccessibleTicket());
     }
 
     /**
@@ -36,7 +29,7 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->dispatch(new CreateTicketWithUser($request));
     }
 
     /**
@@ -47,41 +40,6 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $ticket = Ticket::findOrFail($this->id);
-        return json_encode($ticket);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $this->dispatch(new FetchMyAccessibleTicket($id));
     }
 }
