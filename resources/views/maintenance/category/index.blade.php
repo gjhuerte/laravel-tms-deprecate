@@ -1,34 +1,36 @@
-@extends('layouts.app')
+@extends('layouts.client')
 
 @section('content')
-<div class="row">
-    <div class="col-sm-12 my-1">
-        <h1 class="display-4">{{ __('Maintenance') }}: {{ __('Category') }}</h1>
-	  </div>
-    <div class="col-sm-12 my-1">
-        @include('notification.alert')
-
-        <table 
-            class="table table-hover table-bordered table-condensed" 
-            id="maintenance-table"
-            data-ajax-url="{{ route('category.index') }}"
-            data-confirmation-title="Are you sure?"
-            data-show-view-button="true"
-            data-show-edit-button="true"
-            data-show-remove-button="true"
-            data-confirmation-message="You won't be able to revert this!">
-
-            <thead>
-                <td>{{ __('ID') }}</td>
-                <td>{{ __('Name') }}</td>
-                <td>{{ __('Description') }}</td>
-                <td>{{ __('Created At') }}</td>
-                <td>{{ __('Updated At') }}</td>
-                <td></td>
-            </thead>
-        </table>
-	  </div>
-</div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-sm-12 my-1">
+                <h1 class="display-4">{{ __('Maintenance') }}: {{ __('Category') }}</h1>
+            </div>
+            <div class="col-sm-12 my-1">
+                @include('notification.alert')
+    
+                <table 
+                    class="table table-hover table-bordered table-condensed" 
+                    id="maintenance-table"
+                    data-ajax-url="{{ route('api.category.index') }}"
+                    data-confirmation-title="Are you sure?"
+                    data-show-view-button="true"
+                    data-show-edit-button="true"
+                    data-show-remove-button="true"
+                    data-confirmation-message="You won't be able to revert this!">
+    
+                    <thead>
+                        <td>{{ __('ID') }}</td>
+                        <td>{{ __('Name') }}</td>
+                        <td>{{ __('Description') }}</td>
+                        <td>{{ __('Created At') }}</td>
+                        <td>{{ __('Updated At') }}</td>
+                        <td></td>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts-include')

@@ -44,27 +44,6 @@
             @endforeach
         </ul>
 
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown hidden-md-down">
-                <a 
-                    class="nav-link dropdown-toggle" 
-                    href="#" 
-                    id="navbarDropdownMenuLink" 
-                    data-toggle="dropdown" 
-                    aria-haspopup="true"
-                    aria-expanded="false">
-                    {{ Auth::user()->full_name }}
-                </a>
-
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <a href="{{ route('user.profile', Auth::user()->username) }}" class="dropdown-item">Profile</a>
-                    <a href="{{ url('settings') }}" class="dropdown-item">Settings</a>
-                    <div class="dropdown-divider"></div>
-                    <button type="button"  href="{{ url('logout') }}" class="dropdown-item">
-                        Logout
-                    </button>
-                </div>
-            </li>
-        </ul>
+        @include('layouts.partials.right_navigation')
     </div>
 </nav>

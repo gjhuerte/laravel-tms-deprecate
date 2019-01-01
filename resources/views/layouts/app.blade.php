@@ -21,9 +21,7 @@
     <body>
 
         <!-- Navigation Section -->
-        @if(Auth::check())
-            @include('partials.navigation')
-        @endif <!-- End of Navigation Section -->
+        @yield('navigation')
 
         <!-- Content -->
         <section id="content-body">
@@ -32,9 +30,12 @@
 
         <!-- Footer section -->
         <section id="footer" class="footer-navigation">
-            @include('partials.footer')
+            @include('layouts.partials.footer')
         </section> <!-- End of Footer section -->
 
+        <!-- Additional scripts to be used for the application      -->
+        <!-- These scripts are single paged scripts which will run  -->
+        <!-- Only on the targeted page                              -->
         @yield('scripts-prepend')
 
         <script type="text/javascript">
