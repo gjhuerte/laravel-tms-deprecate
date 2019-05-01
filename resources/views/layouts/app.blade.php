@@ -88,9 +88,6 @@
                         
                         // create an ajax alert using the delete method of the http header
                         $.ajax({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
                             type: 'delete',
                             url: removeUrl,
                             dataType: 'json',

@@ -37,7 +37,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $appends = [
-        'full_name', 'organization_name', 'status_name', 'first_and_last_name',
+        'full_name', 'organization_name', 'status_name', 'first_and_last_name', 'api_token',
     ];
 
     /**
@@ -50,9 +50,21 @@ class User extends Authenticatable
     ];
 
     /**
+     * Fetch the api token used for the app
+     * 
+     * @return string
+     */
+    public function getApiTokenAttribute()
+    {
+        $appName = config('app.name');
+
+        return $this->createToken($appName)->accessToken;
+    }
+
+    /**
      * Name formatted using firstname then the lastname
      *
-     * @return void
+     * @return string
      */
     public function getFirstAndLastNameAttribute()
     {
@@ -63,7 +75,7 @@ class User extends Authenticatable
      * Name formatted using lastname followed by a comma then
      * the firstname and the middlename
      *
-     * @return void
+     * @return string
      */
     public function getFullNameAttribute()
     {
