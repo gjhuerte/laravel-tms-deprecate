@@ -2,9 +2,7 @@
 
 namespace App\Http\Packages\Object;
 
-use App\Http\Interfaces\Object;
-
-class ObjectParser implements Object
+class ObjectParser
 {
 	/**
 	 * Creates an object from a given variable

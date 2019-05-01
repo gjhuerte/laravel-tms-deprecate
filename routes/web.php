@@ -11,21 +11,23 @@
 |
 */
 
-Route::get('/', 'PagesController@getDashboard');
-Route::get('dashboard', 'PagesController@getDashboard');
-
-Route::namespace('Auth')->group(function() {
-	Route::get('login', 'AuthenticationController@getLoginForm');
-	Route::post('login', 'AuthenticationController@login');
-});
+Route::get('/', 'HomeController@index');
+Route::get('home', 'DashboardController@index');
+Route::get('dashboard', 'DashboardController@index');
 
 Route::middleware(['auth'])->group(function() {
-	Route::get('settings', 'SettingsController@index');
 
-	Route::namespace('Auth')->group(function() {
-		Route::get('logout', 'AuthenticationController@logout');
+	Route::namespace('user')->group(function() {
+		Route::get('profile/{id}', [
+			'as' => 'user.profile',
+			'uses' => 'ProfileController@index'
+		]);
+		
+		Route::get('settings', 'SettingController@index');
 	});
+	
 });
 
-App\Http\Packages\Ticketing\Routes::all();
-App\Http\Packages\Maintenance\Routes::all();
+App\Routes\Web\Ticket\Routes::all();
+App\Routes\Web\Maintenance\Routes::all();
+Auth::routes(['register' => false]);

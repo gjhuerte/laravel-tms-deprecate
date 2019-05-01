@@ -15,6 +15,7 @@ class CreateTicketsTable extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('code')->unique();
             $table->string('title');
             $table->longtext('details');
             $table->string('alt_contact')->nullable();

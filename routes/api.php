@@ -13,6 +13,22 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->namespace('api')->group(function() {
+    // Route::namespace('ticket')->group(function() {
+        // Route::resource('ticket', 'TicketController', [ 'only' => array('index', 'show', 'store')]);
+        // Route::post('ticket/activity/add', 'ActivityController@store');
+    // });
+
+    Route::namespace('category')->group(function() {
+        Route::get('category/all', [
+        	'as' => 'api.category.index', 
+        	'uses' => 'CategoryController@index'
+        ]);
+
+        Route::delete('category/{id?}', [
+            'as' => 'api.category.destroy', 
+            'uses' => 'CategoryController@destroy'
+        ]);
+    });
+
 });
