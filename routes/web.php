@@ -30,4 +30,4 @@ Route::middleware(['auth'])->group(function() {
 
 App\Routes\Web\Ticket\Routes::all();
 App\Routes\Web\Maintenance\Routes::all();
-Auth::routes();
+Auth::routes(['register' => false]);
