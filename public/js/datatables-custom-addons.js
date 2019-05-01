@@ -17,49 +17,66 @@ var buttonsForDatatables = {
         return buttons;
     },
 
+    // Create button
+    create: function (url) {
+
+        return $('<a />', {
+            'id': 'create',
+            'href': url,
+            class: "btn btn-primary text-light",
+            text: 'Create'
+        }).prepend(
+            $('<i />', { class: 'fas fa-plus mr-2', 'aria-hidden': 'true' })
+        ).prop('outerHTML');
+    },
+
     // Button for viewing a certain resource
     // This will redirect to the page of the
     // Specific resource
     view: function(url) {
 
-        return `
-            <a 
-                href="` + url + `" 
-                class="btn btn-outline-secondary my-1" >
-                <i class="fas fa-folder" aria-hidden="true"></i> View
-            </a>
-        `;
+        return $('<a />', {
+            'id': 'view',
+            'href': url,
+            class: "btn btn-outline-secondary my-1 mx-1",
+            text: 'View'
+        }).prepend(
+            $('<i />', { class: 'fas fa-folder mr-2', 'aria-hidden': 'true' })
+        ).prop('outerHTML');
     },
 
     // Button for updating a certain resource
     // This will redirect to the form page where
     // the certain resource can be updated
     edit: function(url) {
-        
-        return `
-            <a 
-                href="` + url + `" 
-                class="btn btn-outline-warning my-1" >
-                <i class="fas fa-pen" aria-hidden="true"></i> Edit
-            </a>
-        `;
+
+        return $('<a />', {
+            'id': 'edit',
+            'href': url,
+            class: "btn btn-outline-warning my-1 mx-1",
+            text: 'Edit'
+        }).prepend(
+            $('<i />', { class: 'fas fa-pend mr-2', 'aria-hidden': 'true' })
+        ).prop('outerHTML');
     },
     
     // Button for removing the resource from the system
     // This will trigger the remove function
     remove: function(url) {
 
-        return `
-            <button 
-                type="button" data-remove-url="` + url + `" 
-                class="btn-remove btn btn-outline-danger my-1" >
-                <i class="fas fa-trash" aria-hidden="true"></i> Remove
-            </button>
-        `;
+        return $('<button />', {
+            'id': 'remove',
+            'type': 'button',
+            'data-remove-url': url,
+            class: "btn btn-remove btn-outline-danger my-1 mx-1",
+            text: 'Remove'
+        }).prepend(
+            $('<i />', { class: 'fas fa-trash mr-2', 'aria-hidden': 'true' })
+        ).prop('outerHTML');
     },
 
     // Functionality for remove button when clicked
-    removeEventListener: function ($this) {
+    removeEventListener: function ($this, confirmationTitle, confirmationMessage) {
         let removeUrl = $this.data('remove-url');
         let loadingText = $('<i />', { class: 'fas fa-circle-o-notch fa-spin', 'aria-hidden': 'true' }).append(' Loading...');
         
@@ -79,7 +96,7 @@ var buttonsForDatatables = {
 
                 // use the method delete of the ajax to create
                 // a http header with the delete method using ajax
-                ajax.delete(removeUrl, function() {
+                notification.alert.delete(removeUrl, function() {
                     $this.html($this.data('original-text'));
                     table.ajax.reload();
                 });

@@ -89,7 +89,7 @@
                         // create an ajax alert using the delete method of the http header
                         $.ajax({
                             type: 'delete',
-                            url: removeUrl,
+                            url: _url,
                             dataType: 'json',
                             success: function(response) {
                                 notification.success();

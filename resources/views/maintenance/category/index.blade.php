@@ -15,6 +15,7 @@
                     data-base-url="{{ route('category.index') }}"
                     data-ajax-url="{{ route('api.category.index') }}"
                     data-api-token="{{ Auth::user()->api_token }}"
+                    data-create-url="{{ route('category.create') }}"
                     data-confirmation-title="Are you sure?"
                     data-show-view-button="true"
                     data-show-edit-button="true"
@@ -91,20 +92,11 @@
             });
 
             // appends a create button on the data table
-            $("div.toolbar").html(
-                $('<a />', {
-                    'id': 'new',
-                    'href': createUrl,
-                    class: "btn btn-primary",
-                    text: 'Create'
-                }).prepend(
-                    $('<i />', { class: 'fas fa-plus', 'aria-hidden': 'true' })
-                ),
-            );
+            $("div.toolbar").html(buttonsForDatatables.create(createUrl));
 
             // Triggers the function when the button has been clicked
             table.on('click', '.btn-remove', function() {
-                buttonsForDatatables.removeEventListener(this);
+                buttonsForDatatables.removeEventListener( $(this), confirmationTitle, confirmationMessage );
             });
         } );
     </script>
