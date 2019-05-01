@@ -14,8 +14,15 @@
 
 @section('content')
 <div class="offset-md-4 col-md-4 mt-5 pt-5">
-	<div class="card p-3">
+
+	<div class="card p-3 rounded-0">
 		<div class="card-body">
+	
+			<h3 class="text-muted text-center">
+				{{ config('app.name') }}
+			</h3>
+			<hr />
+
 			@include('notification.alert')
             <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}" />

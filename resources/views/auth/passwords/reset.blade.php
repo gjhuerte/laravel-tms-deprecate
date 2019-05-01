@@ -1,5 +1,17 @@
 @extends('layouts.app')
 
+@section('styles-include')
+<style type="text/css">
+    body {
+        background-color: #2c3e50;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+</style>
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -63,3 +75,4 @@
     </div>
 </div>
 @endsection
+
