@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.client')
 
 @section('content')
 <div class="row p-3" style="background-color: white;">
@@ -23,7 +23,7 @@
 		<form method="post" action="{{ route('category.store') }}">
 
 			<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-			@include('maintenance.bread.form')
+			@include('maintenance.category.partials.form')
 			
 			<div class="form-group float-right">
 				<a href="{{ route('category.index') }}" class="btn btn-light">

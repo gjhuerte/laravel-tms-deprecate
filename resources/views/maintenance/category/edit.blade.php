@@ -24,7 +24,7 @@
 				<form method="post" action="{{ route('category.update', $category->id) }}">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 					<input type="hidden" name="_method" value="PUT" />
-					@include('maintenance.bread.form')
+					@include('maintenance.category.partials.form')
 					
 					<div class="form-group float-right">
 						<a href="{{ route('category.index') }}" class="btn btn-light">
