@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\CategoryRequest;
 
+use App\Models\Ticket\Category;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryUpdateRequest extends FormRequest
@@ -13,7 +14,7 @@ class CategoryUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,22 +25,11 @@ class CategoryUpdateRequest extends FormRequest
     public function rules()
     {
         $category = Category::findOrFail($this->category);
+
         return [
-            'name' => 'required|max:100|string|unique;categories,name,' . $category->name . ',name',
+            'name' => 'required|max:100|string|unique:categories,name,' . $category->name . ',name',
             'description' => 'nullable|string|max:256',
             'parent_category' => 'nullable|exists:categories,id',
         ];
-    }
-
-    public function validationData()
-    {
-        if (method_exists($this->route(), 'parameters')) {
-            $this->request->add($this->route()->parameters('id'));
-            $this->query->add($this->route()->parameters('id'));
-
-            return array_merge($this->route()->parameters(), $this->all());
-        }
-
-        return $this->all();
     }
 }

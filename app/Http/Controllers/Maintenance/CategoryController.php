@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Maintenance;
 
 use Illuminate\Http\Request;
+use App\Models\Ticket\Category;
 use App\Http\Controllers\Controller;
 use App\Jobs\Category\CreateCategory;
 use App\Jobs\Category\UpdateCategory;

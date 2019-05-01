@@ -37,7 +37,7 @@ class CreateCategory implements ShouldQueue
         Category::create([
             'name' => $request['name'],
             'description' => $request['description'],
-            'parent_id' => $request['parent_category'],
+            'parent_id' => $request['parent_category'] ?? null,
         ]);
     }
 }

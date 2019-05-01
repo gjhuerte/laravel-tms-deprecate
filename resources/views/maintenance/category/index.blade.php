@@ -4,7 +4,14 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-sm-12 my-1">
-                <h1 class="display-4">{{ __('Maintenance') }}: {{ __('Category') }}</h1>
+                <h1 class="display-4">{{ __('Category Lists') }}</h1>
+            </div>
+            <div class="col-sm-12">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item">Maintenance</li>
+                    <li class="breadcrumb-item">Ticket</li>
+                    <li class="breadcrumb-item">Category</li>
+                </ul>
             </div>
             <div class="col-sm-12 my-1">
                 @include('notification.alert')
@@ -16,6 +23,7 @@
                     data-ajax-url="{{ route('api.category.index') }}"
                     data-api-token="{{ Auth::user()->api_token }}"
                     data-create-url="{{ route('category.create') }}"
+                    data-api-remove-url="{{ route('api.category.destroy') }}"
                     data-confirmation-title="Are you sure?"
                     data-show-view-button="true"
                     data-show-edit-button="true"
@@ -44,6 +52,7 @@
             var baseUrl = table.data('base-url'); 
             var createUrl = table.data('create-url');
             var apiToken = table.data('api-token');
+            var apiRemoveUrl = table.data('api-remove-url');
             var showViewButton = table.data('show-view-button');
             var showEditButton = table.data('show-edit-button');
             var showRemoveButton = table.data('show-remove-button');
@@ -84,7 +93,15 @@
                     { "data": "created_at" },
                     { "data": "updated_at" },
                     { data: function(callback) {
-                        var buttons = buttonsForDatatables.displayAll(baseUrl, callback);
+                        var buttons = buttonsForDatatables.displayAll({
+                            'baseUrl': baseUrl,
+                            'callback': callback,
+                            'remove': {
+                                url: apiRemoveUrl + '/' + callback.id,
+                                authorization: apiToken,
+                            },
+
+                        });
 
                         return buttons || '';
                     } },
@@ -96,7 +113,7 @@
 
             // Triggers the function when the button has been clicked
             table.on('click', '.btn-remove', function() {
-                buttonsForDatatables.removeEventListener( $(this), confirmationTitle, confirmationMessage );
+                buttonsForDatatables.removeEventListener( $(this), dataTable, confirmationTitle, confirmationMessage );
             });
         } );
     </script>

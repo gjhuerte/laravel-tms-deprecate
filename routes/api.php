@@ -24,6 +24,11 @@ Route::middleware('auth:api')->namespace('api')->group(function() {
         	'as' => 'api.category.index', 
         	'uses' => 'CategoryController@index'
         ]);
+
+        Route::delete('category/{id?}', [
+            'as' => 'api.category.destroy', 
+            'uses' => 'CategoryController@destroy'
+        ]);
     });
 
 });

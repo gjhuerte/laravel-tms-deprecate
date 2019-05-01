@@ -10,6 +10,16 @@ class Category extends Model
     protected $primaryKey = 'id';
 
     /**
+     * Columns used when inserting to database using
+     * the create function of model
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'description', 'parent_id'
+    ];
+
+    /**
      * Columns used when querying using eloquent model
      *
      * @var array

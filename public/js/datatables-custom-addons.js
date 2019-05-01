@@ -6,13 +6,13 @@
 var buttonsForDatatables = {
 
     // Show all the three buttons
-    displayAll: function (baseUrl, callback) {
-        let viewUrl = baseUrl + '/' + callback.id;
-        let editUrl = baseUrl + '/' + callback.id + '/edit';
-        let removeUrl  = baseUrl + '/' + callback.id;
-        let buttons = buttonsForDatatables.view(viewUrl) + 
-            buttonsForDatatables.edit(editUrl) + 
-            buttonsForDatatables.remove(removeUrl);
+    displayAll: function (args) {
+        let viewUrl = args.baseUrl + '/' + args.callback.id;
+        let editUrl = args.baseUrl + '/' + args.callback.id + '/edit';
+        let removeUrl  = args.baseUrl + '/' + args.callback.id;
+        let buttons = buttonsForDatatables.view(typeof args.view !== 'undefined' ? args.view.url : removeUrl) + 
+            buttonsForDatatables.edit(typeof args.edit !== 'undefined' ? args.edit.url : removeUrl) + 
+            buttonsForDatatables.remove(typeof args.remove.url !== 'undefined' ? args.remove.url : removeUrl, args.remove.authorization);
 
         return buttons;
     },
@@ -62,11 +62,12 @@ var buttonsForDatatables = {
     
     // Button for removing the resource from the system
     // This will trigger the remove function
-    remove: function(url) {
+    remove: function(url, authorization) {
 
         return $('<button />', {
             'id': 'remove',
             'type': 'button',
+            'data-authorization': authorization,
             'data-remove-url': url,
             class: "btn btn-remove btn-outline-danger my-1 mx-1",
             text: 'Remove'
@@ -76,9 +77,19 @@ var buttonsForDatatables = {
     },
 
     // Functionality for remove button when clicked
-    removeEventListener: function ($this, confirmationTitle, confirmationMessage) {
+    removeEventListener: function ($this, table, confirmationTitle, confirmationMessage) {
         let removeUrl = $this.data('remove-url');
-        let loadingText = $('<i />', { class: 'fas fa-circle-o-notch fa-spin', 'aria-hidden': 'true' }).append(' Loading...');
+        let authorization = $this.data('authorization');
+        let loadingText = $('<span />').append(
+            $('<i />', { 
+                class: 'fas fa-circle-o-notch fa-spin pr-1', 
+                'aria-hidden': 'true' 
+            }),
+
+            $('<span />', {
+                text: 'Processing...'
+            })
+        )
         
         // Sets the button to loading when the
         // function is triggered
@@ -96,7 +107,7 @@ var buttonsForDatatables = {
 
                 // use the method delete of the ajax to create
                 // a http header with the delete method using ajax
-                notification.alert.delete(removeUrl, function() {
+                notification.alert.delete(removeUrl, authorization, function() {
                     $this.html($this.data('original-text'));
                     table.ajax.reload();
                 });

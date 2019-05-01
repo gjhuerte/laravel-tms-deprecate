@@ -1,10 +1,10 @@
 @extends('layouts.client')
 
 @section('content')
-	<div class="container">
-		<div class="row p-3" style="background-color: white;">
+    <div class="container offset-sm-3 col-sm-6 mt-5">
+		<div class="row p-3">
 			<div class="col-sm-12 my-1">
-				<h1 class="display-4">Category</h1>
+				<h1 class="display-4">Edit Category</h1>
 			</div>
 			
 			<div class="col-sm-12">
@@ -13,7 +13,8 @@
 					<li class="breadcrumb-item">
 						<a href="{{ route('category.index') }}">Category</a>
 					</li>
-					<li class="breadcrumb-item active">Create</li>
+					<li class="breadcrumb-item">{{ $category->name }}</li>
+					<li class="breadcrumb-item active">Edit</li>
 				</ul>
 			</div>
 		

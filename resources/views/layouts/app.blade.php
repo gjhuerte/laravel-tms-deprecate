@@ -84,13 +84,17 @@
                     
                     // Triggers an alert function when deleting a certain record
                     // It also sends an ajax request to the server when the function is called
-                    delete: function(_url, _completeCallback, _successCallback, _errorCallback) {
+                    delete: function(_url, authorization, _completeCallback, _successCallback, _errorCallback) {
                         
                         // create an ajax alert using the delete method of the http header
                         $.ajax({
                             type: 'delete',
                             url: _url,
                             dataType: 'json',
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader("X-CSRF-TOKEN", authorization);
+                                xhr.setRequestHeader("Authorization", 'Bearer ' + authorization);
+                            },
                             success: function(response) {
                                 notification.success();
                             },
