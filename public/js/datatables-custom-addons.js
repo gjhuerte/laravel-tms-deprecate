@@ -10,8 +10,8 @@ var buttonsForDatatables = {
         let viewUrl = args.baseUrl + '/' + args.callback.id;
         let editUrl = args.baseUrl + '/' + args.callback.id + '/edit';
         let removeUrl  = args.baseUrl + '/' + args.callback.id;
-        let buttons = buttonsForDatatables.view(typeof args.view !== 'undefined' ? args.view.url : removeUrl) + 
-            buttonsForDatatables.edit(typeof args.edit !== 'undefined' ? args.edit.url : removeUrl) + 
+        let buttons = buttonsForDatatables.view(typeof args.view !== 'undefined' ? args.view.url : viewUrl) + 
+            buttonsForDatatables.edit(typeof args.edit !== 'undefined' ? args.edit.url : editUrl) + 
             buttonsForDatatables.remove(typeof args.remove.url !== 'undefined' ? args.remove.url : removeUrl, args.remove.authorization);
 
         return buttons;
