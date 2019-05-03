@@ -41,7 +41,8 @@ class CategoryController extends Controller
      */
     public function store(CategoryStoreRequest $request)
     {
-        $this->dispatch(new CreateCategory($request->all()));
+        CreateCategory::dispatch($request->all());
+
         return redirect()->route('category.index');
     }
 
@@ -54,6 +55,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::findOrFail($id);
+        
         return view('maintenance.category.edit', compact('category'));
     }
 
@@ -66,7 +68,8 @@ class CategoryController extends Controller
      */
     public function update(CategoryUpdateRequest $request, $id)
     {
-        $this->dispatch(new UpdateCategory($request->all(), $id));
+        UpdateCategory::dispatch($request->all(), $id);
+
         return redirect()->route('category.index');
     }
 
@@ -78,7 +81,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $this->dispatch(new RemoveCategory($id));
+        RemoveCategory::dispatch($id);
+
         return redirect()->route('category.index');
     }
 }

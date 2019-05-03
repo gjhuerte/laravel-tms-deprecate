@@ -24,7 +24,9 @@
         role="alert">
         <strong>
             {{ session()->pull('notification.title') }}
-        </strong> {{ session()->pull('notification.message') }}
+        </strong> 
+
+        {{ session()->pull('notification.message') }}
 
         <button 
             type="button" 

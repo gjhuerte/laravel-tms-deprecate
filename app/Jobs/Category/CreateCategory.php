@@ -33,11 +33,19 @@ class CreateCategory implements ShouldQueue
     public function handle()
     {
         $request = collect($this->request);
-
-        Category::create([
+        $category = Category::create([
             'name' => $request['name'],
             'description' => $request['description'],
             'parent_id' => $request['parent_category'] ?? null,
+        ]);
+
+        session()->flash('notification', [
+            'type' => 'success',
+            'title' => 'Awesome!',
+            'message' => 'You have successfully created a ticket category',
+            'payload' => [
+                'category' => $category
+            ],
         ]);
     }
 }

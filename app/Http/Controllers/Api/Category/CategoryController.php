@@ -17,6 +17,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
+
         return datatables($categories)->toJson();
     }
 
@@ -28,10 +29,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $this->dispatch(new RemoveCategory($id));
+        RemoveCategory::dispatch($id);
 
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
+            'title' => session()->pull('notification.title'),
+            'message' => session()->pull('notification.message'),
         ], 200);
     }
 }

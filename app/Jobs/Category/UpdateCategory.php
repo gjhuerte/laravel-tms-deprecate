@@ -35,11 +35,20 @@ class UpdateCategory implements ShouldQueue
     public function handle()
     {
         $request = collect($this->request);
-
-        Category::findOrFail($this->id)->update([
+        $category = Category::findOrFail($this->id);
+        $category->update([
             'name' => $request['name'],
             'description' => $request['description'],
             'parent_id' => $request['parent_category'] ?? null,
+        ]);
+
+        session()->flash('notification', [
+            'type' => 'success',
+            'title' => 'Awesome!',
+            'message' => 'You have successfully updated a ticket category',
+            'payload' => [
+                'category' => $category
+            ],
         ]);
     }
 }
