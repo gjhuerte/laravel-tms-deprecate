@@ -13,7 +13,7 @@
 				<ul class="breadcrumb">
 					<li class="breadcrumb-item">Maintenance</li>
 					<li class="breadcrumb-item">
-						<a href="">Category</a>
+						<a href="{{ route('category.index') }}">Category</a>
 					</li>
 					<li class="breadcrumb-item active">{{ $category->name }}</li>
 				</ul>
