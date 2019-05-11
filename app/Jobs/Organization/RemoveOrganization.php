@@ -32,8 +32,28 @@ class RemoveOrganization implements ShouldQueue
      */
     public function handle()
     {
-        Organization::findOrFail($this->id)->delete();
+        $this->removeOrganization();
 
+        $this->setSessionMessage();
+    }
+
+    /**
+     * Remove an organization
+     *
+     * @return void
+     */
+    public function removeOrganization()
+    {
+        Organization::findOrFail($this->id)->delete();
+    }
+
+    /**
+     * Set the session message
+     *
+     * @return void
+     */
+    public function setSessionMessage()
+    {
         session()->flash('notification', [
             'type' => 'success',
             'title' => 'Awesome!',

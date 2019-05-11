@@ -15,6 +15,7 @@ class UpdateOrganization implements ShouldQueue
 
     protected $request;
     protected $id;
+    protected $organization;
 
     /**
      * Create a new job instance.
@@ -34,20 +35,40 @@ class UpdateOrganization implements ShouldQueue
      */
     public function handle()
     {
+        $this->updateOrganization();
+
+        $this->setSessionMessage();
+    }
+
+    /**
+     * Update organization information
+     *
+     * @return void
+     */
+    public function updateOrganization()
+    {
         $request = $this->request;
 
-        $organization = Organization::findOrFail($this->id);
-        $organization->update([
+        $this->organization = Organization::findOrFail($this->id);
+        $this->organization->update([
             'name' => $request['name'],
             'abbreviation' => $request['abbreviation'],
         ]);
+    }
 
+    /**
+     * Set the session message
+     *
+     * @return void
+     */
+    public function setSessionMessage()
+    {
         session()->flash('notification', [
             'type' => 'success',
             'title' => 'Awesome!',
             'message' => 'You have successfully updated an organization',
             'payload' => [
-                'organization' => $organization
+                'organization' => $this->organization
             ],
         ]);
     }

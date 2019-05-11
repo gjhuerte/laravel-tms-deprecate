@@ -13,7 +13,8 @@ class CreateOrganization implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $request;
+    private $request;
+    private $organization;
 
     /**
      * Create a new job instance.
@@ -32,19 +33,39 @@ class CreateOrganization implements ShouldQueue
      */
     public function handle()
     {
+        $this->createOrganization();
+
+        $this->setSessionMessage();
+    }
+
+    /**
+     * Create an organization
+     *
+     * @return void
+     */
+    public function createOrganization()
+    {
         $request = $this->request;
 
-        $organization = Organization::create([
+        $this->organization = Organization::create([
             'name' => $request['name'],
             'abbreviation' => $request['abbreviation'],
         ]);
+    }
 
+    /**
+     * Set the session message
+     *
+     * @return void
+     */
+    public function setSessionMessage()
+    {
         session()->flash('notification', [
             'type' => 'success',
             'title' => 'Awesome!',
             'message' => 'You have successfully created an organization',
             'payload' => [
-                'organization' => $organization
+                'organization' => $this->organization
             ],
         ]);
     }
