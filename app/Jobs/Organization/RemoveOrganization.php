@@ -33,5 +33,11 @@ class RemoveOrganization implements ShouldQueue
     public function handle()
     {
         Organization::findOrFail($this->id)->delete();
+
+        session()->flash('notification', [
+            'type' => 'success',
+            'title' => 'Awesome!',
+            'message' => 'You have successfully removed an organization',
+        ]);
     }
 }

@@ -31,4 +31,16 @@ Route::middleware('auth:api')->namespace('api')->group(function() {
         ]);
     });
 
+    Route::namespace('organization')->group(function() {
+        Route::get('organization/all', [
+        	'as' => 'api.organization.index', 
+        	'uses' => 'OrganizationController@index'
+        ]);
+
+        Route::delete('organization/{id?}', [
+            'as' => 'api.organization.destroy', 
+            'uses' => 'OrganizationController@destroy'
+        ]);
+    });
+
 });

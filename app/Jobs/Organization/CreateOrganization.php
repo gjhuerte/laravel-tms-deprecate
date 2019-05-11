@@ -32,11 +32,20 @@ class CreateOrganization implements ShouldQueue
      */
     public function handle()
     {
-        $request = collect($this->request);
+        $request = $this->request;
 
-        Organization::create([
-            'name' => $request-['name'],
+        $organization = Organization::create([
+            'name' => $request['name'],
             'abbreviation' => $request['abbreviation'],
+        ]);
+
+        session()->flash('notification', [
+            'type' => 'success',
+            'title' => 'Awesome!',
+            'message' => 'You have successfully created an organization',
+            'payload' => [
+                'organization' => $organization
+            ],
         ]);
     }
 }

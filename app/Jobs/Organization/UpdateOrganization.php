@@ -34,11 +34,21 @@ class UpdateOrganization implements ShouldQueue
      */
     public function handle()
     {
-        $request = collect($this->request);
+        $request = $this->request;
 
-        Organization::findOrFail($this->id)->update([
-            'name' => $request-['name'],
+        $organization = Organization::findOrFail($this->id);
+        $organization->update([
+            'name' => $request['name'],
             'abbreviation' => $request['abbreviation'],
+        ]);
+
+        session()->flash('notification', [
+            'type' => 'success',
+            'title' => 'Awesome!',
+            'message' => 'You have successfully updated an organization',
+            'payload' => [
+                'organization' => $organization
+            ],
         ]);
     }
 }

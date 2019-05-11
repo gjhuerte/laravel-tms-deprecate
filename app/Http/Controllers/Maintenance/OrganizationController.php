@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Maintenance;
 
 use Illuminate\Http\Request;
+use App\Models\User\Organization;
 use App\Http\Controllers\Controller;
 use App\Jobs\Organization\CreateOrganization;
 use App\Jobs\Organization\UpdateOrganization;
 use App\Jobs\Organization\RemoveOrganization;
 use App\Http\Requests\OrganizationRequest\OrganizationStoreRequest;
-use App\HttpRequests\OrganizationRequest\OrganizationUpdateRequest;
+use App\Http\Requests\OrganizationRequest\OrganizationUpdateRequest;
 
 class OrganizationController extends Controller
 {
@@ -41,6 +42,7 @@ class OrganizationController extends Controller
     public function store(OrganizationStoreRequest $request)
     {
         $this->dispatch(new CreateOrganization($request->all()));
+
         return redirect()->route('organization.index');
     }
 
@@ -53,7 +55,8 @@ class OrganizationController extends Controller
     public function edit($id)
     {
         $organization = Organization::findOrFail($id);
-        return view('maintenance.organizatoin.edit', compact('organization'));
+
+        return view('maintenance.organization.edit', compact('organization'));
     }
 
     /**
@@ -66,6 +69,7 @@ class OrganizationController extends Controller
     public function update(OrganizationUpdateRequest $request, $id)
     {
         $this->dispatch(new UpdateOrganization($request->all(), $id));
+
         return redirect()->route('organization.index');
     }
 
@@ -78,6 +82,7 @@ class OrganizationController extends Controller
     public function destroy($id)
     {
         $this->dispatch(new RemoveOrganization($id));
+        
         return redirect()->route('organization.index');
     }
 }

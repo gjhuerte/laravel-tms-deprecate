@@ -1,31 +1,29 @@
 <?php
 
-namespace App\Models\Ticket\Traits;
+namespace App\Scopes;
 
-use App\Models\Ticket;
-
-trait Stateable
+trait StatusScope
 {
     /**
-     * Returns list of all the status the ticket has
+     * Returns list of all the status has
      *
      * @return array list of status
      */
     public function allStatus()
     {
         return [
-            Ticket::INITIALIZED,
-            Ticket::VERIFIED,
-            Ticket::ASSIGNED,
-            Ticket::TRANSFERRED,
-            Ticket::WAITINGFORAPPROVAL,
-            Ticket::APPROVED,
-            Ticket::ENQUEUE,
-            Ticket::RESOLVING,
-            Ticket::RESOLVED,
-            Ticket::WAITINGFORFEEDBACK,
-            Ticket::CLOSED,
-            Ticket::REOPENED,
+            self::INITIALIZED,
+            self::VERIFIED,
+            self::ASSIGNED,
+            self::TRANSFERRED,
+            self::WAITINGFORAPPROVAL,
+            self::APPROVED,
+            self::ENQUEUE,
+            self::RESOLVING,
+            self::RESOLVED,
+            self::WAITINGFORFEEDBACK,
+            self::CLOSED,
+            self::REOPENED,
         ];
 	}
 
@@ -36,7 +34,7 @@ trait Stateable
 	 */
 	public function enqueuedStatus()
 	{
-		return Ticket::ENQUEUE;
+		return self::ENQUEUE;
 	}
 
 	/**
@@ -46,7 +44,7 @@ trait Stateable
 	 */
 	public function initializedStatus()
 	{
-		return Ticket::INITIALIZED;
+		return self::INITIALIZED;
 	}
 	
 	/**
@@ -56,7 +54,7 @@ trait Stateable
 	 */
 	public function verifiedStatus()
 	{
-		return Ticket::VERIFIED;
+		return self::VERIFIED;
 	}
 	
 	/**
@@ -66,7 +64,7 @@ trait Stateable
 	 */
 	public function assignedStatus()
 	{
-		return Ticket::ASSIGNED;
+		return self::ASSIGNED;
 	}
 
 	/**
@@ -76,7 +74,7 @@ trait Stateable
 	 */
 	public function approvedStatus()
 	{
-		return Ticket::APPROVED;
+		return self::APPROVED;
 	}
 
 	/**
@@ -86,7 +84,7 @@ trait Stateable
 	 */
 	public function resolvedStatus()
 	{
-		return Ticket::RESOLVED;
+		return self::RESOLVED;
 	}
 
 	/**
@@ -96,7 +94,7 @@ trait Stateable
 	 */
 	public function closedStatus()
 	{
-		return Ticket::CLOSED;
+		return self::CLOSED;
 	}
 
 	/**
@@ -106,6 +104,6 @@ trait Stateable
 	 */
 	public function reopenedStatus()
 	{
-		return Ticket::REOPENED;
+		return self::REOPENED;
 	}
 }
