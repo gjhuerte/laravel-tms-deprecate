@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Maintenance;
 
+use App\Models\Ticket\Level;
 use Illuminate\Http\Request;
 use App\Jobs\Level\CreateLevel;
 use App\Jobs\Level\UpdateLevel;
@@ -29,7 +30,20 @@ class LevelController extends Controller
      */
     public function create()
     {
-        return response()->route('level.create');
+        return view('maintenance.level.create');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $level = Level::findOrFail($id);
+
+        return view('maintenance.level.show', compact('level'));
     }
 
     /**
@@ -41,6 +55,7 @@ class LevelController extends Controller
     public function store(LevelStoreRequest $request)
     {
         $this->dispatch(new CreateLevel($request->all()));
+
         return redirect()->route('level.index');
     }
 
@@ -53,6 +68,7 @@ class LevelController extends Controller
     public function edit($id)
     {
         $level = Level::findOrFail($id);
+
         return view('maintenance.level.edit', compact('level'));
     }
 
@@ -66,6 +82,7 @@ class LevelController extends Controller
     public function update(LevelUpdateRequest $request, $id)
     {
         $this->dispatch(new UpdateLevel($request->all(), $id));
+
         return redirect()->route('level.index');
     }
 
@@ -78,6 +95,7 @@ class LevelController extends Controller
     public function destroy($id)
     {
         $this->dispatch(new RemoveLevel($id));
+
         return redirect()->route('level.index');
     }
 }

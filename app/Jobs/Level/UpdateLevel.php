@@ -15,6 +15,7 @@ class UpdateLevel implements ShouldQueue
 
     protected $request;
     protected $id;
+    private $level;
 
     /**
      * Create a new job instance.
@@ -34,11 +35,41 @@ class UpdateLevel implements ShouldQueue
      */
     public function handle()
     {
-        $request = collect($this->request);
+        $this->updateLevel();
 
-        Level::findOrFail($this->id)->update([
+        $this->setSessionMessage();
+    }
+
+    /**
+     * Update level
+     *
+     * @return void
+     */
+    public function updateLevel()
+    {
+        $request = $this->request;
+
+        $this->level = Level::findOrFail($this->id);
+        $this->level->update([
             'name' => $request['name'],
             'details' => $request['details'],
+        ]);
+    }
+
+    /**
+     * Set the session message
+     *
+     * @return void
+     */
+    public function setSessionMessage()
+    {
+        session()->flash('notification', [
+            'type' => 'success',
+            'title' => 'Awesome!',
+            'message' => 'You have successfully created a ticket level',
+            'payload' => [
+                'level' => $this->level
+            ],
         ]);
     }
 }

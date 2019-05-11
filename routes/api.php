@@ -43,4 +43,16 @@ Route::middleware('auth:api')->namespace('api')->group(function() {
         ]);
     });
 
+    Route::namespace('level')->group(function() {
+        Route::get('level/all', [
+        	'as' => 'api.level.index', 
+        	'uses' => 'LevelController@index'
+        ]);
+
+        Route::delete('level/{id?}', [
+            'as' => 'api.level.destroy', 
+            'uses' => 'LevelController@destroy'
+        ]);
+    });
+
 });

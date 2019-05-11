@@ -32,6 +32,33 @@ class RemoveLevel implements ShouldQueue
      */
     public function handle()
     {
+        $this->removeLevel();
+
+        $this->setSessionMessage();
+    }
+
+    /**
+     * Remove a level
+     *
+     * @return void
+     */
+    public function removeLevel()
+    {
         Level::findOrFail($this->id)->delete();
+    }
+
+    /**
+     * Set the session message
+     *
+     * @return void
+     */
+    public function setSessionMessage()
+    {
+
+        session()->flash('notification', [
+            'type' => 'success',
+            'title' => 'Awesome!',
+            'message' => 'You have successfully removed a ticket level',
+        ]);
     }
 }

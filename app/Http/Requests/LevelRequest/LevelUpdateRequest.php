@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\LevelRequest;
 
+use App\Models\Ticket\Level;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LevelUpdateRequest extends FormRequest
@@ -13,7 +14,7 @@ class LevelUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +24,7 @@ class LevelUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $name = Level::findOrFail($this->level);
+        $level = Level::findOrFail($this->level);
         
         return [
             'name' => 'required|string|max:100|unique:levels,name,' . $level->name . ',name',
