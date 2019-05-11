@@ -34,20 +34,41 @@ class UpdateCategory implements ShouldQueue
      */
     public function handle()
     {
-        $request = collect($this->request);
-        $category = Category::findOrFail($this->id);
-        $category->update([
+        $this->updateCategory();
+
+        $this->setSessionMessage();
+    }
+
+    /**
+     * Create a category
+     *
+     * @return void
+     */
+    public function updateCategory()
+    {
+        $request = $this->request;
+        $this->category = Category::findOrFail($this->id);
+
+        $this->category->update([
             'name' => $request['name'],
             'description' => $request['description'],
             'parent_id' => $request['parent_category'] ?? null,
         ]);
+    }
 
+    /**
+     * Set the session message
+     *
+     * @return void
+     */
+    public function setSessionMessage()
+    {
         session()->flash('notification', [
             'type' => 'success',
             'title' => 'Awesome!',
             'message' => 'You have successfully updated a ticket category',
             'payload' => [
-                'category' => $category
+                'category' => $this->category
             ],
         ]);
     }

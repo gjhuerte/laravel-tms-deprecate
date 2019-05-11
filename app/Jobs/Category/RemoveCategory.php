@@ -32,12 +32,32 @@ class RemoveCategory implements ShouldQueue
      */
     public function handle()
     {
+        $this->removeCategory();
+
+        $this->setSessionMessage();
+    }
+
+    /**
+     * Create a category
+     *
+     * @return void
+     */
+    public function removeCategory()
+    {
         Category::findOrFail($this->id)->delete();
+    }
+
+    /**
+     * Set the session message
+     *
+     * @return void
+     */
+    public function setSessionMessage()
+    {
         session()->flash('notification', [
             'type' => 'success',
             'title' => 'Awesome!',
             'message' => 'You have successfully removed a ticket category',
-            'payload' => [],
         ]);
     }
 }
