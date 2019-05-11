@@ -28,9 +28,14 @@ class OrganizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('maintenance.organization.create');
+        $parent = null;
+        if($request->has('parent_id')) {
+            $parent = Organization::findOrFail((int) $request->parent_id);
+        }
+
+        return view('maintenance.organization.create', compact('parent'));
     }
 
     /**
@@ -54,7 +59,7 @@ class OrganizationController extends Controller
      */
     public function show($id)
     {
-        $organization = Organization::findOrFail($id);
+        $organization = Organization::findOrFail((int) $id);
 
         return view('maintenance.organization.show', compact('organization'));
     }
@@ -67,9 +72,15 @@ class OrganizationController extends Controller
      */
     public function edit($id)
     {
-        $organization = Organization::findOrFail($id);
+        $organization = Organization::findOrFail((int) $id);
+        $parent = null;
+        if($request->has('parent_id')) {
+            $parent = Organization::findOrFail((int) $request->parent_id);
 
-        return view('maintenance.organization.edit', compact('organization'));
+            return view('maintenance.organization.create');
+        }
+
+        return view('maintenance.organization.edit', compact('organization', 'parent'));
     }
 
     /**

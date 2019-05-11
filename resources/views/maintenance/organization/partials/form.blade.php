@@ -1,3 +1,13 @@
+@if(Request::has('parent_id'))
+	@if(isset($parent->name))
+		<div class="form-group">
+			<label for="parent_id">Parent Organization</label>
+			<input type='hidden' name="parent_id" value="{{ Request::get('parent_id') }}" />
+			<input type="text" class="form-control" readonly value="{{ $parent->name }}" />
+		</div>
+	@endif
+@endif
+
 <div class="form-group">
 	<label for="name">
 		Name
@@ -31,7 +41,3 @@
 		required
 	/>
 </div>
-
-@if(Request::has('parent_id'))
-	<input type='hidden' name="parent_id" value="{{ Request::get('parent_id') }}" />
-@endif

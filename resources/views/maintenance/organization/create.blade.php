@@ -5,7 +5,9 @@
     <div class="container offset-sm-3 col-sm-6 mt-5">
 		<div class="row p-3">
 			<div class="col-sm-12 my-1">
-				<h1 class="display-4">Create Organization</h1>
+				<h1 class="display-4">
+					{{ __('Create Organization') }}
+				</h1>
 			</div>
 			
 			<div class="col-sm-12">
