@@ -13,8 +13,9 @@ class UpdateCategory implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $request;
-    protected $id;
+    private $request;
+    private $id;
+    private $category;
 
     /**
      * Create a new job instance.
@@ -40,7 +41,7 @@ class UpdateCategory implements ShouldQueue
     }
 
     /**
-     * Create a category
+     * Update category
      *
      * @return void
      */

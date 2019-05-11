@@ -38,7 +38,7 @@ class RemoveCategory implements ShouldQueue
     }
 
     /**
-     * Create a category
+     * Remove category
      *
      * @return void
      */
