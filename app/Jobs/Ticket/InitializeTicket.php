@@ -21,7 +21,7 @@ class InitializeTicket implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($ticket)
+    public function __construct($ticket = null)
     {
         $this->ticket = $ticket;
     }
@@ -31,16 +31,43 @@ class InitializeTicket implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(Ticket $ticket)
     {
-        Ticket::create([
-            'title' => $this->ticket['title'],
-            'details' => $this->ticket['details'],
-            'alt_contact' => $this->ticket['alternative_contact'],
-            'additional_info' => $this->ticket['additional_information'],
+        $this->initializeTicket($ticket);
+
+        $this->setSessionMessage();
+    }
+
+    /**
+     * Initialize a ticket
+     *
+     * @return void
+     */
+    public function initializeTicket($ticket)
+    {
+        $ticket::create([
+            'code' => $ticket->generateCode(),
+            'title' => $this->ticket['title'] ?? null,
+            'details' => $this->ticket['details'] ?? null,
+            'alt_contact' => $this->ticket['contact'] ?? null,
+            'additional_info' => $this->ticket['notes'] ?? null,
             'created_by' => Auth::id(),
-            'level_id' => $this->ticket['level'],
-            'status' => Ticket::initializedStatus(),
+            'level_id' => $this->ticket['level'] ?? null,
+            'status' => $ticket->initializedStatus(),
+        ]);
+    }
+
+    /**
+     * Set the session message
+     *
+     * @return void
+     */
+    public function setSessionMessage()
+    {
+        session()->flash('notification', [
+            'type' => 'success',
+            'title' => 'Awesome!',
+            'message' => 'You have successfully created a ticket',
         ]);
     }
 }

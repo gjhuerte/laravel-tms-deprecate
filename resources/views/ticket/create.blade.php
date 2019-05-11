@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('styles-include')
-<link rel="stylesheet" href="{{ asset('css/richtext.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/selectize.bootstrap2.css') }}">
 @endsection
 
@@ -11,6 +10,7 @@
 		<div class="col-sm-12 my-1">
 			<h1 class="display-4">Ticket: Create</h1>
 		</div>
+
 		<div class="col-sm-12">
 			<ul class="breadcrumb">
 				<li class="breadcrumb-item">
@@ -19,16 +19,20 @@
 				<li class="breadcrumb-item active">Create</li>
 			</ul>
 		</div>
+
 		<div class="col-sm-12 my-1">
 			@include('notification.alert')
+
 			<form id="ticket-creation-form"
 				method="post" 
+				data-tags="{{ implode(',', $tags) }}"
 				action="{{ url('ticket') }}"
 				class="form-horizontal">
 				<div class="row">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-					@include('ticket.form')
+					@include('ticket.partials.form')
 				</div>
+
 				<div class="form-group float-right">
 					<a href="{{ url('ticket') }}" class="btn btn-light">
 						<i class="fas fa-arrow-left"></i> Back
@@ -52,29 +56,41 @@
 <script type="text/javascript" src="{{ asset('js/standalone/selectize.min.js') }}"></script>
 <!-- Initialize Quill editor -->
 <script type="text/javascript">
+	var form = $('#ticket-creation-form');
+	var tags = form.data('tags');
+	var detailsValue = $('#details').val();
 	var quill = new Quill('#details', {
 		placeholder: 'Compose an epic ticket details...',
 		theme: 'snow',
 	});
 
-	quill.setText('{{ old('details') }}');
+	quill.setText(detailsValue);
 
 	$('#tags').selectize({
 		delimiter: ',',
 		persist: false,
 		valueField: 'name',
 		labelField: 'name',
-		options: [
-			@foreach($tags as $tag)
-			{ name: "{{ $tag }}" },
-			@endforeach
-		],
+		options: getTagsAsOption(),
 		create: true,
 	});
 
-	$('#ticket-creation-form').on('submit', function(e){
+	form.on('submit', function(e) {
 		$('#details-form-field').val(quill.getText());
 		return true;
-	})
+	});
+
+	function getTagsAsOption() 
+	{
+		var arr = [];
+
+		for (tag in tags.split(',')) {
+			arr.push({
+				name: tag
+			});
+		}
+
+		return arr;
+	}
 </script>
 @endsection

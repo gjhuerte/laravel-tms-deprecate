@@ -2,7 +2,10 @@
 
 @section('content')
 <div class="container p-4 mt-4" style="background-color: white;">
-	<h1 class="display-4">Tickets</h1>
+  <h1 class="display-4">Tickets</h1>
+  
+  @include('notification.alert')
+
 	<table 
 		class="table table-striped table-condensed table-bordered table-hover"  
 		width="100%" 
@@ -10,7 +13,8 @@
 		id="tickets-table" 
 		style="background-color: white;">
 		<thead>
-			@include('ticket.partials.filters')
+      @include('ticket.partials.filters')
+      
 			<tr>
 				<th>ID</th>
 				<th>Title</th>
@@ -43,7 +47,7 @@ $(document).ready(function() {
 		serverSide: true,
 		ajax: "{{ url('ticket') }}",
 		columns: [
-			{ data: 'id'},
+			{ data: 'code'},
 			{ data: 'title'},
 			{ data: 'assigned_personnel'},
 			{ data: 'status'},

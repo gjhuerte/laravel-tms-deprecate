@@ -4,15 +4,18 @@ namespace App\Models\Ticket;
 
 use app\Models\User\User;
 use App\Models\Ticket\Tag;
+use App\Scopes\StatusScope;
+use Auxilliary\Generator\Code;
+use Illuminate\Support\Carbon;
 use App\Models\Ticket\Activity;
 use App\Models\Ticket\Category;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Ticket\Traits\Stateable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ticket extends Model
 {
 
-    use Stateable;
+    use StatusScope, SoftDeletes;
 
     const INITIALIZED = 'Initialized';
     const VERIFIED = 'Verified';
@@ -38,8 +41,18 @@ class Ticket extends Model
      * @var array
      */
     public $fillable = [
-        'title', 'details', 'alt_contact', 'additional_info', 'assigned_to', 'created_by',
-        'author_id', 'parent_id', 'date_assigend', 'level_id', 'status',
+        'code',
+        'title', 
+        'details', 
+        'alt_contact', 
+        'additional_info', 
+        'assigned_to', 
+        'created_by',
+        'author_id', 
+        'parent_id', 
+        'date_assigend', 
+        'level_id', 
+        'status',
     ];
 
     /**
@@ -59,6 +72,21 @@ class Ticket extends Model
     public function getAssignedPersonnelAttribute()
     {
     	return isset($this->personnel) ? $this->personnel->full_name : 'None';
+    }
+
+    /**
+     * Generate a ticket code
+     *
+     * @return string
+     */
+    public function generateCode()
+    {
+        $date = Carbon::now()->format('m-y');
+        $count = (new self)->onCurrentMonth()->count() + 1;
+
+        return Code::make([
+            $date, $count
+        ]);
     }
 
     /**
@@ -109,6 +137,20 @@ class Ticket extends Model
     public function author()
     {
     	return $this->belongsTo(User::class, 'author_id', 'id');
+    }
+
+    /**
+     * Fetch the tickets for current month
+     *
+     * @param Builder $query
+     * @return mixed
+     */
+    public function scopeOnCurrentMonth($query)
+    {
+        return $query->whereBetween('created_at', [
+            Carbon::now()->startOfMonth(),
+            Carbon::now()->endOfMonth(),
+        ]);
     }
 
 }

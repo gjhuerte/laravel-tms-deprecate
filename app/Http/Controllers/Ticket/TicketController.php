@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers\Ticket;
 
+use App\Models\Ticket\Tag;
+use App\Models\Ticket\Level;
 use Illuminate\Http\Request;
 use App\Models\Ticket\Ticket;
+use App\Models\Ticket\Category;
+use App\Jobs\Ticket\UpdateTicket;
 use App\Http\Controllers\Controller;
-
+use App\Jobs\Ticket\InitializeTicket;
+use App\Http\Requests\TicketRequest\TicketStoreRequest;
+use App\Http\Requests\TicketRequest\TicketUpdateRequest;
 
 class TicketController extends Controller
 {
@@ -31,7 +37,14 @@ class TicketController extends Controller
      */
     public function create()
     {
-        return view('ticket.create');
+        $levels = Level::pluck('name', 'id');
+        $categories = Category::pluck('name', 'id');
+        $tags = Tag::pluck('name')->toArray();
+
+        return view('ticket.create')
+            ->with('levels', $levels)
+            ->with('tags', $tags)
+            ->with('categories', $categories);
     }
 
     /**
@@ -42,7 +55,8 @@ class TicketController extends Controller
      */
     public function store(TicketStoreRequest $request)
     {
-        $this->dispatch(new CreateTicket($request->all()));
+        $this->dispatch(new InitializeTicket($request->all()));
+
         return redirect()->route('ticket.index');
     }
 
@@ -55,6 +69,7 @@ class TicketController extends Controller
     public function show($id)
     {
         $ticket = Ticket::findOrFail($id);
+
         return view('ticket.show', compact('ticket'));
     }
 
@@ -67,6 +82,7 @@ class TicketController extends Controller
     public function edit($id)
     {
         $ticket = Ticket::findOrFail($id);
+
         return view('ticket.edit', compact('ticket'));
     }
 
@@ -80,6 +96,7 @@ class TicketController extends Controller
     public function update(TicketUpdateRequest $request, $id)
     {
         $this->dispatch(new UpdateTicket($request->all(), $id));
+        
         return redirect()->route('ticket.index');
     }
 }

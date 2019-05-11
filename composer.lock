@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "842908af77a685a5468d9c072f617587",
+    "content-hash": "4c1b5eac61a0630f18d45331ba51fd7c",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -479,6 +479,45 @@
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
             "time": "2017-06-27T22:17:23+00:00"
+        },
+        {
+            "name": "gjhuerte/php-code-generator",
+            "version": "0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gjhuerte/php-code-generator.git",
+                "reference": "6f028dfbbe57c71b90ec59c64557cd066e5cccb8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gjhuerte/php-code-generator/zipball/6f028dfbbe57c71b90ec59c64557cd066e5cccb8",
+                "reference": "6f028dfbbe57c71b90ec59c64557cd066e5cccb8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Auxilliary\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gabriel Jay Huerte",
+                    "email": "gjhuerte@gmail.com"
+                }
+            ],
+            "description": "Helper class for generating code using PHP",
+            "time": "2018-11-26T10:48:53+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

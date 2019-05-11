@@ -28,6 +28,7 @@
 			id="level"
 			name="level"
 		>
+
 		@foreach($levels as $key => $value)
 			<option
 				value="{{ $key }}"
@@ -36,6 +37,7 @@
 				@endif
 			>{{ $value }}</option>
 		@endforeach
+		
 		</select>
 	</div>
 </div>
