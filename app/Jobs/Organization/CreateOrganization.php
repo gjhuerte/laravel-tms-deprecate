@@ -50,6 +50,7 @@ class CreateOrganization implements ShouldQueue
         $this->organization = Organization::create([
             'name' => $request['name'],
             'abbreviation' => $request['abbreviation'],
+            'parent_id' => $request['parent_id'] ?? null,
         ]);
     }
 

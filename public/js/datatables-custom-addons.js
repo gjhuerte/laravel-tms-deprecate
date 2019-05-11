@@ -12,9 +12,22 @@ var buttonsForDatatables = {
         let removeUrl  = args.baseUrl + '/' + args.callback.id;
         let buttons = buttonsForDatatables.view(typeof args.view !== 'undefined' ? args.view.url : viewUrl) + 
             buttonsForDatatables.edit(typeof args.edit !== 'undefined' ? args.edit.url : editUrl) + 
-            buttonsForDatatables.remove(typeof args.remove.url !== 'undefined' ? args.remove.url : removeUrl, args.remove.authorization);
+            buttonsForDatatables.remove(typeof args.remove !== 'undefined' ? args.remove.url : removeUrl, args.remove.authorization);
 
         return buttons;
+    },
+
+    //Generates a new url from the given url and id
+    generateNewUrl: function (baseUrl, id, afterBaseUrl = '', afterID = '') {
+        
+        if(baseUrl.indexOf('?') > -1) {
+            let newUrl = baseUrl.split('?');
+            let generatedUrl = newUrl[0] + afterBaseUrl + id + '?' + newUrl[1] + afterID;
+
+            return generatedUrl;
+        }
+
+        return baseUrl + afterBaseUrl + '/' + id + afterID;
     },
 
     // Create button

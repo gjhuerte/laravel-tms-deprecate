@@ -31,3 +31,7 @@
 		required
 	/>
 </div>
+
+@if(Request::has('parent_id'))
+	<input type='hidden' name="parent_id" value="{{ Request::get('parent_id') }}" />
+@endif

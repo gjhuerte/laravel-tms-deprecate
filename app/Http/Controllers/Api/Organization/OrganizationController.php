@@ -14,9 +14,12 @@ class OrganizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $organizations = Organization::rootOnly()->get();
+        if ($request->has('parent_id')) {
+            $organizations = Organization::whereParentId($request->get('parent_id'))->get();
+        }
         
         return datatables($organizations)->toJson();
     }

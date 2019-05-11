@@ -4,7 +4,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-sm-12 my-1">
-                <h1 class="display-4">{{ __('Organization Lists') }}</h1>
+                <h1 class="display-4">{{ __('Organizations List') }}</h1>
             </div>
             <div class="col-sm-12">
                 <ul class="breadcrumb">

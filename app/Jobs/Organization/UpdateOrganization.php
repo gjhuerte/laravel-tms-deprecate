@@ -53,6 +53,7 @@ class UpdateOrganization implements ShouldQueue
         $this->organization->update([
             'name' => $request['name'],
             'abbreviation' => $request['abbreviation'],
+            'parent_id' => $request['parent_id'] ?? null,
         ]);
     }
 
