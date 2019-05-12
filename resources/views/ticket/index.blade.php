@@ -83,10 +83,7 @@
                     { "data": "status" },
                     { "data": "created_at" },
                     { data: function(callback) {
-                        var buttons = buttonsForDatatables.withoutRemove({
-                            'baseUrl': baseUrl,
-                            'callback': callback,
-                        });
+                        var buttons = buttonsForDatatables.view(baseUrl + '/' + callback.id);
 
                         return buttons || '';
                     } },
