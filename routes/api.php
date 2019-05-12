@@ -14,15 +14,19 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->namespace('api')->group(function() {
-    // Route::namespace('ticket')->group(function() {
-        // Route::resource('ticket', 'TicketController', [ 'only' => array('index', 'show', 'store')]);
-        // Route::post('ticket/activity/add', 'ActivityController@store');
-    // });
+    Route::namespace('ticket')->group(function() {
+        Route::get('ticket/all', [
+            'as' => 'api.ticket.index', 
+            'uses' => 'TicketController@index'
+        ]);
+
+        Route::post('ticket/activity/add', 'ActivityController@store');
+    });
 
     Route::namespace('category')->group(function() {
         Route::get('category/all', [
-        	'as' => 'api.category.index', 
-        	'uses' => 'CategoryController@index'
+            'as' => 'api.category.index', 
+            'uses' => 'CategoryController@index'
         ]);
 
         Route::delete('category/{id?}', [
@@ -33,8 +37,8 @@ Route::middleware('auth:api')->namespace('api')->group(function() {
 
     Route::namespace('organization')->group(function() {
         Route::get('organization/all', [
-        	'as' => 'api.organization.index', 
-        	'uses' => 'OrganizationController@index'
+            'as' => 'api.organization.index', 
+            'uses' => 'OrganizationController@index'
         ]);
 
         Route::delete('organization/{id?}', [
@@ -45,8 +49,8 @@ Route::middleware('auth:api')->namespace('api')->group(function() {
 
     Route::namespace('level')->group(function() {
         Route::get('level/all', [
-        	'as' => 'api.level.index', 
-        	'uses' => 'LevelController@index'
+            'as' => 'api.level.index', 
+            'uses' => 'LevelController@index'
         ]);
 
         Route::delete('level/{id?}', [

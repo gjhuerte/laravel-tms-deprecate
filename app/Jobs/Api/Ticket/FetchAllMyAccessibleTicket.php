@@ -3,6 +3,7 @@
 namespace App\Jobs\Api\Ticket;
 
 use Illuminate\Bus\Queueable;
+use App\Models\Ticket\Ticket;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,14 +13,17 @@ class FetchAllMyAccessibleTicket implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $tickets;
+    protected $request;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($request)
     {
-        //
+        $this->request = $request;
     }
 
     /**
@@ -29,6 +33,37 @@ class FetchAllMyAccessibleTicket implements ShouldQueue
      */
     public function handle()
     {
-        //
+        $this->fetchTicket();
+
+        $this->setSessionMessage();
+    }
+
+    /**
+     * Create a level
+     *
+     * @return void
+     */
+    public function fetchTicket()
+    {
+        $request = $this->request;
+
+        $this->tickets = datatables(Ticket::all())->toJson();
+    }
+
+    /**
+     * Set the session message
+     *
+     * @return void
+     */
+    public function setSessionMessage()
+    {
+        session()->flash('notification', [
+            'type' => 'success',
+            'title' => 'Awesome!',
+            'message' => 'You have successfully fetched all accessible tickets',
+            'payload' => [
+                'tickets' => $this->tickets
+            ],
+        ]);
     }
 }

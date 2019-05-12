@@ -22,12 +22,14 @@ class TicketController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax()) {
-            $tickets = Ticket::all();
-            return datatables($tickets)->toJson();
-        }
+        $categories = Category::all();
+        $status = Ticket::pluck('status')->unique();
+        $levels = Level::all();
 
-        return view('ticket.index');
+        return view('ticket.index')
+                    ->with('categories', $categories)
+                    ->with('status', $status)
+                    ->with('levels', $levels);
     }
 
     /**

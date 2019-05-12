@@ -17,6 +17,16 @@ var buttonsForDatatables = {
         return buttons;
     },
 
+    // Show buttons without remove
+    withoutRemove: function (args) {
+        let viewUrl = args.baseUrl + '/' + args.callback.id;
+        let editUrl = args.baseUrl + '/' + args.callback.id + '/edit';
+        let buttons = buttonsForDatatables.view(typeof args.view !== 'undefined' ? args.view.url : viewUrl) + 
+            buttonsForDatatables.edit(typeof args.edit !== 'undefined' ? args.edit.url : editUrl);
+
+        return buttons;
+    },
+
     //Generates a new url from the given url and id
     generateNewUrl: function (baseUrl, id, afterBaseUrl = '', afterID = '') {
         

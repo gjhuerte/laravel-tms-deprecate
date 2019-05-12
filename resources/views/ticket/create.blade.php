@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.client')
 
 @section('styles-include')
 <link rel="stylesheet" href="{{ asset('css/selectize.bootstrap2.css') }}">
@@ -82,15 +82,13 @@
 
 	function getTagsAsOption() 
 	{
-		var arr = [];
+		var splittedTags = tags.split(',');
 
-		for (tag in tags.split(',')) {
-			arr.push({
-				name: tag
-			});
-		}
-
-		return arr;
+		return splittedTags.map(function (tag) {
+			return {
+				'name': tag
+			};
+		});
 	}
 </script>
 @endsection

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\Ticket;
 
 use Illuminate\Http\Request;
-use App\Models\Ticket\Ticket;
 use App\Http\Controllers\Controller;
 use App\Jobs\Api\Ticket\CreateTicketWithUser;
 use App\Jobs\Api\Ticket\FetchMyAccessibleTicket;
@@ -14,11 +13,16 @@ class TicketController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $this->dispatch(new FetchAllMyAccessibleTicket());
+        $this->dispatch(
+            new FetchAllMyAccessibleTicket($request->all())
+        );
+
+        return session('notification.payload.tickets');
     }
 
     /**
