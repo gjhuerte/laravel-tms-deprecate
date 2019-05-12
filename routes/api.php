@@ -20,8 +20,15 @@ Route::middleware('auth:api')->namespace('api')->group(function() {
             'uses' => 'TicketController@index'
         ]);
 
+        Route::get('ticket/{id}/activity', [
+            'as' => 'api.ticket.activity.index', 
+            'uses' => 'ActivityController@index'
+        ]);
+
         Route::post('ticket/activity/add', 'ActivityController@store');
     });
+
+
 
     Route::namespace('category')->group(function() {
         Route::get('category/all', [

@@ -18,6 +18,8 @@
         class="table table-striped table-condensed table-bordered table-hover"  
         width="100%" 
         cellspacing="0"
+        data-ajax-url="{{ route('api.ticket.activity.index', $ticket->id) }}"
+        data-api-token="{{ Auth::user()->api_token }}"
         id="tickets-table" 
         style="background-color: white;">
         <thead>
@@ -34,7 +36,7 @@
                     <strong>Created At: </strong>{{ $ticket->parsed_created_at }}
                 </th>
                 <th colspan=2 style="font-weight: normal">
-                    <strong>Author: </strong>{{ $ticket->author_fullname }}
+                    <strong>Author: </strong>{{ $ticket->author->full_name ?? 'Not Set' }}
                 </th>
             </tr>
             <tr>
@@ -60,7 +62,11 @@
 @section('scripts-include')
 <script type="text/javascript">
     $(document).ready(function() {
-        var table = $('#tickets-table').DataTable( {
+        var table = $('#tickets-table');
+        var ajaxUrl = table.data('ajax-url');
+        var apiToken = table.data('api-token');
+
+        var dataTable = table.DataTable( {
             select: {
                 style: 'single'
             },
@@ -75,7 +81,15 @@
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
             "processing": true,
             serverSide: true,
-            ajax: "#",
+            ajax: {
+                url: ajaxUrl,
+                type: 'get',
+                dataType: 'JSON',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRF-TOKEN", apiToken);
+                    xhr.setRequestHeader("Authorization", 'Bearer ' + apiToken);
+                },
+            },
             columns: [
                 { data: 'parsed_created_at'},
                 { data: 'details'},

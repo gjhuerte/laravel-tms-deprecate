@@ -4,6 +4,7 @@ namespace App\Jobs\Ticket;
 
 use App\Models\Ticket\Ticket;
 use Illuminate\Bus\Queueable;
+use App\Models\Ticket\Activity;
 use App\Jobs\Ticket\Tag\CreateTag;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,8 @@ class InitializeTicket implements ShouldQueue
 
         $this->createAndAssignTags();
 
+        $this->createActivity();
+
         DB::commit();
 
         $this->setSessionMessage();
@@ -62,6 +65,7 @@ class InitializeTicket implements ShouldQueue
             'alt_contact' => $this->request['contact'] ?? null,
             'additional_info' => $this->request['notes'] ?? null,
             'created_by' => Auth::id(),
+            'author_id' => Auth::id(),
             'level_id' => $this->request['level'] ?? null,
             'status' => $ticket->initializedStatus(),
         ]);
@@ -80,6 +84,23 @@ class InitializeTicket implements ShouldQueue
         );
 
         $tag->handle();
+
+        return;
+    }
+
+    /**
+     * Create an activity for the initialized ticket
+     * 
+     * @return void
+     */
+    public function createActivity()
+    {
+        Activity::create([
+            'title' => 'Ticket initialized',
+            'details' => 'This ticket has been initialized.',
+            'ticket_id' => $this->ticket->id,
+            'author_id' => Auth::id(),
+        ]);
 
         return;
     }
