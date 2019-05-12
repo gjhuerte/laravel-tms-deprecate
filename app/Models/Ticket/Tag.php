@@ -8,4 +8,14 @@ class Tag extends Model
 {
     protected $table = 'tags';
     protected $primaryKey = 'id';
+
+    /**
+     * Fillable entries when using eloquent
+     * 
+     * @var array
+     */
+    public $fillable = [
+        'name', 
+        'description'
+    ];
 }
