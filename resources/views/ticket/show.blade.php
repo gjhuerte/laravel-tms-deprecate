@@ -20,6 +20,11 @@
         cellspacing="0"
         data-ajax-url="{{ route('api.ticket.activity.index', $ticket->id) }}"
         data-api-token="{{ Auth::user()->api_token }}"
+        data-add-resolution-url="{{ route('ticket.resolve.form', [ $ticket->id ]) }}"
+        data-add-staff-url="{{ route('ticket.transfer.form', [ $ticket->id ]) }}"
+        data-close-ticket-url="{{ route('ticket.close.form', [ $ticket->id ]) }}"
+        data-reopen-ticket-url="{{ route('ticket.reopen.form', [ $ticket->id ]) }}"
+        data-reopen
         id="tickets-table" 
         style="background-color: white;">
         <thead>
@@ -65,6 +70,10 @@
         var table = $('#tickets-table');
         var ajaxUrl = table.data('ajax-url');
         var apiToken = table.data('api-token');
+        var addResolutionUrl = table.data('add-resolution-url');
+        var assignStaffUrl = table.data('assign-staff-url');
+        var closeTicketUrl = table.data('close-ticket-url');
+        var reopenTicketUrl = table.data('reopen-ticket-url');
 
         var dataTable = table.DataTable( {
             select: {
@@ -97,38 +106,62 @@
             ],
         } );
 
-        $("div.toolbar").html(`
-            <a 
-                id="add-resolution-button" 
-                href="#"  
-                class="btn btn-success">
-                <i class="fas fa-edit" aria-hidden="true"></i> Add resolution
-            </a>
-            <a 
-                id="transfer-button" 
-                href="#"  
-                class="btn btn-primary">
-                <i class="fas fa-share" aria-hidden="true"></i> Assign Staff
-            </a>
-            <button 
-                type="button"
-                id="close-button" 
-                class="btn btn-danger"
-                data-alert="Do you really want to close this ticket?"
-                data-url="#"  
-                data-button-title="close">
-                <i class="fas fa-door-closed" aria-hidden="true"></i> Close ticket
-            </button>
-            <button 
-                type="button"
-                id="reopen-button" 
-                class="btn btn-secondary"
-                data-alert="Do you really want to reopen this ticket?"
-                data-url="#"  
-                data-button-title="reopen">
-                <i class="fas fa-door-open" aria-hidden="true"></i> Reopen ticket
-            </button>
-        `);
+        $("div.toolbar").html(``);
+        $("div.toolbar").append(
+            $('<a />', {
+                id: 'add-resolution-button',
+                href: addResolutionUrl,
+                class: 'btn btn-success mr-1',
+                text: 'Add Resolution',
+            }).prepend(
+                $('<i />', {
+                    class: 'fas fa-edit',
+                    'aria-hidden': 'true',
+                })
+            ),
+
+            $('<a />', {
+                id: 'transfer-button',
+                href: assignStaffUrl,
+                class: 'btn btn-primary mr-1 text-light',
+                text: 'Assign Staff',
+            }).prepend(
+                $('<i />', {
+                    class: 'fas fa-share',
+                    'aria-hidden': 'true',
+                })
+            ),
+            
+            $('<button />', {
+                type:'button',
+                id: 'close-button',
+                'data-url': closeTicketUrl,
+                'data-alert': 'Do you really want to close this ticket?',
+                class: 'btn btn-danger mr-1',
+                'data-button-title': 'close',
+                text: 'Close ticket',
+            }).prepend(
+                $('<i />', {
+                    class: 'fas fa-door-closed',
+                    'aria-hidden': 'true',
+                })
+            ),
+
+            $('<button />', {
+                type:'button',
+                id: 'reopen-button',
+                'data-url': reopenTicketUrl,
+                'data-alert': 'Do you really want to reopen this ticket?',
+                class: 'btn btn-secondary mr-1',
+                'data-button-title': 'reopen',
+                text: 'Reopen ticket',
+            }).prepend(
+                $('<i />', {
+                    class: 'fas fa-door-open',
+                    'aria-hidden': 'true',
+                })
+            ),
+        );
 
         $('#close-button, #reopen-button').on('click', function(e) {
             var $this = $(this);
