@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ticket;
 
 use Illuminate\Http\Request;
+use App\Models\Ticket\Ticket;
 use App\Jobs\ticket\ReopenTicket;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TicketRequest\TicketReopenRequest;
@@ -14,9 +15,10 @@ class ReopenTicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request, $id)
     {
         $ticket = Ticket::findOrFail($id);
+
         return view('ticket.reopen', compact('ticket'));
     }
 

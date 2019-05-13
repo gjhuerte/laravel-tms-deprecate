@@ -14,9 +14,10 @@ class AssignmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request, $id)
     {
         $ticket = Ticket::findOrFail($id);
+
         return view('ticket.assign', compact('ticket'));
     }
 

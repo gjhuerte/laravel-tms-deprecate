@@ -13,16 +13,16 @@ class CreateTicket implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $ticket;
+    protected $request;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($ticket)
+    public function __construct($request)
     {
-        $this->ticket = $ticket;
+        $this->request = $request;
     }
 
     /**
@@ -32,6 +32,6 @@ class CreateTicket implements ShouldQueue
      */
     public function handle()
     {
-        $this->dispatch(new InitializeTicket($this->ticket));
+        dispatch(new InitializeTicket($this->request));
     }
 }

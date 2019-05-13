@@ -21,7 +21,7 @@ Route::middleware(['auth'])->group(function() {
 
             Route::post('ticket/{id}/resolve', [
                 'as' => 'ticket.resolve',
-                'uses' => 'ResolveTicketController@resolve',
+                'uses' => 'ResolveTicketController@store',
             ]);
     
             Route::get('ticket/{id}/close', [
@@ -31,7 +31,7 @@ Route::middleware(['auth'])->group(function() {
 
             Route::post('ticket/{id}/close', [
                 'as' => 'ticket.close',
-                'uses' => 'CloseTicketController@close',
+                'uses' => 'CloseTicketController@store',
             ]);
     
             Route::get('ticket/{id}/reopen', [
@@ -41,7 +41,7 @@ Route::middleware(['auth'])->group(function() {
 
             Route::post('ticket/{id}/reopen', [
                 'as' => 'ticket.reopen',
-                'uses' => 'ReopenTicketController@reopen',
+                'uses' => 'ReopenTicketController@store',
             ]);
     
             Route::get('ticket/{id}/transfer', [
@@ -51,7 +51,7 @@ Route::middleware(['auth'])->group(function() {
 
             Route::post('ticket/{id}/transfer', [
                 'as' => 'ticket.transfer',
-                'uses' => 'TransferTicketController@transfer',
+                'uses' => 'TransferTicketController@store',
             ]);
         });
 

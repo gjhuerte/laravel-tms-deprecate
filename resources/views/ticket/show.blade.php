@@ -21,7 +21,7 @@
         data-ajax-url="{{ route('api.ticket.activity.index', $ticket->id) }}"
         data-api-token="{{ Auth::user()->api_token }}"
         data-add-resolution-url="{{ route('ticket.resolve.form', [ $ticket->id ]) }}"
-        data-add-staff-url="{{ route('ticket.transfer.form', [ $ticket->id ]) }}"
+        data-assign-staff-url="{{ route('ticket.transfer.form', [ $ticket->id ]) }}"
         data-close-ticket-url="{{ route('ticket.close.form', [ $ticket->id ]) }}"
         data-reopen-ticket-url="{{ route('ticket.reopen.form', [ $ticket->id ]) }}"
         data-reopen

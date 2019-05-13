@@ -65,7 +65,6 @@
 	});
 
 	quill.setText(detailsValue);
-
 	$('#tags').selectize({
 		delimiter: ',',
 		persist: false,
@@ -75,15 +74,18 @@
 		create: true,
 	});
 
+	// On form submit, assign the details to 
+	// the equivalent hidden field
 	form.on('submit', function(e) {
 		$('#details-form-field').val(quill.getText());
+
 		return true;
 	});
 
-	function getTagsAsOption() 
-	{
+	// Fetch all the tags and format them to 
+	// quill value
+	function getTagsAsOption()  {
 		var splittedTags = tags.split(',');
-
 		return splittedTags.map(function (tag) {
 			return {
 				'name': tag

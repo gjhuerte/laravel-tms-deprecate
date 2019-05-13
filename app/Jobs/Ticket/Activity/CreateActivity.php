@@ -13,7 +13,7 @@ class CreateActivity implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $activity;
+    protected $request;
     protected $id;
 
     /**
@@ -21,9 +21,9 @@ class CreateActivity implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($activity, $id)
+    public function __construct($request, $id)
     {
-        $this->activity = $activity;
+        $this->request = $request;
         $this->id = $id;
     }
 
@@ -35,10 +35,10 @@ class CreateActivity implements ShouldQueue
     public function handle()
     {
         Activity::create([
-            'author_id' => isset($this->activity['author_id']) ? $this->activity['author_id'] : null,
-            'details' => $this->activity['details'],
-            'title' => $this->activity['title'],
-            'ticket_id' => $this->id,
+            'author_id' => $this->request['author_id'] ?? null,
+            'details' => $this->request['details'] ?? null,
+            'title' => $this->request['title'] ?? null,
+            'ticket_id' => $this->id ?? null,
         ]);
     }
 }
