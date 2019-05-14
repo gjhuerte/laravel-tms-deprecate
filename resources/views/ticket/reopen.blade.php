@@ -8,7 +8,7 @@
 <div class="container p-4 mt-3" style="background-color: white;">
 	<div class="row">
 		<div class="col-sm-12 my-1">
-			<h1 class="display-4">Ticket: Close</h1>
+			<h1 class="display-4">Ticket: Reopen</h1>
 		</div>
 
 		<div class="col-sm-12">
@@ -27,7 +27,7 @@
 					</a>
 				</li>
 				
-				<li class="breadcrumb-item active">Close</li>
+				<li class="breadcrumb-item active">Reopen</li>
 			</ul>
 		</div>
 
@@ -36,7 +36,7 @@
 
 			<form id="ticket-creation-form"
 				method="post"
-				action="{{ route('ticket.close', [ $ticket->id ]) }}"
+				action="{{ route('ticket.reopen', [ $ticket->id ]) }}"
 				class="form-horizontal">
 				<div class="row">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />

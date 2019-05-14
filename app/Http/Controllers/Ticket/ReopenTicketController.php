@@ -32,6 +32,7 @@ class ReopenTicketController extends Controller
     public function store(TicketReopenRequest $request, $id)
     {
         $this->dispatch(new ReopenTicket($request->all(), $id));
-        return redirect('ticket');
+        
+        return redirect()->route('ticket.show', $id);
     }
 }

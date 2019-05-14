@@ -58,8 +58,8 @@ class ResolveTicket implements ShouldQueue
         $isResolved = $this->request['is_resolved'] ?? null;
         $author = Auth::user()->full_name;
         $action = isset($isResolved) ? 'resolved' : 'added solution';
-        $title = "Ticket {$code} {$action} by {$author}";
-        $details = "Ticket {$code} {$action} by {$author} listed as following: {$this->request['details']}";
+        $title = $this->request['title'];
+        $details = $this->request['details'];
 
         dispatch(new CreateActivity([
             'title' => $title,

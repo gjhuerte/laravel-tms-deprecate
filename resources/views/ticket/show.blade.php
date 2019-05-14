@@ -33,7 +33,7 @@
         <thead>
             <tr>
                 <th colspan=2 style="font-weight: normal">
-                    <strong>ID: </strong>{{ $ticket->id }}
+                    <strong>Code: </strong>{{ $ticket->code }}
                 </th>
                 <th colspan=2 style="font-weight: normal">
                     <strong>Title: </strong>{{ $ticket->title }}
@@ -41,11 +41,17 @@
             </tr>
             <tr>
                 <th colspan=2 style="font-weight: normal">
-                    <strong>Created At: </strong>{{ $ticket->parsed_created_at }}
+                    <strong>Created At: </strong>{{ $ticket->created_at }}
                 </th>
                 <th colspan=2 style="font-weight: normal">
                     <strong>Author: </strong>{{ $ticket->author->full_name ?? 'Not Set' }}
                 </th>
+            </tr>
+            <tr>
+                <th colspan=2 style="font-weight: normal">
+                    <strong>Status: </strong>{{ $ticket->status }}
+                </th>
+                <th colspan=2 style="font-weight: normal"></th>
             </tr>
             <tr>
                 <th colspan=4 style="font-weight: normal">

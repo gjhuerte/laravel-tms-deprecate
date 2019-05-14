@@ -4,6 +4,8 @@ namespace App\Jobs\Ticket;
 
 use Illuminate\Bus\Queueable;
 use App\Models\Ticket\Ticket;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,7 +16,7 @@ class CloseTicket implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $ticket;
+    protected $request;
     protected $id;
 
     /**
@@ -22,9 +24,9 @@ class CloseTicket implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($ticket, $id)
+    public function __construct($request, $id)
     {
-        $this->ticket = $ticket;
+        $this->request = $request;
         $this->id = $id;
     }
 
@@ -35,12 +37,64 @@ class CloseTicket implements ShouldQueue
      */
     public function handle()
     {
-        $ticket = Ticket::findOrFail($id);
-        $ticket->update([ 'status' => Ticket::resolvedStatus() ]);
+        DB::beginTransaction();
 
-        $this->dispatch(new CreateActivity([
-            'title' => 'Ticket ' . $ticket->code . ' closed by ' . Auth::user()->full_name,
-            'details' => $this->ticket['details'],
+        $this->closingTicket();
+
+        $this->setSessionMessage();
+
+        DB::commit();
+    }
+
+    /**
+     * Set the ticket as resolved
+     *
+     * @return void
+     */
+    private function closingTicket()
+    {
+        $this->ticket = $ticket = Ticket::findOrFail((int) $this->id);
+        $code = $ticket->code;
+        $author = Auth::user()->full_name;
+        $action = 'closed';
+        $title = $this->request['title'];
+        $details = $this->request['details'];
+
+        dispatch(new CreateActivity([
+            'title' => $title,
+            'details' => $details,
         ], $this->id));
+
+        $this->updateTicketStatusToClosed($ticket);
+    }
+
+    /**
+     * Set the ticket status to resolved
+     *
+     * @param Ticket $ticket
+     * @return void
+     */
+    private function updateTicketStatusToClosed($ticket)
+    {
+        $ticket->update([ 
+            'status' => $ticket::CLOSED 
+        ]);
+    }
+
+    /**
+     * Set the session message
+     *
+     * @return void
+     */
+    public function setSessionMessage()
+    {
+        session()->flash('notification', [
+            'type' => 'success',
+            'title' => 'Awesome!',
+            'message' => 'You have successfully closed the ticket.',
+            'payload' => [
+                'ticket' => $this->ticket
+            ]
+        ]);
     }
 }

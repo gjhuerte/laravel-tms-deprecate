@@ -32,6 +32,7 @@ class CloseTicketController extends Controller
     public function store(TicketCloseRequest $request, $id)
     {
         $this->dispatch(new CloseTicket($request->all(), $id));
-        return redirect('ticket');
+        
+        return redirect()->route('ticket.show', $id);
     }
 }
