@@ -9,8 +9,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 require('datatables.net-bs4');
-import swal from 'sweetalert2/dist/sweetalert2.js';
-window.swal = swal;
+ window.swal = require('sweetalert2'); 
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -23,3 +22,10 @@ window.swal = swal;
 // const app = new Vue({
 //     el: '#app'
 // });
+// 
+$.ajaxSetup({
+    headers: {
+    	'Authorization': 'Bearer ' + $('meta[name="csrf-token"]').attr('content'),
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});

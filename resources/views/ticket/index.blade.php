@@ -1,121 +1,97 @@
-@extends('layouts.app')
+@extends('layouts.client')
 
 @section('content')
-<div class="container p-4 mt-4" style="background-color: white;">
-	<h1 class="display-4">Tickets</h1>
-	<table 
-		class="table table-striped table-condensed table-bordered table-hover"  
-		width="100%" 
-		cellspacing="0"
-		id="tickets-table" 
-		style="background-color: white;">
-		<thead>
-			@include('ticket.partials.filters')
-			<tr>
-				<th>ID</th>
-				<th>Title</th>
-				<th>Assigned</th>
-				<th>Status</th>
-				<th class="no-sort"></th>
-			</tr>
-		</thead>
-	</table>
-</div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-sm-12 my-1">
+                <h1 class="display-4">{{ __('Tickets List') }}</h1>
+            </div>
+            <div class="col-sm-12">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item">Ticket</li>
+                </ul>
+            </div>
+            <div class="col-sm-12 my-1">
+                @include('notification.alert')
+    
+                <table 
+                    class="table table-hover table-bordered table-condensed" 
+                    id="ticket-table"
+                    data-base-url="{{ route('ticket.index') }}"
+                    data-ajax-url="{{ route('api.ticket.index') }}"
+                    data-api-token="{{ Auth::user()->api_token }}"
+                    data-create-url="{{ route('ticket.create') }}"
+                    data-show-view-button="true"
+                    data-show-edit-button="true">
+                    <thead>
+                        <td>{{ __('Code') }}</td>
+                        <td>{{ __('Title') }}</td>
+                        <td>{{ __('Assigned Personnel') }}</td>
+                        <td>{{ __('Created At') }}</td>
+                        <td>{{ __('Status') }}</td>
+                        <td></td>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts-include')
-<script type="text/javascript">
-$(document).ready(function() {
-	var table = $('#tickets-table').DataTable( {
-        select: {
-          style: 'single'
-        },
-        language: {
-            searchPlaceholder: "Search..."
-        },
-        columnDefs:[
-        { targets: 'no-sort', orderable: false },
-        ],
-        "dom": "<'row'<'col-sm-3'l><'col-sm-6'<'toolbar'>><'col-sm-3'f>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-		"processing": true,
-		serverSide: true,
-		ajax: "{{ url('ticket') }}",
-		columns: [
-			{ data: 'id'},
-			{ data: 'title'},
-			{ data: 'assigned_personnel'},
-			{ data: 'status'},
-			{ data: function(callback){
-				return `
-				  <a 
-				    href="{{ url('ticket') }}/` + callback.id + `" 
-				    class="btn btn-outline-secondary" >
-				    <i class="fas fa-folder" aria-hidden="true"></i> View</a>
-				  <a 
-				    href="{{ url('ticket') }}/` + callback.id + `/edit" 
-				    class="btn btn-outline-warning" >
-				    <i class="fas fa-pen" aria-hidden="true"></i> Edit</a>
-				`
-			} },
-		],
-    } );
+    <script type="text/javascript" src="{{ asset('js/datatables-custom-addons.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var table = $('#ticket-table');
+            var tableAjaxUrl = table.data('ajax-url');
+            var baseUrl = table.data('base-url'); 
+            var createUrl = table.data('create-url');
+            var apiToken = table.data('api-token');
+            var showViewButton = table.data('show-view-button');
+            var showEditButton = table.data('show-edit-button');
 
- 	$("div.toolbar").html(`
-		<a 
-			id="new" 
-			href="{{ url('ticket/create') }}"  
-			class="btn btn-primary">
-			<i class="fas fa-plus" aria-hidden="true"></i> Create
-		</a>
-	`);
+            var dataTable = table.DataTable( {
+                select: {
+                    style: 'single'
+                },
+                language: {
+                    searchPlaceholder: "Search..."
+                },
+                columnDefs:[
+                    { 
+                        targets: 'no-sort', 
+                        orderable: false 
+                    },
+                ],
+                "dom": "<'row'<'col-sm-3'l><'col-sm-6'<'toolbar'>><'col-sm-3'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                "processing": true,
+                serverSide: true,
+                ajax: {
+                    url: tableAjaxUrl,
+                    type: 'get',
+                    dataType: 'JSON',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("X-CSRF-TOKEN", apiToken);
+                        xhr.setRequestHeader("Authorization", 'Bearer ' + apiToken);
+                    },
+                },
+                columns: [
+                    { "data": "code" },
+                    { "data": "title" },
+                    { "data": "assigned_personnel" },
+                    { "data": "status" },
+                    { "data": "created_at" },
+                    { data: function(callback) {
+                        var buttons = buttonsForDatatables.view(baseUrl + '/' + callback.id);
 
-    $('#maintenance-table').on('click', '.btn-remove', function(){
-		id = $(this).data('id');
-        var $this = $(this);
-        var loadingText = '<i class="fas fa-circle-o-notch fa-spin"></i> Loading...';
-        if ($(this).html() !== loadingText) {
-          $this.data('original-text', $(this).html());
-          $this.html(loadingText);
-        }
-        swal({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-          if (result.value) {
-            $.ajax({
-              headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              },
-              type: 'delete',
-              url: '#' + "/" + id,
-              data: {
-                'id': id
-              },
-              dataType: 'json',
-              success: function(response){
-                swal('Operation Successful','Item removed successfully','success')
-              },
-              error: function(){
-                swal('Operation Unsuccessful','Error occurred while removing an item','error')
-              },
-              complete: function(){
-                $this.html($this.data('original-text'));
-                table.ajax.reload();
-              }
+                        return buttons || '';
+                    } },
+                ],
             });
-          } else {
-            $this.html($this.data('original-text'));
-            swal("Cancelled", "Operation Cancelled", "error");
-          }
-        })
-    });
-} );
-</script>
+
+            // appends a create button on the data table
+            $("div.toolbar").html(buttonsForDatatables.create(createUrl));
+        } );
+    </script>
 @endsection

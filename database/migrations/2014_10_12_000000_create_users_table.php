@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('firstname', 50);
             $table->string('middlename', 50)->nullable();
             $table->string('lastname', 50);
+            $table->longText('image_url')->nullable();
             $table->string('role')->nullable();
             $table->integer('organization_id')->unsigned()->nullable();
             $table->foreign('organization_id')
@@ -28,8 +29,8 @@ class CreateUsersTable extends Migration
             $table->string('mobile', 30)->nullable();
             $table->string('username', 15)->unique();
             $table->string('email')->unique();
-            $table->datetime('is_activated')->nullable();
             $table->string('password', 256);
+            $table->datetime('is_activated')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
