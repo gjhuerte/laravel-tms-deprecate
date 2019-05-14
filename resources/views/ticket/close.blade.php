@@ -8,7 +8,7 @@
 <div class="container p-4 mt-3" style="background-color: white;">
 	<div class="row">
 		<div class="col-sm-12 my-1">
-			<h1 class="display-4">Ticket: Create Solution</h1>
+			<h1 class="display-4">Ticket: Close</h1>
 		</div>
 
 		<div class="col-sm-12">
@@ -27,7 +27,7 @@
 					</a>
 				</li>
 				
-				<li class="breadcrumb-item active">Create Solution</li>
+				<li class="breadcrumb-item active">Close</li>
 			</ul>
 		</div>
 
@@ -105,26 +105,11 @@
 				</div>
 
 				<div class="form-group">
-					<div class="row float-left">
-						<div class="col-sm-12">
-							<div class="form-group">
-								<input
-									type="checkbox"
-									name="is_resolved"
-									id="is_resolved"
-									value="{{ old('is_resolved') }}"
-								>
-								
-								<label for="is_resolved">Set as resolved</label>
-							</div>
-						</div>
-					</div>
-
 					<div class="row float-right">
 						<a href="{{ url('ticket') }}" class="btn btn-light">
 							<i class="fas fa-arrow-left"></i> Back
 						</a>
-						
+
 						<input type="submit" name="button" value="Save" class="btn btn-primary" />
 					</div>
 				</div>
