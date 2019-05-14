@@ -14,6 +14,9 @@
             <li class="breadcrumb-item active" aria-current="page">{{ $ticket->id }}</li>
         </ol>
     </nav>
+    
+    @include('notification.alert')
+
     <table 
         class="table table-striped table-condensed table-bordered table-hover"  
         width="100%" 
@@ -85,6 +88,7 @@
             columnDefs:[
                 { targets: 'no-sort', orderable: false },
             ],
+            order: [[ 0, "desc" ]],
             "dom": "<'row'<'col-sm-3'l><'col-sm-6'<'toolbar'>><'col-sm-3'f>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
@@ -100,7 +104,7 @@
                 },
             },
             columns: [
-                { data: 'parsed_created_at'},
+                { data: 'created_at'},
                 { data: 'details'},
                 { data: 'author_fullname'},
             ],

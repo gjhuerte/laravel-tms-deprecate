@@ -33,6 +33,6 @@ class ResolveTicketController extends Controller
     {
         $this->dispatch(new ResolveTicket($request->all(), $id));
         
-        return redirect('ticket');
+        return redirect()->route('ticket.show', $id);
     }
 }
