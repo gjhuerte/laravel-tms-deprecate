@@ -36,7 +36,7 @@
 
 			<form id="ticket-creation-form"
 				method="post"
-				action="{{ route('ticket.close', [ $ticket->id ]) }}"
+				action="{{ route('ticket.transfer', [ $ticket->id ]) }}"
 				class="form-horizontal">
 				<div class="row">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />

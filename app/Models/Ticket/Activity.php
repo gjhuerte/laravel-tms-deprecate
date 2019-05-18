@@ -31,7 +31,7 @@ class Activity extends Model
      * @var array
      */
     protected $appends = [
-    	'parsed_created_at', 'author_fullname'
+        'parsed_created_at', 'author_fullname'
     ];
 
     /**
@@ -52,7 +52,7 @@ class Activity extends Model
      */
     public function getAuthorFullnameAttribute()
     {
-    	return isset($this->author) ? $this->author->first_and_last_name : 'System';
+        return isset($this->author) ? $this->author->first_and_last_name : 'System';
     }
 
     /**
@@ -73,5 +73,21 @@ class Activity extends Model
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id', 'id');
+    }
+
+    /**
+     * Filter by ticket id
+     *
+     * @param Builder $query
+     * @param integer $id
+     * @return mixed
+     */
+    public function scopeTicketId($query, $id)
+    {
+        if(is_array($id)) {
+            return $query->whereIn('ticket_id', $id);
+        }
+
+        return $query->where('ticket_id', (int) $id);
     }
 }

@@ -61,7 +61,7 @@ class Ticket extends Model
      * @var array
      */
     protected $appends = [
-    	'assigned_personnel'
+        'assigned_personnel'    
     ];
 
     /**
@@ -71,7 +71,7 @@ class Ticket extends Model
      */
     public function getAssignedPersonnelAttribute()
     {
-    	return isset($this->personnel) ? $this->personnel->full_name : 'None';
+        return isset($this->personnel) ? $this->personnel->full_name : 'None';
     }
 
     /**
@@ -126,7 +126,7 @@ class Ticket extends Model
      */
     public function personnel()
     {
-    	return $this->belongsTo(User::class, 'assigned_to', 'id');
+        return $this->belongsTo(User::class, 'assigned_to', 'id');
     }
 
     /**
@@ -136,7 +136,7 @@ class Ticket extends Model
      */
     public function author()
     {
-    	return $this->belongsTo(User::class, 'author_id', 'id');
+        return $this->belongsTo(User::class, 'author_id', 'id');
     }
 
     /**

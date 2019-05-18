@@ -15,13 +15,12 @@ class ActivityController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $id = null)
+    public function index(Request $request, Activity $activities, $id = null)
     {
-        $activities = new Activity;
         if(isset($id)) { 
-            $activities->whereTicketId((int) $id);
+            $activities->ticketId((int) $id);
         }
-
+    
         return datatables($activities->get())->toJson();
     }
 

@@ -2,17 +2,21 @@
 
 namespace App\Jobs\Ticket;
 
+use Carbon\Carbon;
+use App\Models\Ticket\Ticket;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Jobs\Ticket\Activity\CreateActivity;
 
 class TransferTicket implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $ticket;
+    protected $request;
     protected $id;
 
     /**
@@ -20,9 +24,9 @@ class TransferTicket implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($ticket, $id)
+    public function __construct($request, $id)
     {
-        $this->ticket = $ticket;
+        $this->request = $request;
         $this->id = $id;
     }
 
@@ -33,17 +37,63 @@ class TransferTicket implements ShouldQueue
      */
     public function handle()
     {
-        $ticket = Ticket::findOrFail($id);
-        $sourcePersonnel = $ticket->assigned_personnel;
+        DB::beginTransaction();
 
-        $ticket->update([ 
-            'date_assigned' => Carbon::now(),
-            'assigned_to' => $this->ticket['personnel'],
-        ]);
+        $this->transferTicket();
 
-        $this->dispatch(new CreateActivity([
-            'title' => "Ticket {$ticket->code} transferred by Auth::user()->full_name",
-            'details' => "The ticket has been transferred by {Auth::user()->full_name} from {$sourcePersonnel} to {$ticket->assigned_personnel}",
+        $this->setSessionMessage();
+
+        DB::commit();
+    }
+
+    /**
+     * Set the ticket as transfer
+     *
+     * @return void
+     */
+    private function transferTicket()
+    {
+        $this->ticket = $ticket = Ticket::findOrFail((int) $this->id);
+        $title = $this->request['title'];
+        $details = $this->request['reason'];
+
+        dispatch(new CreateActivity([
+            'title' => $title,
+            'details' => $details,
         ], $this->id));
+
+        $this->updateTicketStatusToTransfer($ticket);
+    }
+
+    /**
+     * Set the ticket status to resolved
+     *
+     * @param Ticket $ticket
+     * @return void
+     */
+    private function updateTicketStatusToTransfer($ticket)
+    {
+        $ticket->update([ 
+            'status' => $ticket::TRANSFERRED,
+            'date_assigned' => Carbon::now(),
+            'assigned_to' => $this->request['transfer_to'],
+        ]);
+    }
+
+    /**
+     * Set the session message
+     *
+     * @return void
+     */
+    public function setSessionMessage()
+    {
+        session()->flash('notification', [
+            'type' => 'success',
+            'title' => 'Awesome!',
+            'message' => 'You have successfully transferred the ticket.',
+            'payload' => [
+                'ticket' => $this->ticket
+            ]
+        ]);
     }
 }
