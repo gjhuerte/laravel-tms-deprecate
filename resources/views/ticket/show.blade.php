@@ -121,7 +121,7 @@
             $('<a />', {
                 id: 'add-resolution-button',
                 href: addResolutionUrl,
-                class: 'btn btn-success mr-1',
+                class: 'btn btn-success mr-1 btn-sm',
                 text: 'Add Resolution',
             }).prepend(
                 $('<i />', {
@@ -133,7 +133,7 @@
             $('<a />', {
                 id: 'transfer-button',
                 href: assignStaffUrl,
-                class: 'btn btn-primary mr-1 text-light',
+                class: 'btn btn-primary mr-1 text-light btn-sm',
                 text: 'Assign Staff',
             }).prepend(
                 $('<i />', {
@@ -147,7 +147,7 @@
                 id: 'close-button',
                 'data-url': closeTicketUrl,
                 'data-alert': 'Do you really want to close this ticket?',
-                class: 'btn btn-danger mr-1',
+                class: 'btn btn-danger mr-1 btn-sm',
                 'data-button-title': 'close',
                 text: 'Close ticket',
             }).prepend(
@@ -162,7 +162,7 @@
                 id: 'reopen-button',
                 'data-url': reopenTicketUrl,
                 'data-alert': 'Do you really want to reopen this ticket?',
-                class: 'btn btn-secondary mr-1',
+                class: 'btn btn-secondary mr-1 btn-sm',
                 'data-button-title': 'reopen',
                 text: 'Reopen ticket',
             }).prepend(

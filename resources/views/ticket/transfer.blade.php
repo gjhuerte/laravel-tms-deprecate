@@ -8,7 +8,7 @@
 <div class="container p-4 mt-3" style="background-color: white;">
 	<div class="row">
 		<div class="col-sm-12 my-1">
-			<h1 class="display-4">Ticket: Close</h1>
+			<h1 class="display-4">Ticket: Transfer</h1>
 		</div>
 
 		<div class="col-sm-12">
@@ -27,7 +27,7 @@
 					</a>
 				</li>
 				
-				<li class="breadcrumb-item active">Close</li>
+				<li class="breadcrumb-item active">Transfer</li>
 			</ul>
 		</div>
 
