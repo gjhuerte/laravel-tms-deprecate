@@ -13,85 +13,16 @@
             </div>
             <div class="col-sm-12 my-1">
                 @include('notification.alert')
-    
-                <table 
-                    class="table table-hover table-bordered table-condensed" 
-                    id="ticket-table"
-                    data-base-url="{{ route('ticket.index') }}"
-                    data-ajax-url="{{ route('api.ticket.index') }}"
-                    data-api-token="{{ Auth::user()->api_token }}"
-                    data-create-url="{{ route('ticket.create') }}"
-                    data-show-view-button="true"
-                    data-show-edit-button="true">
-                    <thead>
-                        <td>{{ __('Code') }}</td>
-                        <td>{{ __('Title') }}</td>
-                        <td>{{ __('Assigned Personnel') }}</td>
-                        <td>{{ __('Created At') }}</td>
-                        <td>{{ __('Status') }}</td>
-                        <td></td>
-                    </thead>
-                </table>
+
+                <div id="app">
+                    <ticket-list-table
+                        :base-url="'{{ route('ticket.index') }}'"
+                        :ajax-url="'{{ route('api.ticket.index') }}'"
+                        :api-token="'{{ Auth::user()->api_token }}'"
+                        :create-url="'{{ route('ticket.create') }}'">
+                    </ticket-list-table>
+                </div>
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts-include')
-    <script type="text/javascript" src="{{ asset('js/datatables-custom-addons.js') }}"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var table = $('#ticket-table');
-            var tableAjaxUrl = table.data('ajax-url');
-            var baseUrl = table.data('base-url'); 
-            var createUrl = table.data('create-url');
-            var apiToken = table.data('api-token');
-            var showViewButton = table.data('show-view-button');
-            var showEditButton = table.data('show-edit-button');
-
-            var dataTable = table.DataTable( {
-                select: {
-                    style: 'single'
-                },
-                language: {
-                    searchPlaceholder: "Search..."
-                },
-                columnDefs:[
-                    { 
-                        targets: 'no-sort', 
-                        orderable: false 
-                    },
-                ],
-                "dom": "<'row'<'col-sm-3'l><'col-sm-6'<'toolbar'>><'col-sm-3'f>>" +
-                        "<'row'<'col-sm-12'tr>>" +
-                        "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-                "processing": true,
-                serverSide: true,
-                ajax: {
-                    url: tableAjaxUrl,
-                    type: 'get',
-                    dataType: 'JSON',
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("X-CSRF-TOKEN", apiToken);
-                        xhr.setRequestHeader("Authorization", 'Bearer ' + apiToken);
-                    },
-                },
-                columns: [
-                    { "data": "code" },
-                    { "data": "title" },
-                    { "data": "assigned_personnel" },
-                    { "data": "status" },
-                    { "data": "created_at" },
-                    { data: function(callback) {
-                        var buttons = buttonsForDatatables.view(baseUrl + '/' + callback.id);
-
-                        return buttons || '';
-                    } },
-                ],
-            });
-
-            // appends a create button on the data table
-            $("div.toolbar").html(buttonsForDatatables.create(createUrl));
-        } );
-    </script>
 @endsection

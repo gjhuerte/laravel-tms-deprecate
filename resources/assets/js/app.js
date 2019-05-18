@@ -8,8 +8,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-require('datatables.net-bs4');
- window.swal = require('sweetalert2'); 
+window.swal = require('sweetalert2'); 
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -17,15 +16,9 @@ require('datatables.net-bs4');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('ticket-list-table', require('./components/tables/tickets/MyTicketList.vue'));
 
-// const app = new Vue({
-//     el: '#app'
-// });
-// 
-$.ajaxSetup({
-    headers: {
-    	'Authorization': 'Bearer ' + $('meta[name="csrf-token"]').attr('content'),
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
+const app = new Vue({
+    el: '#app'
 });
+
