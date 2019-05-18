@@ -58,46 +58,42 @@
 
 					<div class="col-sm-12">
 						<div class="form-group">
-							<label for="details">Details</label>
-							<div name="details" id="details" style="height: 350px"></div>
-							<input type="hidden" id="details-form-field" name="details" />
+							<label for="reason">Reason</label>
+							<div name="reason" id="reason" style="height: 350px"></div>
+							<input type="hidden" id="reason-form-field" name="reason" />
 						</div>
 					</div>
 					
 					<div class="col-sm-12">
 						<div class="form-group">
-							<label for="contact">Contact Information</label>
-							<input 
-								value="{{ old('contact') }}"
+							<label for="contact">Target User</label>
+							<select 
+								value="{{ old('transfer_to') }}"
 								class="form-control"
-								name="contact"
-								id="contact"
-								placeholder="Enter Contact Information..."
-							/>
-						</div>
-					</div>
-
-					<div class="col-sm-12">
-						<div class="form-group">
-							<label for="tags">Tags</label>
-							<input
-								type="text"
-								name="tags"
-								id="tags"
-								placeholder="Enter tags here separated by comma"
-								value="{{ old('tags') }}"
+								name="transfer_to"
+								id="transfer_to"
 							>
+								<option>{{ __('Select a user') }}</option>
+
+								@if(isset($users) && count((array) $users) > 0)
+									@foreach($users as $user)
+										<option value="{{ $user->id }}">
+											{{ $user->full_name }}
+										</option>
+									@endforeach
+								@endif
+							</select>
 						</div>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<div class="row float-right">
-						<a href="{{ url('ticket') }}" class="btn btn-light">
+						<a href="{{ url('ticket') }}" class="btn btn-light mr-1">
 							<i class="fas fa-arrow-left"></i> Back
 						</a>
 
-						<input type="submit" name="button" value="Save" class="btn btn-primary" />
+						<input type="submit" name="button" value="Process" class="btn btn-primary" />
 					</div>
 				</div>
 			</form>
@@ -119,9 +115,9 @@
 <script type="text/javascript">
 	var form = $('#ticket-creation-form');
 	var tags = form.data('tags');
-	var detailsValue = $('#details').val();
-	var quill = new Quill('#details', {
-		placeholder: 'Compose an epic ticket details...',
+	var detailsValue = $('#reason').val();
+	var quill = new Quill('#reason', {
+		placeholder: 'Compose a reason for transferring a ticket...',
 		theme: 'snow',
 	});
 
@@ -138,7 +134,7 @@
 	// On form submit, assign the details to 
 	// the equivalent hidden field
 	form.on('submit', function(e) {
-		$('#details-form-field').val(quill.getText());
+		$('#reason-form-field').val(quill.getText());
 
 		return true;
 	});
