@@ -14,14 +14,12 @@
             <div class="col-sm-12 my-1">
                 @include('notification.alert')
 
-                <div id="app">
-                    <ticket-list-table
-                        :base-url="'{{ route('ticket.index') }}'"
-                        :ajax-url="'{{ route('api.ticket.index') }}'"
-                        :api-token="'{{ Auth::user()->api_token }}'"
-                        :create-url="'{{ route('ticket.create') }}'">
-                    </ticket-list-table>
-                </div>
+                <ticket-list-table
+                    :base-url="'{{ route('ticket.index') }}'"
+                    :ajax-url="'{{ route('api.ticket.index') }}'"
+                    :api-token="'{{ Auth::user()->api_token }}'"
+                    :create-url="'{{ route('ticket.create') }}'">
+                </ticket-list-table>
             </div>
         </div>
     </div>

@@ -16,25 +16,31 @@
     
     <body>
 
-        <!-- Navigation Section -->
-        @yield('navigation')
+        <div id="app"><!-- Navigation Section -->
+            @yield('navigation')
+    
+            <!-- Content -->
+            <section id="content-body">
+                @yield('content')
+            </section>  <!-- End of Content -->
+    
+            <!-- Footer section -->
+            <section id="footer" class="footer-navigation">
+                @include('layouts.partials.footer')
+            </section> <!-- End of Footer section -->
+        </div>
 
-        <!-- Content -->
-        <section id="content-body">
-            @yield('content')
-        </section>  <!-- End of Content -->
-
-        <!-- Footer section -->
-        <section id="footer" class="footer-navigation">
-            @include('layouts.partials.footer')
-        </section> <!-- End of Footer section -->
-        
+        <passport-clients></passport-clients>
+        <passport-authorized-clients></passport-authorized-clients>
+        <passport-personal-access-tokens></passport-personal-access-tokens>
+            
         <!-- Scripts for the application -->
         <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
-
+    
         <!-- Additional scripts to be used for the application      -->
         <!-- These scripts are single paged scripts which will run  -->
         <!-- Only on the targeted page                              -->
         @yield('scripts-include')
+        
     </body>
 </html>
