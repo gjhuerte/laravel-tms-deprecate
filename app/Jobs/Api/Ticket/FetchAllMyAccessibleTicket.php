@@ -47,7 +47,7 @@ class FetchAllMyAccessibleTicket implements ShouldQueue
     {
         $request = $this->request;
 
-        $this->tickets = datatables(Ticket::all())->toJson();
+        $this->tickets = Ticket::paginate(10);
     }
 
     /**

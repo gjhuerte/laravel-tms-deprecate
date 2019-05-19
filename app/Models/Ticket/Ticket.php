@@ -61,7 +61,8 @@ class Ticket extends Model
      * @var array
      */
     protected $appends = [
-        'assigned_personnel'    
+        'assigned_personnel',
+        'author_name'   
     ];
 
     /**
@@ -72,6 +73,16 @@ class Ticket extends Model
     public function getAssignedPersonnelAttribute()
     {
         return isset($this->personnel) ? $this->personnel->full_name : 'None';
+    }
+
+    /**
+     * Fetch authors full name
+     *
+     * @return string
+     */
+    public function getAuthorNameAttribute()
+    {
+        return isset($this->author) ? $this->author->full_name : 'None';
     }
 
     /**

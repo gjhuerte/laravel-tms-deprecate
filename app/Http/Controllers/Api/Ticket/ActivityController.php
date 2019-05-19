@@ -17,6 +17,7 @@ class ActivityController extends Controller
      */
     public function index(Request $request, Activity $activities, $id = null)
     {
+        $activities->with(['author']);
         if(isset($id)) { 
             $activities->ticketId((int) $id);
         }
