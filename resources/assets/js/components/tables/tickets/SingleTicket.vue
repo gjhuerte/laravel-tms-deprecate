@@ -98,17 +98,20 @@
                 </tr>
             </thead>
 
-            <tbody>
-                <tr v-if="typeof activities == 'undefined' || activities.length <= 0">
+            <tbody
+                v-if="typeof activities != 'undefined' && activities.length <= 0">
+                <tr>
                     <td 
                         class="text-muted text-center" 
                         colspan="3">
                         No data to display
                     </td>
                 </tr>
+            </tbody>
 
-                <tr 
-                    v-if="typeof activities != 'undefined' && activities.length > 0"
+            <tbody v-else>
+                <tr
+                    v-bind:key="activity.id"
                     v-for="activity in activities">
                     <td>{{  activity.created_at }}</td>
                     <td>{{  activity.details }}</td>

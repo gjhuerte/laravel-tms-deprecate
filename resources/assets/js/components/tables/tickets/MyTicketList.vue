@@ -26,16 +26,10 @@
                 <td></td>
             </thead>
 
-            <tbody>
-                <tr v-if="tickets.length <= 0">
-                    <td 
-                        class="text-muted text-center" 
-                        colspan="6">
-                        No data to display
-                    </td>
-                </tr>
-
-                <tr v-if="tickets.length > 0" v-for="ticket in tickets">
+            <tbody v-if="tickets.length > 0">
+                <tr 
+                    v-bind:key="ticket.id"
+                    v-for="ticket in tickets">
                     <td>{{ ticket.code }}</td>
                     <td>{{ ticket.title }}</td>
                     <td>{{ ticket.assigned_personnel }}</td>
@@ -52,6 +46,16 @@
                     </td>
                 </tr>
             </tbody>
+
+            <tbody v-else>
+                <tr>
+                    <td 
+                        class="text-muted text-center" 
+                        colspan="6">
+                        No data to display
+                    </td>
+                </tr>
+            </tbody>
         </table>
         
         <nav aria-label="Ticket Pagination">
@@ -60,7 +64,10 @@
                     <a class="page-link" href="#">Previous</a>
                 </li>
 
-                <li class="page-item" v-for="ticket in tickets">
+                <li 
+                    class="page-item" 
+                    v-bind:key="ticket.id"
+                    v-for="ticket in tickets">
                     <a class="page-link" href="#">1</a>
                 </li>
 
@@ -102,8 +109,6 @@
 
                         return ticket;
                     });
-
-                    console.log(this.tickets);
 
                     this.processingStop();
                 });

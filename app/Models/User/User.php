@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use Illuminate\Support\Str;
 use App\Models\User\Organization;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -37,7 +38,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $appends = [
-        'full_name', 'organization_name', 'first_and_last_name', 'api_token',
+        'full_name', 
+        'organization_name', 
+        'first_and_last_name', 
+        'api_token',
     ];
 
     /**
@@ -57,8 +61,9 @@ class User extends Authenticatable
     public function getApiTokenAttribute()
     {
         $appName = config('app.name');
+        $slugify = Str::slug($appName);
 
-        return $this->createToken($appName)->accessToken;
+        return $this->createToken($slugify)->accessToken;
     }
 
     /**

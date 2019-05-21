@@ -65,6 +65,7 @@
 	});
 
 	quill.setText(detailsValue);
+		$('#details-form-field').val(quill.getText());
 	$('#tags').selectize({
 		delimiter: ',',
 		persist: false,

@@ -51592,6 +51592,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
 
 
 
@@ -51849,41 +51852,20 @@ var render = function() {
           _vm._m(0)
         ]),
         _vm._v(" "),
-        _c(
-          "tbody",
-          [
-            typeof _vm.activities == "undefined" || _vm.activities.length <= 0
-              ? _c("tr", [
-                  _c(
-                    "td",
-                    {
-                      staticClass: "text-muted text-center",
-                      attrs: { colspan: "3" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                    No data to display\n                "
-                      )
-                    ]
-                  )
+        typeof _vm.activities != "undefined" && _vm.activities.length <= 0
+          ? _c("tbody", [_vm._m(1)])
+          : _c(
+              "tbody",
+              _vm._l(_vm.activities, function(activity) {
+                return _c("tr", { key: activity.id }, [
+                  _c("td", [_vm._v(_vm._s(activity.created_at))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(activity.details))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(activity.author_fullname))])
                 ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm._l(_vm.activities, function(activity) {
-              return typeof _vm.activities != "undefined" &&
-                _vm.activities.length > 0
-                ? _c("tr", [
-                    _c("td", [_vm._v(_vm._s(activity.created_at))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(activity.details))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(activity.author_fullname))])
-                  ])
-                : _vm._e()
-            })
-          ],
-          2
-        )
+              })
+            )
       ]
     )
   ])
@@ -51899,6 +51881,18 @@ var staticRenderFns = [
       _c("th", [_vm._v("Details")]),
       _vm._v(" "),
       _c("th", [_vm._v("By")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c(
+        "td",
+        { staticClass: "text-muted text-center", attrs: { colspan: "3" } },
+        [_vm._v("\n                    No data to display\n                ")]
+      )
     ])
   }
 ]
@@ -52044,6 +52038,13 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -52069,8 +52070,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
                 return ticket;
             });
-
-            console.log(_this.tickets);
 
             _this.processingStop();
         });
@@ -52127,59 +52126,39 @@ var render = function() {
       [
         _vm._m(0),
         _vm._v(" "),
-        _c(
-          "tbody",
-          [
-            _vm.tickets.length <= 0
-              ? _c("tr", [
-                  _c(
-                    "td",
-                    {
-                      staticClass: "text-muted text-center",
-                      attrs: { colspan: "6" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                    No data to display\n                "
-                      )
-                    ]
-                  )
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm._l(_vm.tickets, function(ticket) {
-              return _vm.tickets.length > 0
-                ? _c("tr", [
-                    _c("td", [_vm._v(_vm._s(ticket.code))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(ticket.title))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(ticket.assigned_personnel))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(ticket.created_at))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(ticket.status))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "btn btn-outline-secondary",
-                          attrs: { href: ticket.viewUrl }
-                        },
-                        [
-                          _c("i", { staticClass: "fas fa-folder-open-o" }),
-                          _vm._v(" "),
-                          _c("span", [_vm._v("View")])
-                        ]
-                      )
-                    ])
+        _vm.tickets.length > 0
+          ? _c(
+              "tbody",
+              _vm._l(_vm.tickets, function(ticket) {
+                return _c("tr", { key: ticket.id }, [
+                  _c("td", [_vm._v(_vm._s(ticket.code))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(ticket.title))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(ticket.assigned_personnel))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(ticket.created_at))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(ticket.status))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-outline-secondary",
+                        attrs: { href: ticket.viewUrl }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-folder-open-o" }),
+                        _vm._v(" "),
+                        _c("span", [_vm._v("View")])
+                      ]
+                    )
                   ])
-                : _vm._e()
-            })
-          ],
-          2
-        )
+                ])
+              })
+            )
+          : _c("tbody", [_vm._m(1)])
       ]
     ),
     _vm._v(" "),
@@ -52188,17 +52167,17 @@ var render = function() {
         "ul",
         { staticClass: "pagination" },
         [
-          _vm._m(1),
+          _vm._m(2),
           _vm._v(" "),
           _vm._l(_vm.tickets, function(ticket) {
-            return _c("li", { staticClass: "page-item" }, [
+            return _c("li", { key: ticket.id, staticClass: "page-item" }, [
               _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
                 _vm._v("1")
               ])
             ])
           }),
           _vm._v(" "),
-          _vm._m(2)
+          _vm._m(3)
         ],
         2
       )
@@ -52222,6 +52201,18 @@ var staticRenderFns = [
       _c("td", [_vm._v("Status")]),
       _vm._v(" "),
       _c("td")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c(
+        "td",
+        { staticClass: "text-muted text-center", attrs: { colspan: "6" } },
+        [_vm._v("\n                    No data to display\n                ")]
+      )
     ])
   },
   function() {
