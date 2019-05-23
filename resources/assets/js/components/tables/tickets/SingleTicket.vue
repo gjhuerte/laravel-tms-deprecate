@@ -1,5 +1,7 @@
 <template>
-    <div class="table-responsive">
+    <div
+        :key="mutatedAjaxUrl" 
+        class="table-responsive">
         <div 
             id="upper-table-buttons">
             <div class="float-right">
@@ -119,12 +121,22 @@
                 </tr>
             </tbody>
         </table>
+        
+        <Pagination
+            @changePage="updateContentViaUrl"
+            v-bind:key="response.current_page"
+            v-bind:previous-page-url="response.prev_page_url"
+            v-bind:count="response.last_page"
+            v-bind:base-url="response.path"
+            v-bind:current-page="response.current_page"
+            v-bind:next-page-url="response.next_page_url" />
     </div>
 </template>
 
 <script>
     import axios from "axios";
     import Swal from "sweetalert2";
+    import Pagination from '../partials/Pagination';
 
     export default {
         props: [
@@ -135,21 +147,24 @@
             'closeTicketUrl',
             'reopenTicketUrl',
         ],
+
+        components: {
+            Pagination,
+        },
+
         data() {
             return {
                 activities: [],
+                response: [],
+                mutatedAjaxUrl: this.ajaxUrl,
                 mutatedTicket: typeof this.ticket !== 'undefined' ? JSON.parse(this.ticket) : []
             };
         },
+
         mounted() {
             this.processing();
 
-            axios.get(this.ajaxUrl)
-                .then(response => {
-                    this.activities = [ ...response.data.data ];
-
-                    this.processingStop();
-                });
+            this.fetchData();
         },
 
         methods: {
@@ -170,6 +185,22 @@
             processingStop() {
                 Swal.close();
             },
+
+            fetchData() {
+                axios.get(this.mutatedAjaxUrl)
+                    .then(response => {
+                        this.activities = [ ...response.data.data ];
+                        this.response = response.data;
+
+                        this.processingStop();
+                    });
+            },
+
+            updateContentViaUrl(url) {
+                this.processing();
+                this.mutatedAjaxUrl = url;
+                this.fetchData();
+            }
         },
     }
 </script>

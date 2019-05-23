@@ -18,9 +18,7 @@ class TicketController extends Controller
      */
     public function index(Request $request)
     {
-        $this->dispatch(
-            new FetchAllMyAccessibleTicket($request->all())
-        );
+        $this->dispatch(new FetchAllMyAccessibleTicket($request->all()));
 
         return session('notification.payload.tickets');
     }

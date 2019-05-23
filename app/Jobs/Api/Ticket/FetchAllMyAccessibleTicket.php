@@ -47,7 +47,7 @@ class FetchAllMyAccessibleTicket implements ShouldQueue
     {
         $request = $this->request;
 
-        $this->tickets = Ticket::paginate(10);
+        $this->tickets = Ticket::orderBy('created_at', 'desc')->paginate(10);
     }
 
     /**

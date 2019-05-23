@@ -51469,6 +51469,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert2__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_Pagination__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_Pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__partials_Pagination__);
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 //
@@ -51595,28 +51597,41 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['ticket', 'ajaxUrl', 'addResolutionUrl', 'assignStaffUrl', 'closeTicketUrl', 'reopenTicketUrl'],
+
+    components: {
+        Pagination: __WEBPACK_IMPORTED_MODULE_2__partials_Pagination___default.a
+    },
+
     data: function data() {
         return {
             activities: [],
+            response: [],
+            mutatedAjaxUrl: this.ajaxUrl,
             mutatedTicket: typeof this.ticket !== 'undefined' ? JSON.parse(this.ticket) : []
         };
     },
     mounted: function mounted() {
-        var _this = this;
-
         this.processing();
 
-        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(this.ajaxUrl).then(function (response) {
-            _this.activities = [].concat(_toConsumableArray(response.data.data));
-
-            _this.processingStop();
-        });
+        this.fetchData();
     },
 
 
@@ -51635,6 +51650,21 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         },
         processingStop: function processingStop() {
             __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default.a.close();
+        },
+        fetchData: function fetchData() {
+            var _this = this;
+
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(this.mutatedAjaxUrl).then(function (response) {
+                _this.activities = [].concat(_toConsumableArray(response.data.data));
+                _this.response = response.data;
+
+                _this.processingStop();
+            });
+        },
+        updateContentViaUrl: function updateContentViaUrl(url) {
+            this.processing();
+            this.mutatedAjaxUrl = url;
+            this.fetchData();
         }
     }
 });
@@ -51647,228 +51677,250 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "table-responsive" }, [
-    _c("div", { attrs: { id: "upper-table-buttons" } }, [
-      _c("div", { staticClass: "float-right" }, [
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-success btn-sm",
-            attrs: { id: "add-resolution-button", href: this.addResolutionUrl }
-          },
-          [
-            _c("i", { staticClass: "fas fa-plus" }),
-            _vm._v("\n\n                Create Solution\n            ")
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-primary mr-1 text-light btn-sm",
-            attrs: { id: "transfer-button", href: this.assignStaffUrl }
-          },
-          [
-            _c("i", { staticClass: "fas fa-share" }),
-            _vm._v("\n\n                Assign Staff\n            ")
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-danger mr-1 text-light btn-sm",
-            attrs: { id: "close-button", href: this.closeTicketUrl }
-          },
-          [
-            _c("i", { staticClass: "fas fa-door-closed" }),
-            _vm._v("\n\n                Close Ticket\n            ")
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-secondary mr-1 text-light btn-sm",
-            attrs: { id: "close-button", href: this.reopenTicketUrl }
-          },
-          [
-            _c("i", { staticClass: "fas fa-door-reopenTicketUrl" }),
-            _vm._v("\n\n                Close Ticket\n            ")
-          ]
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "clearfix" }),
-    _vm._v(" "),
-    _c(
-      "table",
-      {
-        staticClass:
-          "table table-hover table-bordered table-striped table-condensed mt-2",
-        attrs: { id: "ticket-single-table" }
-      },
-      [
-        _c("thead", [
-          _c("tr", [
-            _c(
-              "th",
-              {
-                staticStyle: { "font-weight": "normal" },
-                attrs: { colspan: "2" }
-              },
-              [
-                _c("strong", [_vm._v("Code: ")]),
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.mutatedTicket.code || "Not Set") +
-                    "\n                "
-                )
-              ]
-            ),
+  return _c(
+    "div",
+    { key: _vm.mutatedAjaxUrl, staticClass: "table-responsive" },
+    [
+      _c("div", { attrs: { id: "upper-table-buttons" } }, [
+        _c("div", { staticClass: "float-right" }, [
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-success btn-sm",
+              attrs: {
+                id: "add-resolution-button",
+                href: this.addResolutionUrl
+              }
+            },
+            [
+              _c("i", { staticClass: "fas fa-plus" }),
+              _vm._v("\n\n                Create Solution\n            ")
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-primary mr-1 text-light btn-sm",
+              attrs: { id: "transfer-button", href: this.assignStaffUrl }
+            },
+            [
+              _c("i", { staticClass: "fas fa-share" }),
+              _vm._v("\n\n                Assign Staff\n            ")
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-danger mr-1 text-light btn-sm",
+              attrs: { id: "close-button", href: this.closeTicketUrl }
+            },
+            [
+              _c("i", { staticClass: "fas fa-door-closed" }),
+              _vm._v("\n\n                Close Ticket\n            ")
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-secondary mr-1 text-light btn-sm",
+              attrs: { id: "close-button", href: this.reopenTicketUrl }
+            },
+            [
+              _c("i", { staticClass: "fas fa-door-reopenTicketUrl" }),
+              _vm._v("\n\n                Close Ticket\n            ")
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "clearfix" }),
+      _vm._v(" "),
+      _c(
+        "table",
+        {
+          staticClass:
+            "table table-hover table-bordered table-striped table-condensed mt-2",
+          attrs: { id: "ticket-single-table" }
+        },
+        [
+          _c("thead", [
+            _c("tr", [
+              _c(
+                "th",
+                {
+                  staticStyle: { "font-weight": "normal" },
+                  attrs: { colspan: "2" }
+                },
+                [
+                  _c("strong", [_vm._v("Code: ")]),
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.mutatedTicket.code || "Not Set") +
+                      "\n                "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "th",
+                {
+                  staticStyle: { "font-weight": "normal" },
+                  attrs: { colspan: "2" }
+                },
+                [
+                  _c("strong", [_vm._v("Title: ")]),
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.mutatedTicket.title || "Not Set") +
+                      "\n                "
+                  )
+                ]
+              )
+            ]),
             _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticStyle: { "font-weight": "normal" },
-                attrs: { colspan: "2" }
-              },
-              [
-                _c("strong", [_vm._v("Title: ")]),
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.mutatedTicket.title || "Not Set") +
-                    "\n                "
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c(
-              "th",
-              {
-                staticStyle: { "font-weight": "normal" },
-                attrs: { colspan: "2" }
-              },
-              [
-                _c("strong", [_vm._v("Author: ")]),
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.mutatedTicket.author_name || "Not Set") +
-                    "\n                    \n                "
-                )
-              ]
-            ),
+            _c("tr", [
+              _c(
+                "th",
+                {
+                  staticStyle: { "font-weight": "normal" },
+                  attrs: { colspan: "2" }
+                },
+                [
+                  _c("strong", [_vm._v("Author: ")]),
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.mutatedTicket.author_name || "Not Set") +
+                      "\n                    \n                "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "th",
+                {
+                  staticStyle: { "font-weight": "normal" },
+                  attrs: { colspan: "2" }
+                },
+                [
+                  _c("strong", [_vm._v("Created At: ")]),
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.mutatedTicket.created_at || "Not Set") +
+                      "\n                "
+                  )
+                ]
+              )
+            ]),
             _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticStyle: { "font-weight": "normal" },
-                attrs: { colspan: "2" }
-              },
-              [
-                _c("strong", [_vm._v("Created At: ")]),
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.mutatedTicket.created_at || "Not Set") +
-                    "\n                "
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c(
-              "th",
-              {
-                staticStyle: { "font-weight": "normal" },
-                attrs: { colspan: "2" }
-              },
-              [
-                _c("strong", [_vm._v("Current Assigned: ")]),
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.mutatedTicket.assigned_personnel || "Not Set") +
-                    "\n                "
-                )
-              ]
-            ),
+            _c("tr", [
+              _c(
+                "th",
+                {
+                  staticStyle: { "font-weight": "normal" },
+                  attrs: { colspan: "2" }
+                },
+                [
+                  _c("strong", [_vm._v("Current Assigned: ")]),
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(
+                        _vm.mutatedTicket.assigned_personnel || "Not Set"
+                      ) +
+                      "\n                "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "th",
+                {
+                  staticStyle: { "font-weight": "normal" },
+                  attrs: { colspan: "2" }
+                },
+                [
+                  _c("strong", [_vm._v("Status: ")]),
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.mutatedTicket.status || "Not Set") +
+                      "\n                \n                "
+                  )
+                ]
+              )
+            ]),
             _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticStyle: { "font-weight": "normal" },
-                attrs: { colspan: "2" }
-              },
-              [
-                _c("strong", [_vm._v("Status: ")]),
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.mutatedTicket.status || "Not Set") +
-                    "\n                \n                "
-                )
-              ]
-            )
+            _c("tr", [
+              _c(
+                "th",
+                {
+                  staticStyle: { "font-weight": "normal" },
+                  attrs: { colspan: "4" }
+                },
+                [
+                  _c("strong", [_vm._v("Details: ")]),
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.mutatedTicket.details || "Not Set") +
+                      "\n                "
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c(
+                "th",
+                {
+                  staticStyle: { "font-weight": "normal" },
+                  attrs: { colspan: "4" }
+                },
+                [
+                  _c("strong", [_vm._v("Remarks: ")]),
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.mutatedTicket.additional_info || "Not Set") +
+                      "\n                "
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
           ]),
           _vm._v(" "),
-          _c("tr", [
-            _c(
-              "th",
-              {
-                staticStyle: { "font-weight": "normal" },
-                attrs: { colspan: "4" }
-              },
-              [
-                _c("strong", [_vm._v("Details: ")]),
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.mutatedTicket.details || "Not Set") +
-                    "\n                "
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c(
-              "th",
-              {
-                staticStyle: { "font-weight": "normal" },
-                attrs: { colspan: "4" }
-              },
-              [
-                _c("strong", [_vm._v("Remarks: ")]),
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.mutatedTicket.additional_info || "Not Set") +
-                    "\n                "
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _vm._m(0)
-        ]),
-        _vm._v(" "),
-        typeof _vm.activities != "undefined" && _vm.activities.length <= 0
-          ? _c("tbody", [_vm._m(1)])
-          : _c(
-              "tbody",
-              _vm._l(_vm.activities, function(activity) {
-                return _c("tr", { key: activity.id }, [
-                  _c("td", [_vm._v(_vm._s(activity.created_at))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(activity.details))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(activity.author_fullname))])
-                ])
-              })
-            )
-      ]
-    )
-  ])
+          typeof _vm.activities != "undefined" && _vm.activities.length <= 0
+            ? _c("tbody", [_vm._m(1)])
+            : _c(
+                "tbody",
+                _vm._l(_vm.activities, function(activity) {
+                  return _c("tr", { key: activity.id }, [
+                    _c("td", [_vm._v(_vm._s(activity.created_at))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(activity.details))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(activity.author_fullname))])
+                  ])
+                })
+              )
+        ]
+      ),
+      _vm._v(" "),
+      _c("Pagination", {
+        key: _vm.response.current_page,
+        attrs: {
+          "previous-page-url": _vm.response.prev_page_url,
+          count: _vm.response.last_page,
+          "base-url": _vm.response.path,
+          "current-page": _vm.response.current_page,
+          "next-page-url": _vm.response.next_page_url
+        },
+        on: { changePage: _vm.updateContentViaUrl }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -54410,6 +54462,215 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(71)
+/* template */
+var __vue_template__ = __webpack_require__(72)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\tables\\partials\\Pagination.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ac3fbe38", Component.options)
+  } else {
+    hotAPI.reload("data-v-ac3fbe38", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 71 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['previousPageUrl', 'nextPageUrl', 'count', 'currentPage', 'baseUrl'],
+
+    data: function data() {
+        return {
+            mutatedCountablePages: []
+        };
+    },
+    mounted: function mounted() {
+        for (var ctr = 0; ctr < this.count; ctr++) {
+            this.mutatedCountablePages.push(this.baseUrl + '?page=' + (ctr + 1));
+        }
+    },
+
+
+    methods: {
+        updateContent: function updateContent(url) {
+            this.$emit("changePage", url);
+        }
+    }
+});
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("nav", { attrs: { "aria-label": "Ticket Pagination" } }, [
+    _c(
+      "ul",
+      { staticClass: "pagination" },
+      [
+        _c(
+          "li",
+          { class: ["page-item", { disabled: _vm.previousPageUrl === null }] },
+          [
+            _c(
+              "span",
+              {
+                class: "page-link",
+                on: {
+                  click: function($event) {
+                    _vm.updateContent(_vm.previousPageUrl)
+                  }
+                }
+              },
+              [_vm._v("\n                Previous\n            ")]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _vm._l(_vm.mutatedCountablePages, function(page, id) {
+          return _c(
+            "li",
+            {
+              key: page,
+              class: [
+                "page-item",
+                { disabled: page === null || _vm.currentPage == id + 1 }
+              ]
+            },
+            [
+              _c(
+                "span",
+                {
+                  class: "page-link",
+                  on: {
+                    click: function($event) {
+                      _vm.updateContent(page)
+                    }
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                " + _vm._s(id + 1) + "\n            "
+                  )
+                ]
+              )
+            ]
+          )
+        }),
+        _vm._v(" "),
+        _c(
+          "li",
+          { class: ["page-item", { disabled: _vm.nextPageUrl === null }] },
+          [
+            _c(
+              "span",
+              {
+                class: "page-link",
+                on: {
+                  click: function($event) {
+                    _vm.updateContent(_vm.nextPageUrl)
+                  }
+                }
+              },
+              [_vm._v("\n                Next\n            ")]
+            )
+          ]
+        )
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ac3fbe38", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

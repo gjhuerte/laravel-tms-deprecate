@@ -22,7 +22,7 @@ class ActivityController extends Controller
             $activities->ticketId((int) $id);
         }
     
-        return datatables($activities->get())->toJson();
+        return response()->json($activities->orderBy('created_at', 'desc')->paginate(10));
     }
 
     /**
