@@ -176,6 +176,7 @@
                 Swal.fire({
                     title: 'Please wait',
                     showConfirmButton: false,
+                    allowOutsideClick: false,
                     onOpen: () => {
                     swal.showLoading();
                     }
