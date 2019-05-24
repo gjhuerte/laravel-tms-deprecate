@@ -130,12 +130,16 @@
             v-bind:base-url="response.path"
             v-bind:current-page="response.current_page"
             v-bind:next-page-url="response.next_page_url" />
+            
+        <Processing 
+            v-bind:key="processing" 
+            v-bind:is-processing="processing" />
     </div>
 </template>
 
 <script>
     import axios from "axios";
-    import Swal from "sweetalert2";
+    import Processing from '../../Processing';
     import Pagination from '../partials/Pagination';
 
     export default {
@@ -150,6 +154,7 @@
 
         components: {
             Pagination,
+            Processing,
         },
 
         data() {
@@ -157,48 +162,30 @@
                 activities: [],
                 response: [],
                 mutatedAjaxUrl: this.ajaxUrl,
+                processing: false,
                 mutatedTicket: typeof this.ticket !== 'undefined' ? JSON.parse(this.ticket) : []
             };
         },
 
         mounted() {
-            this.processing();
+            this.processing = true;
 
             this.fetchData();
         },
 
         methods: {
-            parseData(data) {
-                return JSON.parse(this.data);
-            },
-
-            processing() {
-                Swal.fire({
-                    title: 'Please wait',
-                    showConfirmButton: false,
-                    allowOutsideClick: false,
-                    onOpen: () => {
-                    swal.showLoading();
-                    }
-                });
-            },
-
-            processingStop() {
-                Swal.close();
-            },
-
             fetchData() {
                 axios.get(this.mutatedAjaxUrl)
                     .then(response => {
                         this.activities = [ ...response.data.data ];
                         this.response = response.data;
 
-                        this.processingStop();
+                        this.processing = false;
                     });
             },
 
             updateContentViaUrl(url) {
-                this.processing();
+                this.processing = true;
                 this.mutatedAjaxUrl = url;
                 this.fetchData();
             }

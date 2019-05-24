@@ -58,30 +58,26 @@
             </tbody>
         </table>
         
-        <nav aria-label="Ticket Pagination">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#">Previous</a>
-                </li>
-
-                <li 
-                    class="page-item" 
-                    v-bind:key="ticket.id"
-                    v-for="ticket in tickets">
-                    <a class="page-link" href="#">1</a>
-                </li>
-
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
+        <Pagination
+            @changePage="updateContentViaUrl"
+            v-bind:key="response.current_page"
+            v-bind:previous-page-url="response.prev_page_url"
+            v-bind:count="response.last_page"
+            v-bind:base-url="response.path"
+            v-bind:current-page="response.current_page"
+            v-bind:next-page-url="response.next_page_url" />
+            
+        <Processing 
+            v-bind:key="processing" 
+            v-bind:is-processing="processing" />
     </div>
 </template>
 
 <script>
     import axios from "axios";
     import Swal from "sweetalert2";
+    import Processing from '../../Processing';
+    import Pagination from '../partials/Pagination';
 
     export default {
         props: [
@@ -90,45 +86,49 @@
             'createUrl',
             'apiToken',
         ],
+
+        components: {
+            Pagination,
+            Processing,
+        },
+
         data() {
             return {
                 tickets: [],
+                processing: false,
+                response: [],
             };
         },
+
         mounted() {
+            this.processing = true;
 
-            this.processing();
-
-            axios.get(this.ajaxUrl)
-                .then(response => {
-                    let tickets = [ ...response.data.data ];
-                    let baseUrl = this.baseUrl;
-
-                    this.tickets = tickets.map(ticket => {
-                        ticket['viewUrl'] = `${baseUrl}/${ticket.id}`;
-
-                        return ticket;
-                    });
-
-                    this.processingStop();
-                });
+            this.fetchData();
         },
 
         methods: {
-            processing() {
-                Swal.fire({
-                    title: 'Please wait',
-                    showConfirmButton: false,
-                    allowOutsideClick: false,
-                    onOpen: () => {
-                    swal.showLoading();
-                    }
-                });
+            fetchData() {
+                axios.get(this.ajaxUrl)
+                    .then(response => {
+                        let tickets = [ ...response.data.data ];
+                        let baseUrl = this.baseUrl;
+
+                        this.response = response.data;
+                        this.tickets = tickets.map(ticket => {
+                            ticket['viewUrl'] = `${baseUrl}/${ticket.id}`;
+
+                            return ticket;
+                        });
+
+                        this.processing = false;
+                    });
             },
 
-            processingStop() {
-                Swal.close();
-            },
+            updateContentViaUrl(url) {
+                this.processing = true;
+                this.mutatedAjaxUrl = url;
+                this.fetchData();
+            }
         },
     }
 </script>
