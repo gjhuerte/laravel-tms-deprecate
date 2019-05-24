@@ -88,6 +88,6 @@ class Activity extends Model
             return $query->whereIn('ticket_id', $id);
         }
 
-        return $query->where('ticket_id', (int) $id);
+        return $query->where('ticket_id', '=', (int) $id);
     }
 }

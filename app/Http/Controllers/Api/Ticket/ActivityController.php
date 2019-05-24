@@ -19,7 +19,7 @@ class ActivityController extends Controller
     {
         $activities->with(['author']);
         if(isset($id)) { 
-            $activities->ticketId((int) $id);
+            $activities = $activities->ticketId((int) $id);
         }
     
         return response()->json($activities->orderBy('created_at', 'desc')->paginate(10));
