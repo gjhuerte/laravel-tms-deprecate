@@ -1,6 +1,6 @@
 <template>
     <nav aria-label="Ticket Pagination">
-        <ul class="pagination">
+        <ul v-bind:class="['pagination', { 'd-none': isReady }]">
             <li v-bind:class="['page-item', { disabled: previousPageUrl === null }]">
                 <span 
                     v-bind:class="'page-link'"
@@ -43,11 +43,16 @@
 
         data() {
             return {
+                isReady: true,
                 mutatedCountablePages: [],
             };
         },
 
         mounted () {
+            this.isReady = this.previousPageUrl == null && 
+                            this.nextPageUrl == null && 
+                            typeof this.baseUrl == 'undefined';
+
             for (let ctr = 0; ctr < this.count; ctr++) {
                 this.mutatedCountablePages.push(`${this.baseUrl}?page=${ctr + 1}`);
             }
