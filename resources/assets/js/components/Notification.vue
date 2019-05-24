@@ -1,3 +1,47 @@
+<template />
+
+<script>
+    import Swal from 'sweetalert2';
+
+    export default {
+        props: {
+            'type',
+            'message',
+            'title' || null,
+            'callback' || () => {},
+        },
+
+        mounted: {
+            switch(this.type) {
+                case 'success': 
+                    Swal(this.title || 'Operation Success', this.message, this.type);
+                    break;
+                case 'error': 
+                    Swal(this.title || 'Operation Unsuccessful', this.message, this.type);
+                    break;
+                case 'cancelled': 
+                    Swal(this.title || 'Operation Cancelled', this.message, 'warning');
+                    break;
+                case 'alert':
+                    Swal({
+                        title: this.title,
+                        text: this.message,
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!',
+                        showLoaderOnConfirm: true,
+                    }).then(result => this.callback(result));
+                    
+                    break;
+                default:
+                    break;
+            }
+        },
+    }
+</script>
+
 <script>
      // This script is for the notification on the application
     // This will help notify the user whatever the application wants
