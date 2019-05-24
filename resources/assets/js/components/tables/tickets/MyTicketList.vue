@@ -26,7 +26,9 @@
                 <td></td>
             </thead>
 
-            <tbody v-if="tickets.length > 0">
+            <tbody-alt
+                v-bind:data="tickets"
+                v-bind:columns="'6'">
                 <tr 
                     v-bind:key="ticket.id"
                     v-for="ticket in tickets">
@@ -45,17 +47,7 @@
                         </a>
                     </td>
                 </tr>
-            </tbody>
-
-            <tbody v-else>
-                <tr>
-                    <td 
-                        class="text-muted text-center" 
-                        colspan="6">
-                        No data to display
-                    </td>
-                </tr>
-            </tbody>
+            </tbody-alt>
         </table>
         
         <Pagination
@@ -76,6 +68,7 @@
 <script>
     import axios from "axios";
     import Swal from "sweetalert2";
+    import TableBody from '../partials/TableBody';
     import Processing from '../../Processing';
     import Pagination from '../partials/Pagination';
 
@@ -90,6 +83,7 @@
         components: {
             Pagination,
             Processing,
+            'tbody-alt': TableBody,
         },
 
         data() {

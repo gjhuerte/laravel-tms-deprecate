@@ -38,7 +38,7 @@
                     v-bind:href="this.reopenTicketUrl">
                     <i class="fas fa-door-reopenTicketUrl"></i>
 
-                    Close Ticket
+                    Reopen Ticket
                 </a>
             </div>
         </div>
@@ -100,18 +100,9 @@
                 </tr>
             </thead>
 
-            <tbody
-                v-if="typeof activities != 'undefined' && activities.length <= 0">
-                <tr>
-                    <td 
-                        class="text-muted text-center" 
-                        colspan="3">
-                        No data to display
-                    </td>
-                </tr>
-            </tbody>
-
-            <tbody v-else>
+            <tbody-alt
+                v-bind:data="activities"
+                v-bind:columns="'3'">
                 <tr
                     v-bind:key="activity.id"
                     v-for="activity in activities">
@@ -119,7 +110,7 @@
                     <td>{{  activity.details }}</td>
                     <td>{{  activity.author_fullname }}</td>
                 </tr>
-            </tbody>
+            </tbody-alt>
         </table>
         
         <Pagination
@@ -140,6 +131,7 @@
 <script>
     import axios from "axios";
     import Processing from '../../Processing';
+    import TableBody from '../partials/TableBody';
     import Pagination from '../partials/Pagination';
 
     export default {
@@ -155,6 +147,7 @@
         components: {
             Pagination,
             Processing,
+            'tbody-alt': TableBody,
         },
 
         data() {
