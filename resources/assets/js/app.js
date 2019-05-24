@@ -18,6 +18,7 @@ window.swal = require('sweetalert2');
 
 Vue.component('single-ticket-table', require('./components/tables/tickets/SingleTicket.vue'));
 Vue.component('ticket-list-table', require('./components/tables/tickets/MyTicketList.vue'));
+Vue.component('textarea-wysiwyg', require('./components/Textarea.vue'));
 
 Vue.component(
     'passport-clients',
@@ -33,6 +34,7 @@ Vue.component(
     'passport-personal-access-tokens',
     require('./components/passport/PersonalAccessTokens.vue').default
 );
+
 
 const app = new Vue({
     el: '#app'
