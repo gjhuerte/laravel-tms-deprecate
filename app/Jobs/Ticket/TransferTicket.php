@@ -73,7 +73,7 @@ class TransferTicket implements ShouldQueue
      */
     private function updateTicketStatusToTransfer($ticket)
     {
-        $ticket->update([ 
+        $ticket->update([
             'status' => $ticket::TRANSFERRED,
             'date_assigned' => Carbon::now(),
             'assigned_to' => $this->request['transfer_to'],

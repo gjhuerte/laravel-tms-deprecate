@@ -19,9 +19,9 @@ class Activity extends Model
      * @var array
      */
     public $fillable = [
-        'title', 
-        'details', 
-        'ticket_id', 
+        'title',
+        'details',
+        'ticket_id',
         'author_id',
     ];
 
@@ -84,7 +84,7 @@ class Activity extends Model
      */
     public function scopeTicketId($query, $id)
     {
-        if(is_array($id)) {
+        if (is_array($id)) {
             return $query->whereIn('ticket_id', $id);
         }
 

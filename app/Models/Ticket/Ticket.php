@@ -42,16 +42,16 @@ class Ticket extends Model
      */
     public $fillable = [
         'code',
-        'title', 
-        'details', 
-        'alt_contact', 
-        'additional_info', 
-        'assigned_to', 
+        'title',
+        'details',
+        'alt_contact',
+        'additional_info',
+        'assigned_to',
         'created_by',
-        'author_id', 
-        'parent_id', 
-        'date_assigend', 
-        'level_id', 
+        'author_id',
+        'parent_id',
+        'date_assigend',
+        'level_id',
         'status',
     ];
 
@@ -62,7 +62,7 @@ class Ticket extends Model
      */
     protected $appends = [
         'assigned_personnel',
-        'author_name'   
+        'author_name'
     ];
 
     /**
@@ -163,5 +163,4 @@ class Ticket extends Model
             Carbon::now()->endOfMonth(),
         ]);
     }
-
 }

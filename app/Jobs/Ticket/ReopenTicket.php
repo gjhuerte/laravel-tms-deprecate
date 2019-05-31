@@ -76,8 +76,8 @@ class ReopenTicket implements ShouldQueue
      */
     private function updateTicketStatusToReopen($ticket)
     {
-        $ticket->update([ 
-            'status' => $ticket::REOPENED 
+        $ticket->update([
+            'status' => $ticket::REOPENED
         ]);
     }
 

@@ -34,7 +34,7 @@ class AssignTicket implements ShouldQueue
     public function handle()
     {
         $ticket = Ticket::findOrFail($id);
-        $ticket->update([ 
+        $ticket->update([
             'status' => Ticket::assignedStatus(),
             'date_assigned' => Carbon::now(),
             'assigned_to' => $this->ticket['assigned_personnel'],

@@ -90,7 +90,7 @@ class InitializeTicket implements ShouldQueue
 
     /**
      * Create an activity for the initialized ticket
-     * 
+     *
      * @return void
      */
     public function createActivity()

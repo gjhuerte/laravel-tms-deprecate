@@ -15,12 +15,12 @@ class Organization extends Model
 
     /**
      * Fillable columns when using eloquent query
-     * 
+     *
      * @var array
      */
     public $fillable = [
-        'name', 
-        'abbreviation', 
+        'name',
+        'abbreviation',
         'parent_id'
     ];
 

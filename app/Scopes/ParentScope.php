@@ -11,7 +11,7 @@ trait ParentScope
      * @param  $query
      * @return void
      */
-    public function scopeRootOnly($query) 
+    public function scopeRootOnly($query)
     {
         return $query->whereNull('parent_id');
     }

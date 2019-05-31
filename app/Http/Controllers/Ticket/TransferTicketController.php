@@ -21,7 +21,7 @@ class TransferTicketController extends Controller
         $ticket = Ticket::findOrFail($id);
         $users = User::all();
 
-        return view('ticket.transfer', compact('ticket' ,'users'));
+        return view('ticket.transfer', compact('ticket', 'users'));
     }
 
     /**

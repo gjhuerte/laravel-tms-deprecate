@@ -67,7 +67,7 @@ class ResolveTicket implements ShouldQueue
             'author_id' => Auth::user()->id,
         ], $this->id));
 
-        if($isResolved) {
+        if ($isResolved) {
             $this->updateTicketStatusToResolved($ticket);
         }
     }
@@ -80,8 +80,8 @@ class ResolveTicket implements ShouldQueue
      */
     private function updateTicketStatusToResolved($ticket)
     {
-        $ticket->update([ 
-            'status' => $ticket::RESOLVED 
+        $ticket->update([
+            'status' => $ticket::RESOLVED
         ]);
     }
 

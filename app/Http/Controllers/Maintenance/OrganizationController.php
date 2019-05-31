@@ -31,7 +31,7 @@ class OrganizationController extends Controller
     public function create(Request $request)
     {
         $parent = null;
-        if($request->has('parent_id')) {
+        if ($request->has('parent_id')) {
             $parent = Organization::findOrFail((int) $request->parent_id);
         }
 
@@ -74,7 +74,7 @@ class OrganizationController extends Controller
     {
         $organization = Organization::findOrFail((int) $id);
         $parent = null;
-        if($request->has('parent_id')) {
+        if ($request->has('parent_id')) {
             $parent = Organization::findOrFail((int) $request->parent_id);
 
             return view('maintenance.organization.create');

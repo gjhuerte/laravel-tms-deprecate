@@ -76,8 +76,8 @@ class CloseTicket implements ShouldQueue
      */
     private function updateTicketStatusToClosed($ticket)
     {
-        $ticket->update([ 
-            'status' => $ticket::CLOSED 
+        $ticket->update([
+            'status' => $ticket::CLOSED
         ]);
     }
 

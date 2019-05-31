@@ -38,9 +38,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $appends = [
-        'full_name', 
-        'organization_name', 
-        'first_and_last_name', 
+        'full_name',
+        'organization_name',
+        'first_and_last_name',
         'api_token',
     ];
 
@@ -55,7 +55,7 @@ class User extends Authenticatable
 
     /**
      * Fetch the api token used for the app
-     * 
+     *
      * @return string
      */
     public function getApiTokenAttribute()

@@ -65,7 +65,7 @@ class CreateTag implements ShouldQueue
     public function createTags()
     {
         $tags = [];
-        foreach($this->tags as $tag) {
+        foreach ($this->tags as $tag) {
             $this->tagsModel[] = Tag::firstOrCreate(['name' => $tag]);
         }
 
@@ -79,7 +79,7 @@ class CreateTag implements ShouldQueue
      */
     public function assignTagsToTicket()
     {
-        if(isset($this->ticket)) { 
+        if (isset($this->ticket)) {
             $this->ticket
                 ->tags()
                 ->saveMany($this->tagsModel);
