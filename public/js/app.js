@@ -52751,6 +52751,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -52780,7 +52782,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "form-group" }, [
     _c("label", { attrs: { for: _vm.elementId } }, [
-      _vm._v(_vm._s(_vm.elementLabel))
+      _vm._v("\n        " + _vm._s(_vm.elementLabel) + "\n    ")
     ]),
     _vm._v(" "),
     _c(

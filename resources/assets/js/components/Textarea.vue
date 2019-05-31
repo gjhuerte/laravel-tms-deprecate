@@ -1,6 +1,8 @@
 <template>
     <div class="form-group">
-        <label v-bind:for="elementId">{{ elementLabel }}</label>
+        <label v-bind:for="elementId">
+            {{ elementLabel }}
+        </label>
 
         <textarea
             v-bind:name="elementName"
