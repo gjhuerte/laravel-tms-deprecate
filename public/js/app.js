@@ -52644,7 +52644,7 @@ var render = function() {
               attrs: { id: "close-button", href: this.reopenTicketUrl }
             },
             [
-              _c("i", { staticClass: "fas fa-door-reopenTicketUrl" }),
+              _c("i", { staticClass: "fas fa-door-open" }),
               _vm._v("\n\n                Reopen Ticket\n            ")
             ]
           )
@@ -53113,7 +53113,7 @@ var render = function() {
                       attrs: { href: ticket.viewUrl }
                     },
                     [
-                      _c("i", { staticClass: "fas fa-folder-open-o" }),
+                      _c("i", { staticClass: "fas fa-folder-open" }),
                       _vm._v(" "),
                       _c("span", [_vm._v("View")])
                     ]

@@ -36,7 +36,7 @@
                     id="close-button"
                     class="btn btn-secondary mr-1 text-light btn-sm"
                     v-bind:href="this.reopenTicketUrl">
-                    <i class="fas fa-door-reopenTicketUrl"></i>
+                    <i class="fas fa-door-open"></i>
 
                     Reopen Ticket
                 </a>

@@ -41,7 +41,7 @@
                         <a
                             v-bind:href="ticket.viewUrl"
                             class="btn btn-outline-secondary">
-                            <i class="fas fa-folder-open-o"></i>
+                            <i class="fas fa-folder-open"></i>
 
                             <span>View</span>
                         </a>
