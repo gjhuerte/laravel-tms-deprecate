@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Category;
 use Illuminate\Http\Request;
 use App\Models\Ticket\Category;
 use App\Http\Controllers\Controller;
-use App\Jobs\Category\RemoveCategory;
+use App\Services\Maintenance\Ticket\CategoryService;
 
 class CategoryController extends Controller
 {
@@ -14,7 +14,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $categories = Category::all();
 
@@ -27,14 +27,14 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, CategoryService $service, $id)
     {
-        RemoveCategory::dispatch($id);
+        $service->remove($id);
 
         return response()->json([
             'status' => 'success',
-            'title' => session()->pull('notification.title'),
-            'message' => session()->pull('notification.message'),
+            'title' => 'Operation Success',
+            'message' => 'Category has been removed',
         ], 200);
     }
 }
