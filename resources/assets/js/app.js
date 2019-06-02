@@ -21,6 +21,7 @@ Vue.component('ticket-list-table', require('./components/tables/tickets/MyTicket
 Vue.component('button-loading', require('./components/buttons/Processing.vue'));
 Vue.component('textarea-wysiwyg', require('./components/Textarea.vue'));
 Vue.component('table-ajax', require('./components/tables/BaseTemplate.vue'));
+Vue.component('button-confirmation', require('./components/buttons/Confirmation.vue'));
 
 Vue.component(
     'passport-clients',

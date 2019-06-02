@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Api\Level;
 
-use Illuminate\Http\Request;
 use App\Models\Ticket\Level;
-use App\Jobs\Level\RemoveLevel;
 use App\Http\Controllers\Controller;
+use App\Services\Maintenance\Ticket\LevelService;
 
 class LevelController extends Controller
 {
@@ -16,11 +15,9 @@ class LevelController extends Controller
      */
     public function index()
     {
-        $levels = Level::all();
+        $levels = Level::paginate(10);
 
-        return response()->json([
-            'data' => $levels
-        ]);
+        return response()->json($levels);
     }
 
     /**
@@ -29,14 +26,14 @@ class LevelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(LevelService $service, $id)
     {
-        RemoveLevel::dispatch($id);
+        $service->remove($id);
 
         return response()->json([
             'status' => 'success',
-            'title' => session()->pull('notification.title'),
-            'message' => session()->pull('notification.message'),
+            'title' => 'Success',
+            'message' => 'Level has been removed successfully',
         ], 200);
     }
 }

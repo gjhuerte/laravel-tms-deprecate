@@ -5,7 +5,7 @@
         v-bind:type="this.elementType" 
         v-bind:name="this.elementName" 
         v-bind:disabled="this.mutatedIsLoading"
-        @click="this.toggleLoading">
+        @click="onClickFunction">
 
         <div v-if="this.mutatedIsLoading">
             <span 
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+
     export default {
         props: [
             'elementClass',
@@ -31,12 +32,17 @@
             'elementIsLoading',
             'loadingText',
             'defaultText',
+            'onClickHandler',
         ],
 
         data () {
+            var defaultCallback = () => {};
+
             return {
                 mutatedIsLoading: typeof this.elementIsLoading !== 'undefined' && typeof this.elementIsLoading !== null,
                 mutatedLoadingText: this.loadingText || 'Loading',
+                hasCustomOnClickHandler: typeof onClickHandler !== 'undefined',
+                mutatedOnClickHandler: this.onClickHandler || defaultCallback,
             }
         },
 
@@ -46,8 +52,25 @@
 
         methods: {
             toggleLoading () {
-                this.mutatedIsLoading = ! this.mutatedIsLoading.length > 0;
+                this.mutatedIsLoading = ! this.mutatedIsLoading;
             },
+
+            onClickFunction() {
+                let $this = this;
+                
+                var promise = new Promise(function (resolve, reject) {
+                    $this.toggleLoading();
+                    resolve($this.mutatedOnClickHandler);
+                });
+
+                promise.then((callback) => {
+                    callback($this);
+
+                    if($this.hasCustomOnClickHandler) {
+                        $this.toggleLoading();
+                    }
+                });
+            }
         },
     }
 </script>

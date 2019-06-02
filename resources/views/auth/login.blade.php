@@ -53,7 +53,6 @@
 				<div class="form-group">
 					<button-loading
 						element-type="submit"
-						element-type="button"
 						element-id="submit-button"
 						element-class="btn btn-primary btn-block"
 						default-text="Submit">

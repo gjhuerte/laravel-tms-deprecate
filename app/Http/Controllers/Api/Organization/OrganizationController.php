@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Organization;
 use Illuminate\Http\Request;
 use App\Models\User\Organization;
 use App\Http\Controllers\Controller;
-use App\Jobs\Organization\RemoveOrganization;
+use App\Services\Maintenance\OrganizationService;
 
 class OrganizationController extends Controller
 {
@@ -32,14 +32,14 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(OrganizationService $service, $id)
     {
-        RemoveOrganization::dispatch($id);
+        $service->remove($id);
 
         return response()->json([
             'status' => 'success',
-            'title' => session()->pull('notification.title'),
-            'message' => session()->pull('notification.message'),
+            'title' => 'Success',
+            'message' => 'Organization has been removed successfully',
         ], 200);
     }
 }
