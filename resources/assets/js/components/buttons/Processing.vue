@@ -46,9 +46,9 @@
             }
         },
 
-        mounted() {
+        // mounted() {
             // this.toggleLoading();
-        },
+        // },
 
         methods: {
             toggleLoading () {
@@ -65,10 +65,6 @@
 
                 promise.then((callback) => {
                     callback($this);
-
-                    if($this.hasCustomOnClickHandler) {
-                        $this.toggleLoading();
-                    }
                 });
             }
         },

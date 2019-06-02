@@ -53268,10 +53268,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             mutatedOnClickHandler: this.onClickHandler || defaultCallback
         };
     },
-    mounted: function mounted() {
-        // this.toggleLoading();
-    },
 
+
+    // mounted() {
+    // this.toggleLoading();
+    // },
 
     methods: {
         toggleLoading: function toggleLoading() {
@@ -53287,10 +53288,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             promise.then(function (callback) {
                 callback($this);
-
-                if ($this.hasCustomOnClickHandler) {
-                    $this.toggleLoading();
-                }
             });
         }
     }
@@ -55976,7 +55973,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            showConfirmationModal: false
+            showConfirmationModal: false,
+            buttonComponent: null
         };
     },
 
@@ -55989,9 +55987,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         onClick: function onClick(component) {
             this.showConfirmationModal = true;
-            component.toggleLoading();
+            this.buttonComponent = component;
         },
-        processConfirmation: function processConfirmation() {
+        processConfirmation: function processConfirmation(results) {
+            if (results.value) {}
+
+            this.buttonComponent.toggleLoading();
             this.showConfirmationModal = false;
         }
     }
@@ -56109,13 +56110,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['type', 'message', 'title' || null, 'callback', 'customClosingHandler'],
+    props: ['type', 'message', 'title' || null, 'callback', 'customClosingHandler', 'confirmationButtonText'],
 
     data: function data() {
         var defaultCallback = function defaultCallback() {};
 
         return {
             mutatedCallback: this.callback || defaultCallback,
+            mutatedConfirmationButtonText: this.confirmationButtonText || 'Yes, delete it!',
             mutatedCustomClosingHandler: this.customClosingHandler || defaultCallback
         };
     },
@@ -56140,7 +56142,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!',
+                    confirmButtonText: $this.mutatedConfirmationButtonText,
                     showLoaderOnConfirm: true,
                     onClose: $this.mutatedCustomClosingHandler()
                 }).then(function (result) {

@@ -37,6 +37,7 @@
         data () {
             return {
                 showConfirmationModal: false,
+                buttonComponent: null,
             };
         },
 
@@ -48,10 +49,15 @@
         methods: {
             onClick (component) {
                 this.showConfirmationModal = true;
-                component.toggleLoading();
+                this.buttonComponent = component;
             },
 
-            processConfirmation () {
+            processConfirmation (results) {
+                if(results.value) {
+
+                }
+                
+                this.buttonComponent.toggleLoading();
                 this.showConfirmationModal = false;
             },
         },

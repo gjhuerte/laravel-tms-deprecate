@@ -10,6 +10,7 @@
             'title' || null,
             'callback',
             'customClosingHandler',
+            'confirmationButtonText',
         ],
 
         data () {
@@ -17,6 +18,7 @@
 
             return {
                 mutatedCallback: this.callback || defaultCallback,
+                mutatedConfirmationButtonText: this.confirmationButtonText || 'Yes, delete it!',
                 mutatedCustomClosingHandler: this.customClosingHandler || defaultCallback,
             };
         },
@@ -42,7 +44,7 @@
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!',
+                        confirmButtonText: $this.mutatedConfirmationButtonText,
                         showLoaderOnConfirm: true,
                         onClose: $this.mutatedCustomClosingHandler(),
                     }).then(result => {
