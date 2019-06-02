@@ -1,8 +1,8 @@
 
 // Fonts
+@import "node_modules/font-awesome/scss/font-awesome.scss";
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,400,500');
 @import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600');
-@import url('https://use.fontawesome.com/releases/v5.2.0/css/all.css');
 
 // Variables
 @import "variables";
@@ -10,4 +10,3 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import '~sweetalert2/src/sweetalert2';
-@import '~datatables.net-bs4/css/dataTables.bootstrap4.css';
