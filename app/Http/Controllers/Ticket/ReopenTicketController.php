@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Ticket;
 
 use Illuminate\Http\Request;
-use App\Models\Ticket\Ticket;
-use App\Jobs\ticket\ReopenTicket;
+use App\Services\TicketService;
 use App\Http\Controllers\Controller;
+use App\Services\Ticket\TicketActionService;
 use App\Http\Requests\TicketRequest\TicketReopenRequest;
 
 class ReopenTicketController extends Controller
@@ -15,9 +15,9 @@ class ReopenTicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $id)
+    public function create(Request $request, TicketService $service, $id)
     {
-        $ticket = Ticket::findOrFail($id);
+        $ticket = $service->find($id);
 
         return view('ticket.reopen', compact('ticket'));
     }
@@ -29,9 +29,9 @@ class ReopenTicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function store(TicketReopenRequest $request, $id)
+    public function store(TicketReopenRequest $request, TicketActionService $service, $id)
     {
-        $this->dispatch(new ReopenTicket($request->all(), $id));
+        $service->reopen($request->all(), $id);
         
         return redirect()->route('ticket.show', $id);
     }

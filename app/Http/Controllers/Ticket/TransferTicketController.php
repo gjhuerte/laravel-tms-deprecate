@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Ticket;
 
 use App\Models\User\User;
 use Illuminate\Http\Request;
-use App\Models\Ticket\Ticket;
-use App\Jobs\Ticket\TransferTicket;
+use App\Services\TicketService;
 use App\Http\Controllers\Controller;
+use App\Services\Ticket\TicketActionService;
 use App\Http\Requests\TicketRequest\TicketTransferRequest;
 
 class TransferTicketController extends Controller
@@ -16,9 +16,9 @@ class TransferTicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $id)
+    public function create(Request $request, TicketService $service, $id)
     {
-        $ticket = Ticket::findOrFail($id);
+        $ticket = $service->find($id);
         $users = User::all();
 
         return view('ticket.transfer', compact('ticket', 'users'));
@@ -31,9 +31,9 @@ class TransferTicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function store(TicketTransferRequest $request, $id)
+    public function store(TicketTransferRequest $request, TicketActionService $service, $id)
     {
-        $this->dispatch(new TransferTicket($request->all(), $id));
+        $service->transfer($request->all(), $id);
 
         return redirect()->route('ticket.show', $id);
     }

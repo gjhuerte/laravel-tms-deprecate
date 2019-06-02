@@ -4,11 +4,19 @@ namespace App\Services;
 
 use App\Services\BaseService;
 use App\Models\Ticket\Ticket;
+use Illuminate\Support\Facades\DB;
 use App\Services\Ticket\TagService;
 use App\Services\Ticket\ActivityService;
 
 class TicketService extends BaseService
 {
+    /**
+     * Ticket information
+     *
+     * @var mixed
+     */
+    private $ticket;
+
     /**
      * Ticket tag model
      *
@@ -40,6 +48,8 @@ class TicketService extends BaseService
      */
     public function create($attributes)
     {
+        DB::beginTransaction();
+
         $ticket = Ticket::create($attributes['ticket']);
         $this->activityService
             ->create(
@@ -55,6 +65,8 @@ class TicketService extends BaseService
                 );
         }
 
+        DB::commit();
+
         return $ticket;
     }
 
@@ -66,9 +78,11 @@ class TicketService extends BaseService
      */
     public function find($id)
     {
-        $ticket = Ticket::find((integer) $id);
+        if(! isset($this->ticket)) {
+            $this->ticket = Ticket::find((integer) $id);
+        }
 
-        return $ticket;
+        return $this->ticket;
     }
 
     /**
@@ -80,14 +94,20 @@ class TicketService extends BaseService
      */
     public function update($attributes, $ticketId)
     {
+        DB::beginTransaction();
+
         $ticket = $this->find((integer) $ticketId);
-        $ticket->update($attributes);
+        if(isset($attributes) && count($attributes) > 0) { 
+            $ticket->update($attributes);
+        }
         
         $this->activityService
             ->create(
                 $attributes['activity'], 
                 $ticket
             );
+
+        DB::commit();
 
         return $ticket;
     }

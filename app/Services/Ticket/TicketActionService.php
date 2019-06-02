@@ -2,6 +2,7 @@
 
 namespace App\Services\Ticket;
 
+use Carbon\Carbon;
 use App\Models\Ticket\Ticket;
 use App\Services\BaseService;
 use App\Services\TicketService;
@@ -62,6 +63,43 @@ class TicketActionService extends BaseService
     }
 
     /**
+     * Update ticket
+     *
+     * @param array $attributes
+     * @param integer $ticketId
+     * @return mixed
+     */
+    public function update($attributes, $ticketId)
+    {
+        $ticket = $this->ticket;
+        $details = $attributes['details'];
+        $title = $attributes['title'] ?? null;
+        $details = $attributes['details'] ?? null;
+        $contact = $attributes['contact'] ?? null;
+        $notes = $attributes['notes'] ?? null;
+        $levelId = $attributes['level'] ?? null;
+        $authorId = Auth::id();
+        $author = Auth::user();
+        $date = Carbon::now()->toFormattedDateTimeString();
+        $args = [
+            'title' => $title,
+            'details' => $details,
+            'alt_contact' => $contact,
+            'additional_info' => $notes,
+            'level_id' => $levelId,
+            'activity' => [
+                'title' => 'Ticket Updated',
+                'details' => "Ticket information updated by {$author->full_name} on {$date}",
+                'author_id' => $authorId,
+            ]
+        ];
+
+        $this->ticketService->update($args, $ticketId);
+
+        return;
+    }
+
+    /**
      * Resolve the ticket
      *
      * @param array $attributes
@@ -70,34 +108,16 @@ class TicketActionService extends BaseService
      */
     public function resolve($attributes, $ticketId)
     {
-        $this->ticket = $ticket = Ticket::findOrFail((int) $this->id);
-        $isResolved = $attributes['is_resolved'] ?? null;
-        $title = $attributes['title'];
-        $details = $attributes['details'];
-        $authorId = Auth::id();
         $ticket = $this->ticket;
-        $ticketId = $ticketId;
         $title = $attributes['title'] ?? null;
         $details = $attributes['details'] ?? null;
-        $contact = $attributes['contact'] ?? null;
-        $notes = $attributes['notes'] ?? null;
-        $levelId = $attributes['level'] ?? null;
-        $code = $ticket->generateCode();
+        $isResolved = $attributes['is_resolved'] ?? null;
+        $authorId = Auth::id();
         $status = $ticket::RESOLVED;
-        $activityTitle = $attributes['activity']['title'];
-        $activityDetails = $attributes['activity']['details'];
         $args = [
-            'title' => $title,
-            'details' => $details,
-            'alt_contact' => $contact,
-            'additional_info' => $notes,
-            'level_id' => $levelId,
-            'code' => $code,
-            'created_by' => $authorId,
-            'author_id' => $authorId,
             'activity' => [
-                'title' => $activityTitle,
-                'details' => $activityDetails,
+                'title' => $title,
+                'details' => $details,
                 'author_id' => $authorId,
             ]
         ];
@@ -111,43 +131,202 @@ class TicketActionService extends BaseService
         return;
     }
 
-    public function approve()
+    /**
+     * Verify ticket before approval
+     * 
+     * @param array $attributes
+     * @return mixed
+     */
+    public function verify($attributes, $ticketId)
     {
+        $ticket = $this->ticket;
+        $details = $attributes['details'];
+        $authorId = Auth::id();
+        $status = $ticket->verifiedStatus();
+        $args = [
+            'status' => $status,
+            'activity' => [
+                'title' => 'Verified',
+                'details' => $details,
+                'author_id' => $authorId,
+            ]
+        ];
 
+        $this->ticketService->update($args, $ticketId);
+
+        return;
     }
 
-    public function enqueue()
+    /**
+     * Approve ticket
+     *
+     * @param array $attributes
+     * @param integer $ticketId
+     * @return mixed
+     */
+    public function approve($attributes, $ticketId)
     {
+        $ticket = $this->ticket;
+        $details = $attributes['details'];
+        $authorId = Auth::id();
+        $status = $ticket->approvedStatus();
+        $args = [
+            'status' => $status,
+            'activity' => [
+                'title' => 'Approved',
+                'details' => $details,
+                'author_id' => $authorId,
+            ]
+        ];
 
+        $this->ticketService->update($args, $ticketId);
+
+        return;
     }
 
-    public function reopen()
+    /**
+     * Enqueue ticket for staff usage
+     *
+     * @param array $attributes
+     * @param integer $ticketId
+     * @return mixed
+     */
+    public function enqueue($attributes, $ticketId)
     {
+        $ticket = $this->ticket;
+        $authorId = Auth::id();
+        $status = $ticket->enqueuedStatus();
+        $args = [
+            'status' => $status,
+            'activity' => [
+                'title' => 'Ticket Enqueued',
+                'details' => 'Action may now be applied to this ticket',
+                'author_id' => $authorId,
+            ]
+        ];
 
+        $this->ticketService->update($args, $ticketId);
+
+        return;
     }
 
-    public function assign()
+    /**
+     * Assign a personnel to the ticket
+     *
+     * @param array $attributes
+     * @param integer $ticketId
+     * @return mixed
+     */
+    public function assign($attributes, $ticketId)
     {
+        $ticket = $this->ticketService->find($ticketId);
+        $assignedPersonnel = $attributes['assigned_personnel'];
+        $authorId = Auth::id();
+        $author = Auth::user();
+        $status = $ticket::assignedStatus();
+        $currentDate = Carbon::now();
+        $args = [
+            'status' => $status,
+            'date_assigned' => $currentDate,
+            'assigned_to' => $assignedPersonnel,
+            'activity' => [
+                'title' => "Ticket assigned by {$author->full_name}",
+                'details' => "The ticket has been assigned to a personnel",
+                'author_id' => $authorId,
+            ]
+        ];
 
+        $this->ticketService->update($args, $ticketId);
+
+        return;
     }
 
-    public function transfer()
+    /**
+     * Transfer ticket to another personnel
+     *
+     * @param array $attributes
+     * @param integer $ticketId
+     * @return mixed
+     */
+    public function transfer($attributes, $ticketId)
     {
+        $ticket = $this->ticketService->find($ticketId);
+        $assignedPersonnel = $attributes['transfer_to'];
+        $authorId = Auth::id();
+        $title = $attributes['title'];
+        $details = $attributes['reason'];
+        $status = $ticket::TRANSFERRED;
+        $currentDate = Carbon::now();
+        $args = [
+            'status' => $status,
+            'date_assigned' => $currentDate,
+            'assigned_to' => $assignedPersonnel,
+            'activity' => [
+                'title' => $title,
+                'details' => $details,
+                'author_id' => $authorId,
+            ]
+        ];
 
+        $this->ticketService->update($args, $ticketId);
+
+        return;
     }
 
-    public function update()
+    /**
+     * Close the ticket
+     *
+     * @param array $attributes
+     * @param integer $ticketId
+     * @return mixed
+     */
+    public function close($attributes, $ticketId)
     {
 
+        $ticket = $this->ticket;
+        $title = $attributes['title'];
+        $details = $attributes['details'];
+        $authorId = Auth::id();
+        $status = $ticket::CLOSED;
+        $args = [
+            'status' => $status,
+            'activity' => [
+                'title' => $title,
+                'details' => $details,
+                'author_id' => $authorId,
+            ]
+        ];
+
+        $this->ticketService->update($args, $ticketId);
+
+        return;
     }
 
-    public function verify()
+    /**
+     * Reopen ticket
+     *
+     * @param array $attributes
+     * @param integer $ticketId
+     * @return mixed
+     */
+    public function reopen($attributes, $ticketId)
     {
+        $ticket = $this->ticket;
+        $title = $attributes['title'];
+        $details = $attributes['details'];
+        $authorId = Auth::id();
+        $status = $ticket::REOPENED;
+        $args = [
+            'status' => $status,
+            'activity' => [
+                'title' => $title,
+                'details' => $details,
+                'author_id' => $authorId,
+            ]
+        ];
 
-    }
+        $this->ticketService->update($args, $ticketId);
 
-    public function close()
-    {
-
+        return;
     }
 }
