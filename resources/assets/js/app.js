@@ -20,6 +20,7 @@ Vue.component('single-ticket-table', require('./components/tables/tickets/Single
 Vue.component('ticket-list-table', require('./components/tables/tickets/MyTicketList.vue'));
 Vue.component('button-loading', require('./components/buttons/Processing.vue'));
 Vue.component('textarea-wysiwyg', require('./components/Textarea.vue'));
+Vue.component('table-ajax', require('./components/tables/BaseTemplate.vue'));
 
 Vue.component(
     'passport-clients',

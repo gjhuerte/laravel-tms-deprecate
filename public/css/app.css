@@ -4,43 +4,6 @@
  */
 
 @font-face {
-  font-family: 'Font Awesome 5 Brands';
-  font-style: normal;
-  font-weight: normal;
-  font-display: auto;
-  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.eot?8e49b728413079dfd9ee45d0c58d54e4);
-  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.eot?8e49b728413079dfd9ee45d0c58d54e4) format("embedded-opentype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.woff2?9f4ce3dc689981a1b87faab0f5484f9e) format("woff2"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.woff?9f018d1025561e96439f7c0e9026301a) format("woff"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.ttf?b7d071b9c3c197bff4af902070622423) format("truetype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.svg?38975343b586296e9b73e6b56cc3ec5d) format("svg");
-}
-
-.fab {
-  font-family: 'Font Awesome 5 Brands';
-}
-
-/*!
- * Font Awesome Free 5.8.2 by @fontawesome - https://fontawesome.com
- * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
- */
-
-@font-face {
-  font-family: 'Font Awesome 5 Free';
-  font-style: normal;
-  font-weight: 400;
-  font-display: auto;
-  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.eot?859001f6ae8eb0bb3878aaa971b50fc6);
-  src: url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.eot?859001f6ae8eb0bb3878aaa971b50fc6) format("embedded-opentype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.woff2?7980a6361c25b4665dbbe92d4488783c) format("woff2"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.woff?7aaf5675efd6339e9aba53ecbe5f1e36) format("woff"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.ttf?f33342516f7cbe46f1d6b68f9e7bbeda) format("truetype"), url(/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.svg?da8a235bb207c74eea21507f3a86a53b) format("svg");
-}
-
-.far {
-  font-family: 'Font Awesome 5 Free';
-  font-weight: 400;
-}
-
-/*!
- * Font Awesome Free 5.8.2 by @fontawesome - https://fontawesome.com
- * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
- */
-
-@font-face {
   font-family: 'Font Awesome 5 Free';
   font-style: normal;
   font-weight: 900;

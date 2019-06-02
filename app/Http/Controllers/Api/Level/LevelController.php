@@ -17,7 +17,10 @@ class LevelController extends Controller
     public function index()
     {
         $levels = Level::all();
-        return datatables($levels)->toJson();
+
+        return response()->json([
+            'data' => $levels
+        ]);
     }
 
     /**

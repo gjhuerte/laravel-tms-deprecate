@@ -21,7 +21,9 @@ class OrganizationController extends Controller
             $organizations = Organization::whereParentId($request->get('parent_id'))->get();
         }
         
-        return datatables($organizations)->toJson();
+        return response()->json([
+            'data' => $organizations
+        ]);
     }
 
     /**

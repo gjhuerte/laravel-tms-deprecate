@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Ticket\Activity;
 use App\Http\Controllers\Controller;
 use App\Jobs\Api\Ticket\Activity\CreateActivity;
+use App\Services\Ticket\ActivityService;
 
 class ActivityController extends Controller
 {
@@ -31,8 +32,8 @@ class ActivityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, ActivityService $service)
     {
-        $this->dispatch(new CreateActivity($request));
+        $service->create($request->all(), null);
     }
 }

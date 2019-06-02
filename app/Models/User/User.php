@@ -41,7 +41,6 @@ class User extends Authenticatable
         'full_name',
         'organization_name',
         'first_and_last_name',
-        'api_token',
     ];
 
     /**
@@ -58,13 +57,14 @@ class User extends Authenticatable
      *
      * @return string
      */
-    public function getApiTokenAttribute()
-    {
-        $appName = config('app.name');
-        $slugify = Str::slug($appName);
+    // public function getApiTokenAttribute()
+    // {
+        // $appName = config('app.name');
+        // $slugify = Str::slug($appName);
 
-        return $this->createToken($slugify)->accessToken;
-    }
+        // return $this->createToken($slugify)->accessToken;
+        // return $this->api_token;
+    // }
 
     /**
      * Name formatted using firstname then the lastname
