@@ -10,7 +10,8 @@
         "gjhuerte/php-code-generator": "^0.1.0",
         "laravel/framework": "5.8.*",
         "laravel/passport": "^7.0",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "league/fractal": "^0.18.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
