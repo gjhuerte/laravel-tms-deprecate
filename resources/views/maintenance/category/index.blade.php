@@ -43,8 +43,20 @@
                             <td>@{{ content.created_at }}</td>
                             <td>@{{ content.updated_at }}</td>
                             <td>
-                                <button>Update</button>
-                                <button>Remove</button>
+                                <a
+                                    v-bind:href="content.edit_url"
+                                    class="btn btn-warning">
+                                    <i class="fas fa-edit"></i>
+                                    Update
+                                </a>
+
+                                <button
+                                    type="button"
+                                    v-bind:url="content.remove_url"
+                                    class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                    Remove
+                                </button>
                             </td>
                         </tr>
                     </template>

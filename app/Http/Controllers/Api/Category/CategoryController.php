@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Category;
 use Illuminate\Http\Request;
 use App\Models\Ticket\Category;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Ticket\CategoryResource;
 use App\Services\Maintenance\Ticket\CategoryService;
 
 class CategoryController extends Controller
@@ -14,11 +15,9 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, CategoryResource $category)
     {
-        $categories = Category::paginate(10);
-
-        return response()->json($categories);
+        return $category->paginate()->transform();
     }
 
     /**
