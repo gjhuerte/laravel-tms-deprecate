@@ -20,6 +20,17 @@ class Category extends Model
     ];
 
     /**
+     * Parse the dates using Carbon package
+     * as a date object
+     * 
+     * @var array
+     */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
+
+    /**
      * Columns used when querying using eloquent model
      *
      * @var array

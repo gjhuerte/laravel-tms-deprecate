@@ -22,6 +22,15 @@
                     api-token="{{ Auth::user()->api_token }}"
                     create-url="{{ route('category.create') }}"
                     column-count="6">
+                    <template slot="right_header">
+                        <a
+                            href="{{ route('category.create') }}"
+                            class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            {{  __('Create') }}
+                        </a>
+                    </template>
+
                     <template slot="table-header">
                         <td>{{ __('ID') }}</td>
                         <td>{{ __('Name') }}</td>
@@ -40,11 +49,11 @@
                             <td>@{{ content.id }}</td>
                             <td>@{{ content.name }}</td>
                             <td>@{{ content.description }}</td>
-                            <td>@{{ content.created_at }}</td>
-                            <td>@{{ content.updated_at }}</td>
+                            <td>@{{ content.human_readable_created_at }}</td>
+                            <td>@{{ content.human_readable_updated_at }}</td>
                             <td>
                                 <a
-                                    v-bind:href="content.edit_url"
+                                    v-bind:href="content.links.edit_url"
                                     class="btn btn-warning">
                                     <i class="fas fa-edit"></i>
                                     Update
