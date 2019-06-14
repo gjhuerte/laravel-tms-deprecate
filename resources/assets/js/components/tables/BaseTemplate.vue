@@ -1,5 +1,14 @@
-<template>
-    <div class="table-responsive">
+<template
+        v-bind:key="this.generatedKeyForRefresh">
+    <div 
+        class="table-responsive">
+
+        <input 
+            type="hidden" 
+            id="refresh-table-ajax-btn"  
+            ref="refreshTableAjaxButton"
+            @click="this.updateGeneratedKeyForRefresh"
+        />
         <div 
             id="upper-table-buttons">
             <div class="float-left">
@@ -28,12 +37,12 @@
         
         <Pagination
             @changePage="updateContentViaUrl"
-            v-bind:key="response.current_page"
-            v-bind:previous-page-url="response.prev_page_url"
-            v-bind:count="response.last_page"
-            v-bind:base-url="response.path"
-            v-bind:current-page="response.current_page"
-            v-bind:next-page-url="response.next_page_url" />
+            v-bind:key="pagination.current_page"
+            v-bind:previous-page-url="pagination.links.previous || null"
+            v-bind:count="pagination.last_page"
+            v-bind:base-url="pagination.path"
+            v-bind:current-page="pagination.current || null"
+            v-bind:next-page-url="pagination.links.next || null" />
             
         <Processing 
             v-bind:key="processing" 
@@ -65,9 +74,12 @@
 
         data() {
             return {
+                generatedKeyForRefresh: this.generateKey(),
                 processing: false,
                 response: [],
                 contents: [],
+                mutatedAjaxUrl: this.ajaxUrl,
+                pagination: { links: {}},
             };
         },
 
@@ -78,28 +90,46 @@
         },
 
         methods: {
-            fetchData() {
-                axios.get(this.ajaxUrl)
+            fetchData () {
+                axios.get(this.mutatedAjaxUrl)
                     .then(response => {
                         let contents = [ ...response.data.data ];
+                        let pagination = response.data.meta.pagination;
                         let baseUrl = this.baseUrl;
 
                         this.response = response.data;
-                        this.contents = contents.map(content => {
-                            content['viewUrl'] = `${baseUrl}/${content.id}`;
-
-                            return content;
-                        });
-
+                        this.pagination = pagination;
+                        this.contents = contents;
                         this.processing = false;
                     });
             },
 
-            updateContentViaUrl(url) {
+            updateContentViaUrl (url) {
                 this.processing = true;
                 this.mutatedAjaxUrl = url;
+
                 this.fetchData();
-            }
+                this.generatedKeyForRefresh = this.generateKey();
+            },
+
+            updateGeneratedKeyForRefresh () {
+                this.processing = true;
+                this.mutatedAjaxUrl = this.ajaxUrl;
+
+                this.fetchData();
+                this.generatedKeyForRefresh = this.generateKey();
+            },
+
+            generateKey (length = 10) {
+               var result = '';
+               var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+               var charactersLength = characters.length;
+               for ( var i = 0; i < length; i++ ) {
+                  result += characters.charAt(Math.floor(Math.random() * charactersLength));
+               }
+
+               return result;
+            },
         },
     }
 </script>

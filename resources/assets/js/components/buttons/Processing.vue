@@ -12,12 +12,21 @@
                 class="spinner-border spinner-border-sm" 
                 role="status" 
                 aria-hidden="true"
-                ></span>
+                >
+            </span>
 
             <span>{{ this.mutatedLoadingText }}</span>
         </div>
 
-        <span v-else>{{ this.defaultText }}</span>
+        <span v-else>
+            <span v-if="this.mutatedDefaultText">
+                {{ this.mutatedDefaultText }}
+            </span>
+
+            <span v-else>
+                <slot></slot>
+            </span>
+        </span>
     </button>
 </template>
 
@@ -31,24 +40,24 @@
             'elementName' ,
             'elementIsLoading',
             'loadingText',
-            'defaultText',
+            'defaultText' || null,
             'onClickHandler',
         ],
 
         data () {
             var defaultCallback = () => {};
+            var loading = typeof this.elementIsLoading !== 'undefined' 
+                    && typeof this.elementIsLoading !== null
+                    && this.elementIsLoading;
 
             return {
-                mutatedIsLoading: typeof this.elementIsLoading !== 'undefined' && typeof this.elementIsLoading !== null,
+                mutatedIsLoading: loading,
                 mutatedLoadingText: this.loadingText || 'Loading',
                 hasCustomOnClickHandler: typeof onClickHandler !== 'undefined',
                 mutatedOnClickHandler: this.onClickHandler || defaultCallback,
+                mutatedDefaultText: this.defaultText || null,
             }
         },
-
-        // mounted() {
-            // this.toggleLoading();
-        // },
 
         methods: {
             toggleLoading () {

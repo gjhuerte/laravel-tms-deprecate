@@ -52,21 +52,24 @@
                             <td>@{{ content.human_readable_created_at }}</td>
                             <td>@{{ content.human_readable_updated_at }}</td>
                             <td>
-                                <a-button-loading
-                                    v-bind:element-href="content.links.edit_url"
-                                    element-class="btn btn-warning"
-                                    loading-text="Fetching...">
-                                    <i class="fas fa-edit"></i>
-                                    Update
-                                </a-button-loading>
 
-                                <button
-                                    type="button"
-                                    v-bind:url="content.remove_url"
-                                    class="btn btn-danger">
-                                    <i class="fas fa-trash"></i>
-                                    Remove
-                                </button>
+                                <div class="d-flex flex-row justify-content-around align-items-center">
+                                    <a-button-loading
+                                        v-bind:element-href="content.links.edit_url"
+                                        element-class="btn btn-warning"
+                                        loading-text="Fetching...">
+                                        <i class="fas fa-edit"></i>
+                                        Update
+                                    </a-button-loading>
+
+                                    <remove-button-loading-i
+                                        v-bind:content-id="content.id"
+                                        v-bind:url="content.links.remove_url"
+                                        element-class="btn btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                        Remove
+                                    </remove-button-loading-i>
+                                </div>
                             </td>
                         </tr>
                     </template>

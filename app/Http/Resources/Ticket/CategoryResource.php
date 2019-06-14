@@ -7,11 +7,13 @@ use App\Models\Ticket\Category;
 use League\Fractal\Resource\Collection;
 use App\Transformers\Ticket\CategoryTransformer;
 use League\Fractal\Serializer\DataArraySerializer;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class CategoryResource
 {
 
 	private $category;
+	private $hasPaginator = false;
 	private $categoryCollection;
 
 	/**
@@ -32,14 +34,17 @@ class CategoryResource
 	public function paginate($count = 10)
 	{
 		$this->category = $this->category->paginate($count);
+		$this->hasPaginator = true;
 
 		return $this;
 	}
 
 	public function createCollection()
 	{
+		$category = $this->hasPaginator ?  $this->category->getCollection() : $this->category;
+
 		$this->categoryCollection = new Collection(
-			$this->category, 
+			$category, 
 			new CategoryTransformer
 		);
 
@@ -55,8 +60,15 @@ class CategoryResource
 	{
 		$this->createCollection();
 
+		if($this->hasPaginator) {
+			$output = $this->categoryCollection
+				->setPaginator(
+					new IlluminatePaginatorAdapter($this->category)
+				);
+		}
+
 		$output = $this->manager
-			->createData($this->categoryCollection)
+			->createData($output)
 			->toJson();
 
 		return $output;

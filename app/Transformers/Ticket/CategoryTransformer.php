@@ -29,8 +29,9 @@ class CategoryTransformer extends TransformerAbstract
 	        'human_readable_created_at' => $readableCreatedAt,
 	        'human_readable_updated_at' => $readableUpdatedAt,
 	        'links' => [
+		        'view_url' => route('category.show', $category->id),
 		        'edit_url' => route('category.edit', $category->id),
-		        'remove_url' => route('category.destroy', $category->id),
+		        'remove_url' => route('api.category.destroy', $category->id),
 	        ],
 	    ];
 	}
