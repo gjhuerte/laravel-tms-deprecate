@@ -52,12 +52,13 @@
                             <td>@{{ content.human_readable_created_at }}</td>
                             <td>@{{ content.human_readable_updated_at }}</td>
                             <td>
-                                <a
-                                    v-bind:href="content.links.edit_url"
-                                    class="btn btn-warning">
+                                <a-button-loading
+                                    v-bind:element-href="content.links.edit_url"
+                                    element-class="btn btn-warning"
+                                    loading-text="Fetching...">
                                     <i class="fas fa-edit"></i>
                                     Update
-                                </a>
+                                </a-button-loading>
 
                                 <button
                                     type="button"
