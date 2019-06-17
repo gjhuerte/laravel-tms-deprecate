@@ -23,10 +23,10 @@
             v-if="this.confirmation"
             v-bind:key="JSON.stringify(this.confirmation)">
             <notification-modal
-                :type="'alert'"
-                :message="'Do you really want to delete this item'"
-                :title="'Warning'"
-                :callback="this.onConfirmationEvent">
+                v-bind:type="'alert'"
+                v-bind:message="'Do you really want to delete this item'"
+                v-bind:title="'Warning'"
+                v-bind:callback="this.onConfirmationEvent">
             </notification-modal>
         </div>
     </div>
@@ -34,8 +34,8 @@
 
 <script>
     import axios from 'axios';
-    import Processing from './Processing';
-    import Notification from '../Notification.vue';
+    import Processing from '../../buttons/Processing.vue';
+    import Notification from '../../Notification.vue';
 
     export default {
         props: [
@@ -79,7 +79,7 @@
                 if(result.value) {
                     axios.delete(this.url)
                         .then(response => {
-                            let output = [ response.data ];
+                            let output = response.data;
 
                             this.notification = {
                                 status: output.status,
@@ -87,7 +87,11 @@
                                 message: output.message,
                             }
 
-                            this.$parent.$parent.$refs.refreshTableAjaxButton.click();
+                            this.$parent
+                                .$parent
+                                .$refs
+                                .refreshTableAjaxButton
+                                .click();
                         });
                 }
 

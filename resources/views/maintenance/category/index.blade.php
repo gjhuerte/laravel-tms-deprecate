@@ -34,7 +34,7 @@
                     <template slot="table-header">
                         <td>{{ __('ID') }}</td>
                         <td>{{ __('Name') }}</td>
-                        <td>{{ __('Description') }}</td>
+                        <td>{{ __(' ') }}</td>
                         <td>{{ __('Created At') }}</td>
                         <td>{{ __('Updated At') }}</td>
                         <td></td>

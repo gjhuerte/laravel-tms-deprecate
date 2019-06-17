@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api\Level;
 
+use Illuminate\Http\Request;
 use App\Models\Ticket\Level;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Ticket\LevelResource;
 use App\Services\Maintenance\Ticket\LevelService;
 
 class LevelController extends Controller
@@ -13,11 +15,9 @@ class LevelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, LevelResource $level)
     {
-        $levels = Level::paginate(10);
-
-        return response()->json($levels);
+        return $level->paginate()->transform();
     }
 
     /**
