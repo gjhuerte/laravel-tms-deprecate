@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Resources\Ticket;
+namespace App\Http\Resources\User;
 
 use League\Fractal\Manager;
-use App\Models\Ticket\Category;
+use App\Models\User\Organization;
 use League\Fractal\Resource\Collection;
-use App\Transformers\Ticket\CategoryTransformer;
+use App\Transformers\Ticket\OrganizationTransformer;
 use League\Fractal\Serializer\DataArraySerializer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
-class CategoryResource
+class OrganizationResource
 {
 
-	private $category;
+	private $organization;
 	private $hasPaginator = false;
-	private $categoryCollection;
+	private $organizationCollection;
 
 	/**
 	 * Constructor class
@@ -22,23 +22,22 @@ class CategoryResource
 	public function __construct()
 	{
 		$this->manager = new Manager;
-		$this->category = new Category;
+		$this->organization = new Organization;
 	}
 
 	/**
-	 * Paginate the output of category
+	 * Paginate the output of organization
 	 *
 	 * @param  $count
 	 * @return mixed
 	 */
 	public function paginate($count = 10)
 	{
-		$this->category = $this->category->paginate($count);
+		$this->organization = $this->organization->paginate($count);
 		$this->hasPaginator = true;
 
 		return $this;
 	}
-
 
 	/**
 	 * Create a new  collection
@@ -47,15 +46,15 @@ class CategoryResource
 	 */
 	public function createCollection()
 	{
-		$category = $this->category;
+		$organization = $this->organization;
 
 		if ($this->hasPaginator) {
-			$category = $this->category->getCollection();
+			$organization = $this->organization->getCollection();
 		}
 
-		$this->categoryCollection = new Collection(
-			$category, 
-			new CategoryTransformer
+		$this->organizationCollection = new Collection(
+			$organization, 
+			new OrganizationTransformer
 		);
 
 		return $this;
@@ -71,9 +70,9 @@ class CategoryResource
 		$this->createCollection();
 
 		if($this->hasPaginator) {
-			$output = $this->categoryCollection
+			$output = $this->organizationCollection
 				->setPaginator(
-					new IlluminatePaginatorAdapter($this->category)
+					new IlluminatePaginatorAdapter($this->organization)
 				);
 		}
 

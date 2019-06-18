@@ -39,9 +39,19 @@ class LevelResource
 		return $this;
 	}
 
+
+	/**
+	 * Create a new  collection
+	 * 
+	 * @return mixed
+	 */
 	public function createCollection()
 	{
-		$level = $this->hasPaginator ?  $this->level->getCollection() : $this->level;
+		$level = $this->level;
+
+		if ($this->hasPaginator) {
+			$level = $this->level->getCollection();
+		}
 
 		$this->levelCollection = new Collection(
 			$level, 
