@@ -49,8 +49,8 @@
                             <td>@{{ content.id }}</td>
                             <td>@{{ content.name }}</td>
                             <td>@{{ content.abbreviation }}</td>
-                            <td>@{{ content.created_at }}</td>
-                            <td>@{{ content.updated_at }}</td>
+                            <td>@{{ content.human_readable_created_at }}</td>
+                            <td>@{{ content.human_readable_updated_at }}</td>
                             <td>
                                 <div class="d-flex flex-row justify-content-around align-items-center">
                                     <a-button-loading
