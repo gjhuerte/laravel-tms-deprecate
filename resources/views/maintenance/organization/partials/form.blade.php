@@ -1,13 +1,3 @@
-@if(Request::has('parent_id'))
-	@if(isset($parent->name))
-		<div class="form-group">
-			<label for="parent_id">Parent Organization</label>
-			<input type='hidden' name="parent_id" value="{{ Request::get('parent_id') }}" />
-			<input type="text" class="form-control" readonly value="{{ $parent->name }}" />
-		</div>
-	@endif
-@endif
-
 <div class="form-group">
 	<label for="name">
 		Name
@@ -40,4 +30,38 @@
 		max=50
 		required
 	/>
+</div>
+
+<div class="form-group">
+	<label for="parent_id">
+		Parent Organization
+	</label>
+		
+	<select
+		class="form-control"
+		name="parent_id"
+		id="parent_id">
+		<option value>Select an organization...</option>
+
+		@forelse($organizations as $org)
+			<option
+
+				@if($org->id == old('parent_id'))
+					selected
+				@elseif(isset($organization->parent_id))
+					@if($organization->parent_id == $org->id)
+						selected
+					@endif
+				@elseif(Request::has('parent_id'))
+					@if(Request::get('parent_id') == $org->id)
+						selected
+					@endif
+				@endif
+
+				value="{{ $org->id }}">
+				{{ $org->name }}
+			</option>
+		@empty
+		@endforelse
+	</select>
 </div>

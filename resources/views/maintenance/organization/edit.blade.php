@@ -25,14 +25,6 @@
 				<form method="post" action="{{ route('organization.update', $organization->id) }}">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 					<input type="hidden" name="_method" value="PUT" />
-					<input type="hidden" name="parent_id" value="{{ $parent_id }}" />
-
-					@if(isset($parent) && count((array) $parent) > 0)
-						<div>
-							<strong>Parent Organization:</strong> {{ $parent->name }}
-						</div>
-					@endif 
-
 					@include('maintenance.organization.partials.form')
 					
 					<div class="form-group float-right">

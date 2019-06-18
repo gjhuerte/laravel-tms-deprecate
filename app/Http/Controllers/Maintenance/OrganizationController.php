@@ -31,11 +31,16 @@ class OrganizationController extends Controller
     public function create(Request $request)
     {
         $parent = null;
+        $organizations = Organization::all();
+
         if ($request->has('parent_id')) {
             $parent = Organization::findOrFail((int) $request->parent_id);
         }
 
-        return view('maintenance.organization.create', compact('parent'));
+        return view('maintenance.organization.create', compact(
+            'parent',
+            'organizations'
+        ));
     }
 
     /**
@@ -73,6 +78,7 @@ class OrganizationController extends Controller
     public function edit(Request $request, $id)
     {
         $organization = Organization::findOrFail((int) $id);
+        $organizations = Organization::all();
         $parent = null;
         $parent_id = null;
 
@@ -83,6 +89,7 @@ class OrganizationController extends Controller
 
         return view('maintenance.organization.edit', compact(
             'organization', 
+            'organizations', 
             'parent',
             'parent_id'
         ));
