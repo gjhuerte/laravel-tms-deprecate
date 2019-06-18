@@ -9,7 +9,7 @@
             <div class="col-sm-12">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">Maintenance</li>
-                    <li class="breadcrumb-item">Ticket</li>
+                    <li class="breadcrumb-item">User</li>
                     <li class="breadcrumb-item">Organization</li>
                 </ul>
             </div>
@@ -22,6 +22,15 @@
                     api-token="{{ Auth::user()->api_token }}"
                     create-url="{{ route('organization.create') }}"
                     column-count="6">
+                    <template slot="right_header">
+                        <a
+                            href="{{ route('organization.create') }}"
+                            class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            {{  __('Create') }}
+                        </a>
+                    </template>
+
                     <template slot="table-header">
                         <td>{{ __('ID') }}</td>
                         <td>{{ __('Name') }}</td>
@@ -43,12 +52,31 @@
                             <td>@{{ content.created_at }}</td>
                             <td>@{{ content.updated_at }}</td>
                             <td>
-                                <button-confirmation
-                                    element-type="button"
-                                    element-id="remove-button"
-                                    element-class="btn btn-danger"
-                                    default-text="Remove">
-                                </button-confirmation>
+                                <div class="d-flex flex-row justify-content-around align-items-center">
+                                    <a-button-loading
+                                        v-bind:element-href="content.links.view_url"
+                                        element-class="btn btn-info"
+                                        loading-text="Fetching...">
+                                        <i class="fas fa-list"></i>
+                                        Show
+                                    </a-button-loading>
+
+                                    <a-button-loading
+                                        v-bind:element-href="content.links.edit_url"
+                                        element-class="btn btn-warning"
+                                        loading-text="Fetching...">
+                                        <i class="fas fa-edit"></i>
+                                        Update
+                                    </a-button-loading>
+
+                                    <remove-button-loading-i
+                                        v-bind:content-id="content.id"
+                                        v-bind:url="content.links.remove_url"
+                                        element-class="btn btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                        Remove
+                                    </remove-button-loading-i>
+                                </div>
                             </td>
                         </tr>
                     </template>

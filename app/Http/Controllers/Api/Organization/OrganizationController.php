@@ -5,25 +5,37 @@ namespace App\Http\Controllers\Api\Organization;
 use Illuminate\Http\Request;
 use App\Models\User\Organization;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\User\OrganizationResource;
 use App\Services\Maintenance\OrganizationService;
 
 class OrganizationController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-        $organizations = Organization::rootOnly()->get();
+    public function index(
+        Request $request, 
+        OrganizationResource $organization
+    ) {
+
         if ($request->has('parent_id')) {
-            $organizations = Organization::whereParentId($request->get('parent_id'))->get();
+            $organization = $organization->childOf(
+                $request->parent_id
+            );
+
+            return $organization
+                ->paginate()
+                ->transform();
         }
-        
-        return response()->json([
-            'data' => $organizations
-        ]);
+
+        $organization = $organization->onlyRoot();
+
+        return $organization
+            ->paginate()
+            ->transform();
     }
 
     /**

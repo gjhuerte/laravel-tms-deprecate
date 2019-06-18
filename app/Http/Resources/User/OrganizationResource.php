@@ -5,8 +5,8 @@ namespace App\Http\Resources\User;
 use League\Fractal\Manager;
 use App\Models\User\Organization;
 use League\Fractal\Resource\Collection;
-use App\Transformers\Ticket\OrganizationTransformer;
 use League\Fractal\Serializer\DataArraySerializer;
+use App\Transformers\User\OrganizationTransformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class OrganizationResource
@@ -23,6 +23,33 @@ class OrganizationResource
 	{
 		$this->manager = new Manager;
 		$this->organization = new Organization;
+	}
+
+	/**
+	 * Fetch only root organizations
+	 * 
+	 * @return mixed
+	 */
+	public function onlyRoot()
+	{
+		$this->organization = $this->organization
+			->whereNull('parent_id');
+
+		return $this;
+	}
+
+	/**
+	 * Fetch the child of the parent id arg passed
+	 * 
+	 * @param  int $id
+	 * @return mixed
+	 */
+	public function childOf($id)
+	{
+		$this->organization = $this->organization
+			->where('parent_id', '=', (int) $id);
+
+		return $this;
 	}
 
 	/**
