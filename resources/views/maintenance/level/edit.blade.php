@@ -32,7 +32,12 @@
 							<i class="fas fa-arrow-left"></i> Back
 						</a>
 		
-						<input type="submit" name="button" value="Save" class="btn btn-primary" />
+						<button-loading
+							element-type="submit"
+							element-id="submit-button"
+							element-class="btn btn-primary"
+							default-text="Save">
+						</button-loading>
 					</div>
 				</form>
 			</div>
