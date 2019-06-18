@@ -9,8 +9,11 @@
             <div class="col-sm-12">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">Maintenance</li>
-                    <li class="breadcrumb-item">Ticket</li>
-                    <li class="breadcrumb-item">Organization</li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('organization.index') }}">
+                            {{ __('Organization') }}
+                        </a>
+                    </li>
                     <li class="breadcrumb-item active">
                         {{ $organization->name }}
                     </li>

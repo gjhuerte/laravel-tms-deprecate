@@ -70,17 +70,22 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $organization = Organization::findOrFail((int) $id);
         $parent = null;
-        if ($request->has('parent_id')) {
-            $parent = Organization::findOrFail((int) $request->parent_id);
+        $parent_id = null;
 
-            return view('maintenance.organization.create');
+        if ($request->has('parent_id')) {
+            $parent_id = $request->parent_id;
+            $parent = Organization::findOrFail((int) $request->parent_id);
         }
 
-        return view('maintenance.organization.edit', compact('organization', 'parent'));
+        return view('maintenance.organization.edit', compact(
+            'organization', 
+            'parent',
+            'parent_id'
+        ));
     }
 
     /**
