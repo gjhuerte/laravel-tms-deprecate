@@ -1,30 +1,28 @@
 @extends('layouts.client')
 
 @section('content')
-    <div class="container mt-5">
+    <div class="container-fluid mt-5">
         <div class="row">
             <div class="col-sm-12 my-1">
-                <h1 class="display-4">{{ __('Category List') }}</h1>
+                <h1 class="display-4">{{ __('User List') }}</h1>
             </div>
             <div class="col-sm-12">
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item">Maintenance</li>
-                    <li class="breadcrumb-item">Ticket</li>
-                    <li class="breadcrumb-item">Category</li>
+                    <li class="breadcrumb-item">User</li>
                 </ul>
             </div>
             <div class="col-sm-12 my-1">
                 @include('notification.alert')
 
                 <table-ajax
-                    base-url="{{ route('category.index') }}"
-                    ajax-url="{{ route('api.category.index') }}"
+                    base-url="{{ route('user.index') }}"
+                    ajax-url="{{ route('api.user.index') }}"
                     api-token="{{ Auth::user()->api_token }}"
-                    create-url="{{ route('category.create') }}"
+                    create-url="{{ route('user.create') }}"
                     column-count="6">
                     <template slot="right_header">
                         <a
-                            href="{{ route('category.create') }}"
+                            href="{{ route('user.create') }}"
                             class="btn btn-primary">
                             <i class="fas fa-plus"></i>
                             {{  __('Create') }}
@@ -32,9 +30,13 @@
                     </template>
 
                     <template slot="table-header">
-                        <td>{{ __('ID') }}</td>
-                        <td>{{ __('Name') }}</td>
-                        <td>{{ __(' ') }}</td>
+                        <td>{{ __('Username') }}</td>
+                        <td>{{ __('Firstname') }}</td>
+                        <td>{{ __('Middlename') }}</td>
+                        <td>{{ __('Lastname') }}</td>
+                        <td>{{ __('Email') }}</td>
+                        <td>{{ __('Role') }}</td>
+                        <td>{{ __('Mobile Number') }}</td>
                         <td>{{ __('Created At') }}</td>
                         <td>{{ __('Updated At') }}</td>
                         <td></td>
@@ -46,9 +48,13 @@
                         <tr
                             v-bind:key="content.id"
                             v-for="content in contents"> 
-                            <td>@{{ content.id }}</td>
-                            <td>@{{ content.name }}</td>
-                            <td>@{{ content.description }}</td>
+                            <td>@{{ content.username }}</td>
+                            <td>@{{ content.firstname }}</td>
+                            <td>@{{ content.middlename }}</td>
+                            <td>@{{ content.lastname }}</td>
+                            <td>@{{ content.email }}</td>
+                            <td>@{{ content.role }}</td>
+                            <td>@{{ content.mobile }}</td>
                             <td>@{{ content.human_readable_created_at }}</td>
                             <td>@{{ content.human_readable_updated_at }}</td>
                             <td>

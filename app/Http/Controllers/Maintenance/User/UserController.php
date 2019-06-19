@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Maintenance\User;
 
 use App\Models\User\User;
 use Illuminate\Http\Request;
-use App\Jobs\User\UpdateUser;
-use App\Jobs\User\CreateUser;
-use App\Jobs\User\RemoveUser;
+use App\Models\User\Organization;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest\UserUpdateRequest;
+use App\Services\Maintenance\UserService;
 use App\Http\Requests\UserRequest\UserStoreRequest;
+use App\Http\Requests\UserRequest\UserUpdateRequest;
 
 class UserController extends Controller
 {
@@ -30,7 +29,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('maintenance.user.create');
+        $organizations = Organization::all();
+
+        return view('maintenance.user.create', compact('organizations'));
     }
 
     /**
@@ -39,10 +40,12 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserStoreRequest $request)
+    public function store(UserStoreRequest $request, UserService $service)
     {
-        $this->dispatch(new CreateUser($request->all()));
-        return redirect()->route('user.index');
+        $service->create($request->all());
+
+        return redirect()
+            ->route('user.index');
     }
 
     /**
@@ -66,7 +69,12 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('maintenance.user.edit', compact('user'));
+        $organizations = Organization::all();
+
+        return view('maintenance.user.edit', compact(
+            'user',
+            'organizations'
+        ));
     }
 
     /**
@@ -76,10 +84,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserUpdateRequest $request, $id)
+    public function update(UserUpdateRequest $request, UserService $service, $id)
     {
-        $this->dispatch(new UpdateUser($request->all(), $id));
-        return redirect()->route('user.index');
+        $service->update($request->all(), $id);
+
+        return redirect()
+            ->route('user.index');
     }
 
     /**
@@ -88,9 +98,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(UserService $service, $id)
     {
-        $this->dispatch(new RemoveUser($id));
-        return redirect()->route('user.index');
+        $service->remove($id);
+
+        return redirect()
+            ->route('user.index');
     }
 }

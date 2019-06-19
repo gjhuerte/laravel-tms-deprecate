@@ -86,6 +86,10 @@ class Navigation
                 'url' => 'level',
                 'name' => 'Level',
             ],
+            'user' => [
+                'url' => 'user',
+                'name' => 'User',
+            ],
         ],
     ];
 

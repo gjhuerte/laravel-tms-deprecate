@@ -3,6 +3,7 @@
 namespace App\Services\Maintenance;
 
 use App\Models\User\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
@@ -16,17 +17,22 @@ class UserService
      */
     public function create($attributes)
     {
+        $password = null;
+        if (isset($attributes['password'])) {
+            $password = Hash::make($attributes['password']);
+        }
+
         $this->user = User::create([
-            'firstname' => $attributes['firstname'],
-            'middlename' => $attributes['middlename'],
-            'lastname' => $attributes['lastname'],
-            'email' => $attributes['email'],
-            'image_url' => $attributes['image_url'],
-            'role' => $attributes['role'],
-            'organization_id' => $attributes['organization_id'],
-            'mobile' => $attributes['mobile'],
-            'username' => $attributes['username'],
-            'password' => $attributes['password'],
+            'firstname' => $attributes['firstname'] ?? null,
+            'middlename' => $attributes['middlename'] ?? null,
+            'lastname' => $attributes['lastname'] ?? null,
+            'email' => $attributes['email'] ?? null,
+            'image_url' => $attributes['image_url'] ?? null,
+            'role' => $attributes['role'] ?? null,
+            'organization_id' => $attributes['organization_id'] ?? null,
+            'mobile' => $attributes['mobile'] ?? null,
+            'username' => $attributes['username'] ?? null,
+            'password' => $password,
         ]);
 
         return $this;
@@ -43,16 +49,14 @@ class UserService
     {
         $this->user = User::findOrFail((integer) $id);
         $this->user->update([
-            'firstname' => $attributes['firstname'],
-            'middlename' => $attributes['middlename'],
-            'lastname' => $attributes['lastname'],
-            'email' => $attributes['email'],
-            'image_url' => $attributes['image_url'],
-            'role' => $attributes['role'],
-            'organization_id' => $attributes['organization_id'],
-            'mobile' => $attributes['mobile'],
-            'username' => $attributes['username'],
-            'password' => $attributes['password'],
+            'firstname' => $attributes['firstname'] ?? null,
+            'middlename' => $attributes['middlename'] ?? null,
+            'lastname' => $attributes['lastname'] ?? null,
+            'email' => $attributes['email'] ?? null,
+            'image_url' => $attributes['image_url'] ?? null,
+            'role' => $attributes['role'] ?? null,
+            'organization_id' => $attributes['organization_id'] ?? null,
+            'mobile' => $attributes['mobile'] ?? null,
         ]);
 
         return $this;
