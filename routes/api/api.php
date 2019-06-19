@@ -29,9 +29,8 @@ Route::middleware('auth:api')->namespace('api')->group(function() {
     });
 
 
-
     Route::namespace('category')->group(function() {
-        Route::get('category/all', [
+        Route::get('category', [
             'as' => 'api.category.index', 
             'uses' => 'CategoryController@index'
         ]);
@@ -43,7 +42,7 @@ Route::middleware('auth:api')->namespace('api')->group(function() {
     });
 
     Route::namespace('organization')->group(function() {
-        Route::get('organization/all', [
+        Route::get('organization', [
             'as' => 'api.organization.index', 
             'uses' => 'OrganizationController@index'
         ]);
@@ -55,7 +54,7 @@ Route::middleware('auth:api')->namespace('api')->group(function() {
     });
 
     Route::namespace('level')->group(function() {
-        Route::get('level/all', [
+        Route::get('level', [
             'as' => 'api.level.index', 
             'uses' => 'LevelController@index'
         ]);
@@ -63,6 +62,18 @@ Route::middleware('auth:api')->namespace('api')->group(function() {
         Route::delete('level/{id?}', [
             'as' => 'api.level.destroy', 
             'uses' => 'LevelController@destroy'
+        ]);
+    });
+
+    Route::namespace('user')->group(function() {
+        Route::get('user', [
+            'as' => 'api.user.index',
+            'uses' => 'UserController@index',
+        ]);
+
+        Route::delete('user/{id?}', [
+            'as' => 'api.user.destroy', 
+            'uses' => 'UserController@destroy'
         ]);
     });
 

@@ -12,14 +12,6 @@ class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
-    const HEAD_ADMINISTRATOR = 'head administrator';
-    const ADMINISTRATOR = 'administrator';
-    const DESIGNATOR = 'designator';
-    const VERIFIER = 'verifier';
-    const SUPPORT = 'support';
-    const CLIENT_MANAGER = 'client manager';
-    const CLIENT = 'client';
-    
     protected $table = 'users';
     protected $primaryKey = 'id';
 
@@ -29,7 +21,19 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'firstname',
+        'middlename',
+        'lastname',
+        'image_url',
+        'role',
+        'organization_id',
+        'mobile',
+        'username',
+        'email',
+        'password',
+        'api_token',
+        'is_activated',
+        'remember_token',
     ];
 
     /**
@@ -73,7 +77,7 @@ class User extends Authenticatable
      */
     public function getFirstAndLastNameAttribute()
     {
-        return $this->firstname . ' ' . $this->lastname;
+        return "{$this->firstname} {$this->lastname}";
     }
 
     /**
@@ -84,7 +88,7 @@ class User extends Authenticatable
      */
     public function getFullNameAttribute()
     {
-        return $this->lastname . ', ' . $this->firstname . ' ' . $this->middlename;
+        return "{$this->lastname}, {$this->firstname} {$this->middlename}";
     }
 
     /**
@@ -94,7 +98,8 @@ class User extends Authenticatable
      */
     public function getOrganizationNameAttribute()
     {
-        return optional($this->organization)->name;
+        return optional($this->organization)
+            ->name;
     }
 
     /**
@@ -104,6 +109,10 @@ class User extends Authenticatable
      */
     public function organization()
     {
-        return $this->belongsTo(Organization::class, 'organization_id', 'id');
+        return $this->belongsTo(
+            Organization::class,
+            'organization_id',
+            'id'
+        );
     }
 }

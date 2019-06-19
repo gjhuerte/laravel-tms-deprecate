@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\Category;
 
 use Illuminate\Http\Request;
-use App\Models\Ticket\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Ticket\CategoryResource;
 use App\Services\Maintenance\Ticket\CategoryService;

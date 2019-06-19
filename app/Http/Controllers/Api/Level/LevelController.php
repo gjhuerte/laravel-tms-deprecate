@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\Level;
 
 use Illuminate\Http\Request;
-use App\Models\Ticket\Level;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Ticket\LevelResource;
 use App\Services\Maintenance\Ticket\LevelService;

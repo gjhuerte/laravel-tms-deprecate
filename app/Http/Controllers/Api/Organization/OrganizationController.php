@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\Organization;
 
 use Illuminate\Http\Request;
-use App\Models\User\Organization;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\OrganizationResource;
 use App\Services\Maintenance\OrganizationService;
@@ -17,7 +16,7 @@ class OrganizationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(
-        Request $request, 
+        Request $request,
         OrganizationResource $organization
     ) {
 

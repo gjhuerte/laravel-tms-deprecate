@@ -15,4 +15,5 @@ Route::namespace('Maintenance')->group(function() {
     Route::resource('organization', 'OrganizationController');
     Route::resource('level', 'LevelController');
     Route::resource('category', 'CategoryController');
+    Route::resource('user', 'UserController');
 });
