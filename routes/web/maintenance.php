@@ -14,18 +14,19 @@
 Route::namespace('Maintenance')
     ->prefix('maintenance')
     ->group(function () {
-    Route::resource('organization', 'OrganizationController');
-    Route::resource('level', 'LevelController');
-    Route::resource('category', 'CategoryController');
 
     Route::namespace('User')
+        ->prefix('user')
         ->group(function () {
         Route::resource('user', 'UserController');
+        Route::resource('organization', 'OrganizationController');
     });
 
     Route::namespace('Ticket')
         ->prefix('ticket')
         ->group(function () {
+        Route::resource('level', 'LevelController');
+        Route::resource('category', 'CategoryController');
         Route::resource('tag', 'TagController', [
             'as' => 'ticket',
         ]);

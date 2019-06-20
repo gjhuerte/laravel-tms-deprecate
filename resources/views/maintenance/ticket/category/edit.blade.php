@@ -4,16 +4,16 @@
     <div class="container offset-sm-3 col-sm-6 mt-5">
 		<div class="row p-3">
 			<div class="col-sm-12 my-1">
-				<h1 class="display-4">Edit Level</h1>
+				<h1 class="display-4">Edit Category</h1>
 			</div>
 			
 			<div class="col-sm-12">
 				<ul class="breadcrumb">
 					<li class="breadcrumb-item">Maintenance</li>
 					<li class="breadcrumb-item">
-						<a href="{{ route('level.index') }}">Level</a>
+						<a href="{{ route('category.index') }}">Category</a>
 					</li>
-					<li class="breadcrumb-item">{{ $level->name }}</li>
+					<li class="breadcrumb-item">{{ $category->name }}</li>
 					<li class="breadcrumb-item active">Edit</li>
 				</ul>
 			</div>
@@ -22,16 +22,16 @@
 		
 				@include('notification.alert')
 		
-				<form method="post" action="{{ route('level.update', $level->id) }}">
+				<form method="post" action="{{ route('category.update', $category->id) }}">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 					<input type="hidden" name="_method" value="PUT" />
-					@include('maintenance.level.partials.form')
+					@include('maintenance.ticket.category.partials.form')
 					
 					<div class="form-group float-right">
-						<a href="{{ route('level.index') }}" class="btn btn-light">
+						<a href="{{ route('category.index') }}" class="btn btn-light">
 							<i class="fas fa-arrow-left"></i> Back
 						</a>
-		
+
 						<button-loading
 							element-type="submit"
 							element-id="submit-button"

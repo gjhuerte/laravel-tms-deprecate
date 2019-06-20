@@ -27,7 +27,7 @@
 				<form method="post" action="{{ route('organization.store') }}">
 
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-					@include('maintenance.organization.partials.form')
+					@include('maintenance.user.organization.partials.form')
 					
 					<div class="form-group float-right">
 						<a href="{{ route('organization.index') }}" class="btn btn-light">

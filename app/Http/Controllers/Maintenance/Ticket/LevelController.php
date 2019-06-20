@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Maintenance;
+namespace App\Http\Controllers\Maintenance\Ticket;
 
 use App\Models\Ticket\Level;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class LevelController extends Controller
      */
     public function index(Request $request)
     {
-        return view('maintenance.level.index');
+        return view('maintenance.ticket.level.index');
     }
 
     /**
@@ -28,7 +28,7 @@ class LevelController extends Controller
      */
     public function create()
     {
-        return view('maintenance.level.create');
+        return view('maintenance.ticket.level.create');
     }
 
     /**
@@ -41,7 +41,7 @@ class LevelController extends Controller
     {
         $level = Level::findOrFail($id);
 
-        return view('maintenance.level.show', compact('level'));
+        return view('maintenance.ticket.level.show', compact('level'));
     }
 
     /**
@@ -67,7 +67,7 @@ class LevelController extends Controller
     {
         $level = Level::findOrFail($id);
 
-        return view('maintenance.level.edit', compact('level'));
+        return view('maintenance.ticket.level.edit', compact('level'));
     }
 
     /**

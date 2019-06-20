@@ -1,34 +1,34 @@
 @extends('layouts.client')
 
 @section('content')
-
     <div class="container offset-sm-3 col-sm-6 mt-5">
 		<div class="row p-3">
 			<div class="col-sm-12 my-1">
-				<h1 class="display-4">Create Category</h1>
+				<h1 class="display-4">Edit Organization</h1>
 			</div>
 			
 			<div class="col-sm-12">
 				<ul class="breadcrumb">
 					<li class="breadcrumb-item">Maintenance</li>
 					<li class="breadcrumb-item">
-						<a href="{{ route('category.index') }}">Category</a>
+						<a href="{{ route('organization.index') }}">Organization</a>
 					</li>
-					<li class="breadcrumb-item active">Create</li>
+					<li class="breadcrumb-item">{{ $organization->name }}</li>
+					<li class="breadcrumb-item active">Edit</li>
 				</ul>
 			</div>
-
+		
 			<div class="col-sm-12 my-1">
-
+		
 				@include('notification.alert')
-
-				<form method="post" action="{{ route('category.store') }}">
-
+		
+				<form method="post" action="{{ route('organization.update', $organization->id) }}">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-					@include('maintenance.category.partials.form')
+					<input type="hidden" name="_method" value="PUT" />
+					@include('maintenance.user.organization.partials.form')
 					
 					<div class="form-group float-right">
-						<a href="{{ route('category.index') }}" class="btn btn-light">
+						<a href="{{ route('organization.index') }}" class="btn btn-light">
 							<i class="fas fa-arrow-left"></i> Back
 						</a>
 

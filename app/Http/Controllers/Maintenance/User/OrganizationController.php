@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Maintenance;
+namespace App\Http\Controllers\Maintenance\User;
 
 use Illuminate\Http\Request;
 use App\Models\User\Organization;
@@ -18,7 +18,7 @@ class OrganizationController extends Controller
      */
     public function index(Request $request)
     {
-        return view('maintenance.organization.index');
+        return view('maintenance.user.organization.index');
     }
 
     /**
@@ -35,7 +35,7 @@ class OrganizationController extends Controller
             $parent = Organization::findOrFail((int) $request->parent_id);
         }
 
-        return view('maintenance.organization.create', compact(
+        return view('maintenance.user.organization.create', compact(
             'parent',
             'organizations'
         ));
@@ -64,7 +64,7 @@ class OrganizationController extends Controller
     {
         $organization = Organization::findOrFail((int) $id);
 
-        return view('maintenance.organization.show', compact('organization'));
+        return view('maintenance.user.organization.show', compact('organization'));
     }
 
     /**
@@ -85,7 +85,7 @@ class OrganizationController extends Controller
             $parent = Organization::findOrFail((int) $request->parent_id);
         }
 
-        return view('maintenance.organization.edit', compact(
+        return view('maintenance.user.organization.edit', compact(
             'organization', 
             'organizations', 
             'parent',

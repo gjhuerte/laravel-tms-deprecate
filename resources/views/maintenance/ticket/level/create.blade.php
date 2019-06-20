@@ -27,7 +27,7 @@
 				<form method="post" action="{{ route('level.store') }}">
 
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-					@include('maintenance.level.partials.form')
+					@include('maintenance.ticket.level.partials.form')
 					
 					<div class="form-group float-right">
 						<a href="{{ route('level.index') }}" class="btn btn-light">

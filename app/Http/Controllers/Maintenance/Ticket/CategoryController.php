@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Maintenance;
+namespace App\Http\Controllers\Maintenance\Ticket;
 
 use Illuminate\Http\Request;
 use App\Models\Ticket\Category;
@@ -18,7 +18,7 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        return view('maintenance.category.index');
+        return view('maintenance.ticket.category.index');
     }
 
     /**
@@ -28,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('maintenance.category.create');
+        return view('maintenance.ticket.category.create');
     }
 
     /**
@@ -54,7 +54,7 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
 
-        return view('maintenance.category.show', compact('category'));
+        return view('maintenance.ticket.category.show', compact('category'));
     }
 
     /**
@@ -67,7 +67,7 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         
-        return view('maintenance.category.edit', compact('category'));
+        return view('maintenance.ticket.category.edit', compact('category'));
     }
 
     /**
