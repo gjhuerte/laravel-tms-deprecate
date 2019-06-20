@@ -25,82 +25,48 @@ class Navigation
     protected function get()
     {
         return ObjectParser::make([
-            self::$home,
-            self::$ticketing,
-            self::$maintenance,
-            self::$reports,
+            'home' => [
+                'url' => url('/'),
+                'name' => 'Home',
+                'hasSubNavigation' => false,
+            ],
+            'ticket' => [
+                'url' => '',
+                'name' => 'Ticket',
+                'hasSubNavigation' => false,
+            ],
+            'maintenance' => [
+                'url' => '#',
+                'name' => 'Maintenance',
+                'hasSubNavigation' => true,
+                'subNavigation' =>  [
+                    'category' => [
+                        'url' => route('category.index'),
+                        'name' => 'Category',
+                    ],
+                    'organization' => [
+                        'url' => route('organization.index'),
+                        'name' => 'Organization',
+                    ],
+                    'level' => [
+                        'url' => route('level.index'),
+                        'name' => 'Level',
+                    ],
+                    'ticket_tags' => [
+                        'url' => route('ticket.tag.index'),
+                        'name' => 'Ticket Tag',
+                    ],
+                    'user' => [
+                        'url' => route('user.index'),
+                        'name' => 'User',
+                    ],
+                ]
+            ],
+            'reports' => [
+                'url' => 'reports',
+                'name' => 'Reports',
+                'hasSubNavigation' => false,
+            ],
         ]);
     }
-
-    /**
-     * Returns list of navigation used in maintenance
-     *
-     * @return object maintenance list
-     */
-    protected function getMaintenanceOnly()
-    {
-        return ObjectParser::make(self::$maintenance);
-    }
-
-    /**
-     * Homepage navigation routes
-     *
-     * @var array
-     */
-    private static $home = [
-        'url' => '/',
-        'name' => 'Home',
-        'hasSubNavigation' => false,
-    ];
-
-    /**
-     * Ticketing navigation routes
-     *
-     * @var array
-     */
-    private static $ticketing = [
-        'url' => 'ticket',
-        'name' => 'Ticket',
-        'hasSubNavigation' => false,
-    ];
-
-    /**
-     * Maintenance navigation routes
-     *
-     * @var array
-     */
-    private static $maintenance = [
-        'url' => '#',
-        'name' => 'Maintenance',
-        'hasSubNavigation' => true,
-        'subNavigation' =>  [
-            'category' => [
-                'url' => 'category',
-                'name' => 'Category',
-            ],
-            'organization' => [
-                'url' => 'organization',
-                'name' => 'Organization',
-            ],
-            'level' => [
-                'url' => 'level',
-                'name' => 'Level',
-            ],
-            'user' => [
-                'url' => 'user',
-                'name' => 'User',
-            ],
-        ],
-    ];
-
-    /**
-     * Reports navigation routes
-     *
-     * @var array
-     */
-    private static $reports = [
-        'url' => 'reports',
-        'name' => 'Reports',
-        'hasSubNavigation' => false,
-    ];
 }

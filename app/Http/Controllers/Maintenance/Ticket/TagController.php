@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Maintenance;
+namespace App\Http\Controllers\Maintenance\Ticket;
 
 use App\Models\Ticket\Tag;
 use Illuminate\Http\Request;
