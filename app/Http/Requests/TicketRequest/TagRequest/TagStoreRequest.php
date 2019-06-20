@@ -13,7 +13,7 @@ class TagStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class TagStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|max:100|string|unique:tags,name',
+            'description' => 'nullable|string|max:256',
         ];
     }
 }

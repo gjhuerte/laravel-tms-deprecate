@@ -21,7 +21,7 @@ class TagService extends BaseService
     public function createOrFind($name)
     {
         $tag = Tag::firstOrCreate([
-            'name' => ucwords($name)
+            'name' => ucwords($name),
         ]);
 
         return $tag;

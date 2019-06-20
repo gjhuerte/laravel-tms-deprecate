@@ -26,6 +26,19 @@ Route::middleware('auth:api')->namespace('api')->group(function() {
         ]);
 
         Route::post('ticket/activity/add', 'ActivityController@store');
+
+        Route::namespace('tag')
+            ->group(function () {
+                Route::get('ticket/tag/all', [
+                    'as' => 'api.ticket.tag.index', 
+                    'uses' => 'TagController@index'
+                ]);
+
+                Route::delete('tag/{id?}', [
+                    'as' => 'api.ticket.tag.destroy', 
+                    'uses' => 'TagController@destroy'
+                ]);
+            });
     });
 
 

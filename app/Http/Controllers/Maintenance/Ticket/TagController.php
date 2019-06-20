@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Maintenance\Ticket;
 use App\Models\Ticket\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\Maintenance\Ticket\TagService;
 use App\Http\Requests\TicketRequest\TagRequest\TagStoreRequest;
 use App\Http\Requests\TicketRequest\TagRequest\TagUpdateRequest;
-use App\Services\Ticket\TagService;
 
 class TagController extends Controller
 {
@@ -18,7 +18,7 @@ class TagController extends Controller
      */
     public function index(Request $request)
     {
-        return view('maintenance.tag.index');
+        return view('maintenance.ticket.tag.index');
     }
 
     /**
@@ -28,7 +28,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        return view('maintenance.tag.create');
+        return view('maintenance.ticket.tag.create');
     }
 
     /**
@@ -42,7 +42,7 @@ class TagController extends Controller
         $service->create($request->all());
 
         return redirect()
-            ->route('tag.index');
+            ->route('ticket.tag.index');
     }
 
     /**
@@ -54,7 +54,7 @@ class TagController extends Controller
     public function show($id)
     {
         $tag = Tag::findOrFail($id);
-        return view('maintenance.tag.show', compact('tag'));
+        return view('maintenance.ticket.tag.show', compact('tag'));
     }
 
     /**
@@ -66,7 +66,8 @@ class TagController extends Controller
     public function edit($id)
     {
         $tag = Tag::findOrFail($id);
-        return view('maintenance.tag.edit', compact('tag'));
+        
+        return view('maintenance.ticket.tag.edit', compact('tag'));
     }
 
     /**
@@ -80,7 +81,7 @@ class TagController extends Controller
     {
         $service->update($request->all(), $id);
 
-        return redirect()->route('tag.index');
+        return redirect()->route('ticket.tag.index');
     }
 
     /**
@@ -93,6 +94,6 @@ class TagController extends Controller
     {
         $service->remove($id);
 
-        return redirect()->route('tag.index');
+        return redirect()->route('ticket.tag.index');
     }
 }

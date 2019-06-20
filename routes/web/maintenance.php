@@ -11,18 +11,23 @@
 |
 */
 
-Route::namespace('Maintenance')->group(function () {
-   Route::resource('organization', 'OrganizationController');
-   Route::resource('level', 'LevelController');
-   Route::resource('category', 'CategoryController');
+Route::namespace('Maintenance')
+    ->prefix('maintenance')
+    ->group(function () {
+    Route::resource('organization', 'OrganizationController');
+    Route::resource('level', 'LevelController');
+    Route::resource('category', 'CategoryController');
 
-   Route::namespace('User')->group(function () {
-      Route::resource('user', 'UserController');
-   });
+    Route::namespace('User')
+        ->group(function () {
+        Route::resource('user', 'UserController');
+    });
 
-   Route::namespace('Ticket')->group(function () {
-      Route::resource('tag', 'TagController', [
-         'as' => 'ticket',
-      ]);
-   });
+    Route::namespace('Ticket')
+        ->prefix('ticket')
+        ->group(function () {
+        Route::resource('tag', 'TagController', [
+            'as' => 'ticket',
+        ]);
+    });
 });

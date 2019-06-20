@@ -4,27 +4,26 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-sm-12 my-1">
-                <h1 class="display-4">{{ __('Category List') }}</h1>
+                <h1 class="display-4">{{ __('Ticket Tag List') }}</h1>
             </div>
             <div class="col-sm-12">
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item">Maintenance</li>
                     <li class="breadcrumb-item">Ticket</li>
-                    <li class="breadcrumb-item">Category</li>
+                    <li class="breadcrumb-item">Tag</li>
                 </ul>
             </div>
             <div class="col-sm-12 my-1">
                 @include('notification.alert')
 
                 <table-ajax
-                    base-url="{{ route('category.index') }}"
-                    ajax-url="{{ route('api.category.index') }}"
+                    base-url="{{ route('ticket.tag.index') }}"
+                    ajax-url="{{ route('api.ticket.tag.index') }}"
                     api-token="{{ Auth::user()->api_token }}"
-                    create-url="{{ route('category.create') }}"
+                    create-url="{{ route('ticket.tag.create') }}"
                     column-count="6">
                     <template slot="right_header">
                         <a
-                            href="{{ route('category.create') }}"
+                            href="{{ route('ticket.tag.create') }}"
                             class="btn btn-primary">
                             <i class="fas fa-plus"></i>
                             {{  __('Create') }}
