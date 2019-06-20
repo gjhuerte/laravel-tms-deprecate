@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Maintenance;
 use Illuminate\Http\Request;
 use App\Models\User\Organization;
 use App\Http\Controllers\Controller;
-use App\Jobs\Organization\CreateOrganization;
-use App\Jobs\Organization\UpdateOrganization;
-use App\Jobs\Organization\RemoveOrganization;
+use App\Services\Maintenance\OrganizationService;
 use App\Http\Requests\OrganizationRequest\OrganizationStoreRequest;
 use App\Http\Requests\OrganizationRequest\OrganizationUpdateRequest;
 
@@ -49,9 +47,9 @@ class OrganizationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(OrganizationStoreRequest $request)
+    public function store(OrganizationStoreRequest $request, OrganizationService $service)
     {
-        $this->dispatch(new CreateOrganization($request->all()));
+        $service->create($request->all());
 
         return redirect()->route('organization.index');
     }
@@ -75,7 +73,7 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request, OrganizationService $service, $id)
     {
         $organization = Organization::findOrFail((int) $id);
         $organizations = Organization::all();
@@ -102,9 +100,9 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(OrganizationUpdateRequest $request, $id)
+    public function update(OrganizationUpdateRequest $request, OrganizationService $service, $id)
     {
-        $this->dispatch(new UpdateOrganization($request->all(), $id));
+        $service->update($request->all(), $id);
 
         return redirect()->route('organization.index');
     }
@@ -115,9 +113,9 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(OrganizationService $service, $id)
     {
-        $this->dispatch(new RemoveOrganization($id));
+        $service->remove($id);
         
         return redirect()->route('organization.index');
     }

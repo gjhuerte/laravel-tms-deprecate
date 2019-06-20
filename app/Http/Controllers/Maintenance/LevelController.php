@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Maintenance;
 
 use App\Models\Ticket\Level;
 use Illuminate\Http\Request;
-use App\Jobs\Level\CreateLevel;
-use App\Jobs\Level\UpdateLevel;
-use App\Jobs\Level\RemoveLevel;
 use App\Http\Controllers\Controller;
+use App\Services\Maintenance\Ticket\LevelService;
 use App\Http\Requests\LevelRequest\LevelStoreRequest;
 use App\Http\Requests\LevelRequest\LevelUpdateRequest;
 
@@ -52,9 +50,9 @@ class LevelController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(LevelStoreRequest $request)
+    public function store(LevelStoreRequest $request, LevelService $service)
     {
-        $this->dispatch(new CreateLevel($request->all()));
+        $service->create($request->all());
 
         return redirect()->route('level.index');
     }
@@ -79,9 +77,9 @@ class LevelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(LevelUpdateRequest $request, $id)
+    public function update(LevelUpdateRequest $request, LevelService $service, $id)
     {
-        $this->dispatch(new UpdateLevel($request->all(), $id));
+        $service->update($request->all(), $id);
 
         return redirect()->route('level.index');
     }
@@ -92,9 +90,9 @@ class LevelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(LevelService $service, $id)
     {
-        $this->dispatch(new RemoveLevel($id));
+        $service->remove($id);
 
         return redirect()->route('level.index');
     }

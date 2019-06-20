@@ -6,7 +6,6 @@ use App\Models\User\User;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use App\Transformers\User\UserTransformer;
-use League\Fractal\Serializer\DataArraySerializer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class UserResource

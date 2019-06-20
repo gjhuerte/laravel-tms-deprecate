@@ -5,7 +5,6 @@ namespace App\Http\Resources\User;
 use League\Fractal\Manager;
 use App\Models\User\Organization;
 use League\Fractal\Resource\Collection;
-use League\Fractal\Serializer\DataArraySerializer;
 use App\Transformers\User\OrganizationTransformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 

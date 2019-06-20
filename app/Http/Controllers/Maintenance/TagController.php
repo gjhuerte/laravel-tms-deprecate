@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Maintenance;
 
 use App\Models\Ticket\Tag;
 use Illuminate\Http\Request;
-use App\Jobs\Ticket\Tag\CreateTag;
-use App\Jobs\Ticket\Tag\RemoveTag;
-use App\Jobs\Ticket\Tag\UpdateTag;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TicketRequest\TagRequest\TagStoreRequest;
 use App\Http\Requests\TicketRequest\TagRequest\TagUpdateRequest;
+use App\Services\Ticket\TagService;
 
 class TagController extends Controller
 {
@@ -18,7 +16,7 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return view('maintenance.tag.index');
     }
@@ -39,10 +37,12 @@ class TagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TagStoreRequest $request)
+    public function store(TagStoreRequest $request, TagService $service)
     {
-        $this->dispatch(new CreateTag($request->all()));
-        return redirect()->route('tag.index');
+        $service->create($request->all());
+
+        return redirect()
+            ->route('tag.index');
     }
 
     /**
@@ -76,9 +76,10 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TagUpdateRequest $request, $id)
+    public function update(TagUpdateRequest $request, TagService $service, $id)
     {
-        $this->dispatch(new UpdateTag($request->all(), $id));
+        $service->update($request->all(), $id);
+
         return redirect()->route('tag.index');
     }
 
@@ -88,9 +89,10 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(TagService $service, $id)
     {
-        $this->dispatch(new RemoveTag($id));
+        $service->remove($id);
+
         return redirect()->route('tag.index');
     }
 }

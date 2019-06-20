@@ -6,7 +6,6 @@ use League\Fractal\Manager;
 use App\Models\Ticket\Category;
 use League\Fractal\Resource\Collection;
 use App\Transformers\Ticket\CategoryTransformer;
-use League\Fractal\Serializer\DataArraySerializer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class CategoryResource

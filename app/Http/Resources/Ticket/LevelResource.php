@@ -6,7 +6,6 @@ use League\Fractal\Manager;
 use App\Models\Ticket\Level;
 use League\Fractal\Resource\Collection;
 use App\Transformers\Ticket\LevelTransformer;
-use League\Fractal\Serializer\DataArraySerializer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class LevelResource

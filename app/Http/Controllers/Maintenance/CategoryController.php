@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Maintenance;
 use Illuminate\Http\Request;
 use App\Models\Ticket\Category;
 use App\Http\Controllers\Controller;
-use App\Jobs\Category\CreateCategory;
-use App\Jobs\Category\UpdateCategory;
-use App\Jobs\Category\RemoveCategory;
+use App\Services\Maintenance\Ticket\CategoryService;
 use App\Http\Requests\CategoryRequest\CategoryStoreRequest;
 use App\Http\Requests\CategoryRequest\CategoryUpdateRequest;
 
@@ -39,9 +37,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryStoreRequest $request)
+    public function store(CategoryStoreRequest $request, CategoryService $service)
     {
-        CreateCategory::dispatch($request->all());
+        $service->create($request->all());
 
         return redirect()->route('category.index');
     }
@@ -79,9 +77,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryUpdateRequest $request, $id)
+    public function update(CategoryUpdateRequest $request, CategoryService $service, $id)
     {
-        UpdateCategory::dispatch($request->all(), $id);
+        $service->update($request->all(), $id);
 
         return redirect()->route('category.index');
     }
@@ -92,9 +90,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(CategoryService $service, $id)
     {
-        RemoveCategory::dispatch($id);
+        $service->remove($id);
 
         return redirect()->route('category.index');
     }
