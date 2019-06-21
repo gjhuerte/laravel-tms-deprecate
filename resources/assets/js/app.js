@@ -16,14 +16,45 @@ window.swal = require('sweetalert2');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('single-ticket-table', require('./components/tables/tickets/SingleTicket.vue'));
-Vue.component('ticket-list-table', require('./components/tables/tickets/MyTicketList.vue'));
-Vue.component('button-loading', require('./components/buttons/Processing.vue'));
-Vue.component('remove-button-loading-i', require('./components/tables/partials/RemoveButtonViaAjax.vue'));
-Vue.component('a-button-loading', require('./components/buttons/AnchorProcessing.vue'));
-Vue.component('wysiwyg-textarea', require('./components/Textarea.vue'));
-Vue.component('table-ajax', require('./components/tables/BaseTemplate.vue'));
-Vue.component('button-confirmation', require('./components/buttons/Confirmation.vue'));
+Vue.component(
+	'single-ticket-table', 
+	require('./components/tables/tickets/SingleTicket.vue').default
+);
+
+Vue.component(
+	'ticket-list-table', 
+	require('./components/tables/tickets/MyTicketList.vue').default
+);
+
+Vue.component(
+	'button-loading', 
+	require('./components/buttons/Processing.vue').default
+);
+
+Vue.component(
+	'remove-button-loading-i', 
+	require('./components/tables/partials/RemoveButtonViaAjax.vue').default
+);
+
+Vue.component(
+	'a-button-loading', 
+	require('./components/buttons/AnchorProcessing.vue').default
+);
+
+Vue.component(
+	'wysiwyg-textarea', 
+	require('./components/Textarea.vue').default
+);
+
+Vue.component(
+	'table-ajax', 
+	require('./components/tables/BaseTemplate.vue').default
+);
+
+Vue.component(
+	'button-confirmation', 
+	require('./components/buttons/Confirmation.vue').default
+);
 
 Vue.component(
     'passport-clients',

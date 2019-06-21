@@ -53,9 +53,9 @@
 <script>
     import axios from "axios";
     import Swal from "sweetalert2";
-    import Processing from '../Processing';
-    import TableBody from './partials/TableBody';
-    import Pagination from './partials/Pagination';
+    import Processing from '../Processing.vue';
+    import TableBody from './partials/TableBody.vue';
+    import Pagination from './partials/Pagination.vue';
 
     export default {
         props: [
