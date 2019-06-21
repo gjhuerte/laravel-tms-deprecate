@@ -11,11 +11,11 @@ class Tag extends Model
 
     /**
      * Fillable entries when using eloquent
-     * 
+     *
      * @var array
      */
     public $fillable = [
-        'name', 
+        'name',
         'description'
     ];
 }

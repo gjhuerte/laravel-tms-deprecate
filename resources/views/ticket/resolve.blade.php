@@ -40,21 +40,8 @@
 				class="form-horizontal">
 				<div class="row">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-					
-                    <div class="col-sm-12">
-						<div class="alert alert-info">
-							<h5 class="alert-heading">TARGET TICKET</h5>
-							
-							<ul class="list-unstyled mt-3">
-								<li>
-									<strong>Code: </strong> {{ $ticket->code }}
-								</li>
-								<li class="mt-1">
-									<strong>Title: </strong> {{ $ticket->title }}
-								</li>
-							</ul>
-						</div>
-					</div>
+
+					@include('ticket.partials.list_ticket')
 
                     <div class="col-sm-12">
 						<div class="form-group">
@@ -69,13 +56,24 @@
 						</div>
 					</div>
 
-					<div class="col-sm-12">
+					<div class="col-sm-12">	
+						<textarea-wysiwyg
+							v-bind:element-name="'details'"
+							v-bind:element-id="'details'"
+							v-bind:element-label="'Details'"
+							v-bind:element-class="'form-control'"
+							v-bind:element-rows="'6'"
+							v-bind:element-placeholder="'Compose an epic ticket details...'"
+							v-bind:initial-value="'{{ old('details') }}'" />
+					</div>
+
+					{{-- <div class="col-sm-12">
 						<div class="form-group">
 							<label for="details">Details</label>
 							<div name="details" id="details" style="height: 350px"></div>
 							<input type="hidden" id="details-form-field" name="details" />
 						</div>
-					</div>
+					</div> --}}
 					
 					<div class="col-sm-12">
 						<div class="form-group">
@@ -136,10 +134,10 @@
 
 @section('scripts-include')
 <!-- Main Quill library -->
-<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+{{-- <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script> --}}
 
 <!-- Theme included stylesheets -->
-<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+{{-- <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"> --}}
 
 <!-- Core build with no theme, formatting, non-essential modules -->
 <script type="text/javascript" src="{{ asset('js/standalone/selectize.min.js') }}"></script>
@@ -147,13 +145,13 @@
 <script type="text/javascript">
 	var form = $('#ticket-creation-form');
 	var tags = form.data('tags');
-	var detailsValue = $('#details').val();
-	var quill = new Quill('#details', {
-		placeholder: 'Compose an epic ticket details...',
-		theme: 'snow',
-	});
+	// var detailsValue = $('#details').val();
+	// var quill = new Quill('#details', {
+	// 	placeholder: 'Compose an epic ticket details...',
+	// 	theme: 'snow',
+	// });
 
-	quill.setText(detailsValue);
+	// quill.setText(detailsValue);
 	$('#tags').selectize({
 		delimiter: ',',
 		persist: false,
@@ -166,7 +164,7 @@
 	// On form submit, assign the details to 
 	// the equivalent hidden field
 	form.on('submit', function(e) {
-		$('#details-form-field').val(quill.getText());
+		// $('#details-form-field').val(quill.getText());
 
 		return true;
 	});

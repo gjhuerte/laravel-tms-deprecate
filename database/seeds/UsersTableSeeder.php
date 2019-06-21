@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User\User;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
@@ -23,6 +24,7 @@ class UsersTableSeeder extends Seeder
 			'email' => 'johndoe@email.com',
 			'organization_id' => 1,
 			'role' => 'Head Administrator',
+			'api_token' => Str::random(60),
 		]);
 		
         User::create([
@@ -33,6 +35,7 @@ class UsersTableSeeder extends Seeder
 			'email' => 'pp@email.com',
 			'organization_id' => 2,
 			'role' => 'Site Manager',
+			'api_token' => Str::random(60),
         ]);
 		
         User::create([
@@ -43,6 +46,7 @@ class UsersTableSeeder extends Seeder
 			'email' => 'jdcpp@email.com',
 			'organization_id' => 3,
 			'role' => 'Desk Support',
+			'api_token' => Str::random(60),
         ]);
 		
         User::create([
@@ -53,6 +57,7 @@ class UsersTableSeeder extends Seeder
 			'email' => 'tj@email.com',
 			'organization_id' => 4,
 			'role' => 'Technical Support',
+			'api_token' => Str::random(60),
         ]);
     }
 }

@@ -13,6 +13,10 @@
 
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
+            @php
+                $appNavigations = \App\Http\Packages\Navigation\Navigation::all();
+            @endphp
+
             @foreach($appNavigations as $navigation)
                 @if($navigation->hasSubNavigation)
                     <li class="nav-item dropdown">
@@ -28,7 +32,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="maintenance-navbar-dropdown">
                             @foreach($navigation->subNavigation as $subNavigation)
-                                <a class="dropdown-item" href="{{ url("$subNavigation->url") }}">
+                                <a class="dropdown-item" href="{{ $subNavigation->url }}">
                                     {{ $subNavigation->name }}
                                 </a>
                             @endforeach
@@ -36,7 +40,7 @@
                     </li>
                 @else
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("$navigation->url") }}">
+                        <a class="nav-link" href="{{ $navigation->url }}">
                             {{ $navigation->name }}
                         </a>
                     </li>

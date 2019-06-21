@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Ticket;
 
 use Illuminate\Http\Request;
-use App\Models\Ticket\Ticket;
-use App\Jobs\Ticket\ResolveTicket;
+use App\Services\TicketService;
 use App\Http\Controllers\Controller;
+use App\Services\Ticket\TicketActionService;
 use App\Http\Requests\TicketRequest\TicketResolveRequest;
 
 class ResolveTicketController extends Controller
@@ -15,9 +15,9 @@ class ResolveTicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $id)
+    public function create(Request $request, TicketService $service, $id)
     {
-        $ticket = Ticket::findOrFail($id);
+        $ticket = $service->find($id);
 
         return view('ticket.resolve', compact('ticket'));
     }
@@ -29,9 +29,9 @@ class ResolveTicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function store(TicketResolveRequest $request, $id)
+    public function store(TicketResolveRequest $request, TicketActionService $service, $id)
     {
-        $this->dispatch(new ResolveTicket($request->all(), $id));
+        $service->resolve($request->all(), $id);
         
         return redirect()->route('ticket.show', $id);
     }

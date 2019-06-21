@@ -51,11 +51,12 @@
 						placeholder="Enter password here..." />
 				</div>
 				<div class="form-group">
-					<button 
-						type="submit" 
-						id="submit-button" 
-						class="btn btn-primary btn-block"> Submit
-					</button>
+					<button-loading
+						element-type="submit"
+						element-id="submit-button"
+						element-class="btn btn-primary btn-block"
+						default-text="Submit">
+					</button-loading>
 				</div>
 				<div class="col-sm-12 text-center">
 					<a 

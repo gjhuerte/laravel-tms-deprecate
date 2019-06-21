@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\TicketRequest\TagRequest;
 
+use App\Models\Ticket\Tag;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TagUpdateRequest extends FormRequest
@@ -13,7 +14,7 @@ class TagUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +24,11 @@ class TagUpdateRequest extends FormRequest
      */
     public function rules()
     {
+        $tag = Tag::findOrFail($this->tag);
+
         return [
-            //
+            'name' => 'required|max:100|string|unique:tags,name,' . $tag->name . ',name',
+            'description' => 'nullable|string|max:256',
         ];
     }
 }

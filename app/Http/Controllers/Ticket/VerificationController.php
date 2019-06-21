@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Ticket;
 
 use Illuminate\Http\Request;
-use App\Models\Ticket\Ticket;
-use App\Jobs\Ticket\VerifyTicket;
+use App\Services\TicketService;
 use App\Http\Controllers\Controller;
+use App\Services\Ticket\TicketActionService;
 use App\Http\Requests\TicketRequest\TicketVerificationRequest;
 
 class VerificationController extends Controller
@@ -15,9 +15,9 @@ class VerificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $id)
+    public function create(Request $request, TicketService $service, $id)
     {
-        $ticket = Ticket::findOrFail($id);
+        $ticket = $service->find($id);
 
         return view('ticket.transfer', compact('ticket'));
     }
@@ -29,9 +29,10 @@ class VerificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function store(TicketVerificationRequest $request, $id)
+    public function store(TicketVerificationRequest $request, TicketActionService $service, $id)
     {
-        $this->dispatch(new VerifyTicket($request->all(), $id));
+        $service->verify($request->all(), $id);
+
         return redirect('ticket');
     }
 }

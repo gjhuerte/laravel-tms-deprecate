@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use Illuminate\Support\Str;
 use App\Models\User\Organization;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -11,14 +12,6 @@ class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
-    const HEAD_ADMINISTRATOR = 'head administrator';
-    const ADMINISTRATOR = 'administrator';
-    const DESIGNATOR = 'designator';
-    const VERIFIER = 'verifier';
-    const SUPPORT = 'support';
-    const CLIENT_MANAGER = 'client manager';
-    const CLIENT = 'client';
-    
     protected $table = 'users';
     protected $primaryKey = 'id';
 
@@ -28,7 +21,19 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'firstname',
+        'middlename',
+        'lastname',
+        'image_url',
+        'role',
+        'organization_id',
+        'mobile',
+        'username',
+        'email',
+        'password',
+        'api_token',
+        'is_activated',
+        'remember_token',
     ];
 
     /**
@@ -37,7 +42,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $appends = [
-        'full_name', 'organization_name', 'first_and_last_name', 'api_token',
+        'full_name',
+        'organization_name',
+        'first_and_last_name',
     ];
 
     /**
@@ -51,15 +58,17 @@ class User extends Authenticatable
 
     /**
      * Fetch the api token used for the app
-     * 
+     *
      * @return string
      */
-    public function getApiTokenAttribute()
-    {
-        $appName = config('app.name');
+    // public function getApiTokenAttribute()
+    // {
+        // $appName = config('app.name');
+        // $slugify = Str::slug($appName);
 
-        return $this->createToken($appName)->accessToken;
-    }
+        // return $this->createToken($slugify)->accessToken;
+        // return $this->api_token;
+    // }
 
     /**
      * Name formatted using firstname then the lastname
@@ -68,7 +77,7 @@ class User extends Authenticatable
      */
     public function getFirstAndLastNameAttribute()
     {
-        return $this->firstname . ' ' . $this->lastname;
+        return "{$this->firstname} {$this->lastname}";
     }
 
     /**
@@ -79,7 +88,7 @@ class User extends Authenticatable
      */
     public function getFullNameAttribute()
     {
-        return $this->lastname . ', ' . $this->firstname . ' ' . $this->middlename;
+        return "{$this->lastname}, {$this->firstname} {$this->middlename}";
     }
 
     /**
@@ -89,7 +98,8 @@ class User extends Authenticatable
      */
     public function getOrganizationNameAttribute()
     {
-        return optional($this->organization)->name;
+        return optional($this->organization)
+            ->name;
     }
 
     /**
@@ -99,6 +109,10 @@ class User extends Authenticatable
      */
     public function organization()
     {
-        return $this->belongsTo(Organization::class, 'organization_id', 'id');
+        return $this->belongsTo(
+            Organization::class,
+            'organization_id',
+            'id'
+        );
     }
 }

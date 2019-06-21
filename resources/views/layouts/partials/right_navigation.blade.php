@@ -17,13 +17,13 @@
             <a 
                 href="{{ route('user.profile', Auth::user()->username) }}"
                 class="dropdown-item">
-                {{ _('Profile') }}
+                {{ __('Profile') }}
             </a>
 
             <a 
                 href="{{ url('settings') }}" 
                 class="dropdown-item">
-                {{ _('Settings') }}
+                {{ __('Settings') }}
             </a>
 
             <div class="dropdown-divider"></div>

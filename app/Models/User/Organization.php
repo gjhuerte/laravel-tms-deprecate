@@ -14,13 +14,24 @@ class Organization extends Model
     protected $primaryKey = 'id';
 
     /**
-     * Fillable columns when using eloquent query
+     * Parse the dates using Carbon package
+     * as a date object
      * 
      * @var array
      */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
+
+    /**
+     * Fillable columns when using eloquent query
+     *
+     * @var array
+     */
     public $fillable = [
-        'name', 
-        'abbreviation', 
+        'name',
+        'abbreviation',
         'parent_id'
     ];
 

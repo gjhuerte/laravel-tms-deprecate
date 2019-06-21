@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Ticket;
 
 use Illuminate\Http\Request;
-use App\Models\Ticket\Ticket;
-use App\Jobs\Ticket\AssignTicket;
+use App\Services\TicketService;
 use App\Http\Controllers\Controller;
+use App\Services\Ticket\TicketActionService;
 
 class AssignmentController extends Controller
 {
@@ -14,9 +14,9 @@ class AssignmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $id)
+    public function create(Request $request, TicketService $service, $id)
     {
-        $ticket = Ticket::findOrFail($id);
+        $ticket = $service->find($id);
 
         return view('ticket.assign', compact('ticket'));
     }
@@ -27,9 +27,10 @@ class AssignmentController extends Controller
      * @param TicketAssignmentRequest $request
      * @return Response
      */
-    public function store(TicketAssignmentRequest $request, $id)
+    public function store(TicketAssignmentRequest $request, TicketActionService $service, $id)
     {
-        $this->dispatch(new AssignTicket($request->all(), $id));
+        $service->assign($request->all(), $id);
+        
         return redirect('ticket');
     }
 }

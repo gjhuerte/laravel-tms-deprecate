@@ -4,25 +4,18 @@ namespace App\Http\Controllers\Api\Ticket;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Jobs\Api\Ticket\CreateTicketWithUser;
-use App\Jobs\Api\Ticket\FetchMyAccessibleTicket;
-use App\Jobs\Api\Ticket\FetchAllMyAccessibleTicket;
+use App\Http\Resources\Ticket\TicketResource;
 
 class TicketController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, TicketResource $ticket)
     {
-        $this->dispatch(
-            new FetchAllMyAccessibleTicket($request->all())
-        );
-
-        return session('notification.payload.tickets');
+        return $ticket->paginate()->transform();
     }
 
     /**
@@ -33,7 +26,7 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        $this->dispatch(new CreateTicketWithUser($request));
+
     }
 
     /**
@@ -44,6 +37,6 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        $this->dispatch(new FetchMyAccessibleTicket($id));
+
     }
 }

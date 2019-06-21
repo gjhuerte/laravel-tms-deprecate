@@ -8,6 +8,4 @@ class Activity extends Model
 {
     protected $table = 'user_activities';
     protected $primary = 'id';
-
-    
 }

@@ -16,7 +16,20 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'parent_id'
+        'name', 
+        'description', 
+        'parent_id',
+    ];
+
+    /**
+     * Parse the dates using Carbon package
+     * as a date object
+     * 
+     * @var array
+     */
+    protected $dates = [
+        'created_at',
+        'updated_at',
     ];
 
     /**

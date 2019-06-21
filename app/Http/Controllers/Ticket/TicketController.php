@@ -7,9 +7,10 @@ use App\Models\Ticket\Level;
 use Illuminate\Http\Request;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\Category;
-use App\Jobs\Ticket\UpdateTicket;
+use App\Services\TicketService;
+use App\Services\Ticket\TagService;
 use App\Http\Controllers\Controller;
-use App\Jobs\Ticket\InitializeTicket;
+use App\Services\Ticket\TicketActionService;
 use App\Http\Requests\TicketRequest\TicketStoreRequest;
 use App\Http\Requests\TicketRequest\TicketUpdateRequest;
 
@@ -37,15 +38,17 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(TagService $service)
     {
         $levels = Level::pluck('name', 'id');
         $categories = Category::pluck('name', 'id');
         $tags = Tag::pluck('name')->toArray();
+        $tags_string = $service->join($tags);
 
         return view('ticket.create')
             ->with('levels', $levels)
             ->with('tags', $tags)
+            ->with('tags_string', $tags_string)
             ->with('categories', $categories);
     }
 
@@ -55,9 +58,9 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TicketStoreRequest $request)
+    public function store(TicketStoreRequest $request, TicketActionService $service)
     {
-        $this->dispatch(new InitializeTicket($request->all()));
+        $service->initialize($request->all());
 
         return redirect()->route('ticket.index');
     }
@@ -68,9 +71,9 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(TicketService $service, $id)
     {
-        $ticket = Ticket::findOrFail($id);
+        $ticket = $service->find($id);
 
         return view('ticket.show', compact('ticket'));
     }
@@ -81,9 +84,9 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(TicketService $service, $id)
     {
-        $ticket = Ticket::findOrFail($id);
+        $ticket = $service->find($id);
 
         return view('ticket.edit', compact('ticket'));
     }
@@ -95,9 +98,9 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TicketUpdateRequest $request, $id)
+    public function update(TicketUpdateRequest $request, TicketActionService $service, $id)
     {
-        $this->dispatch(new UpdateTicket($request->all(), $id));
+        $service->update($request->all(), $id);
         
         return redirect()->route('ticket.index');
     }

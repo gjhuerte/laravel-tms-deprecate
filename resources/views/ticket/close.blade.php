@@ -40,21 +40,8 @@
 				class="form-horizontal">
 				<div class="row">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-					
-                    <div class="col-sm-12">
-						<div class="alert alert-info">
-							<h5 class="alert-heading">TARGET TICKET</h5>
-							
-							<ul class="list-unstyled mt-3">
-								<li>
-									<strong>Code: </strong> {{ $ticket->code }}
-								</li>
-								<li class="mt-1">
-									<strong>Title: </strong> {{ $ticket->title }}
-								</li>
-							</ul>
-						</div>
-					</div>
+
+					@include('ticket.partials.list_ticket')
 
                     <div class="col-sm-12">
 						<div class="form-group">
