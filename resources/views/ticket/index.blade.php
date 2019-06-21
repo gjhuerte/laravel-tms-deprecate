@@ -32,7 +32,6 @@
                     <template slot="table-header">
                         <td>{{ __('Code') }}</td>
                         <td>{{ __('Title') }}</td>
-                        <td>{{ __('Details') }}</td>
                         <td>{{ __('Status') }}</td>
                         <td>{{ __('Created At') }}</td>
                         <td>{{ __('Updated At') }}</td>
@@ -47,7 +46,6 @@
                             v-for="content in contents"> 
                             <td>@{{ content.code }}</td>
                             <td>@{{ content.title }}</td>
-                            <td>@{{ content.details }}</td>
                             <td>@{{ content.status }}</td>
                             <td>@{{ content.human_readable_created_at }}</td>
                             <td>@{{ content.human_readable_updated_at }}</td>
@@ -55,20 +53,12 @@
 
                                 <div class="d-flex flex-row justify-content-around align-items-center">
                                     <a-button-loading
-                                        v-bind:element-href="content.links.edit_url"
-                                        element-class="btn btn-warning"
+                                        v-bind:element-href="content.links.view_url"
+                                        element-class="btn btn-info"
                                         loading-text="Fetching...">
-                                        <i class="fas fa-edit"></i>
-                                        Update
+                                        <i class="fas fa-list"></i>
+                                        Show
                                     </a-button-loading>
-
-                                    <remove-button-loading-i
-                                        v-bind:content-id="content.id"
-                                        v-bind:url="content.links.remove_url"
-                                        element-class="btn btn-danger">
-                                        <i class="fas fa-trash"></i>
-                                        Remove
-                                    </remove-button-loading-i>
                                 </div>
                             </td>
                         </tr>

@@ -47,6 +47,11 @@ Vue.component(
 );
 
 Vue.component(
+	'multi-select',
+	require('./components/MultiSelect.vue').default
+);
+
+Vue.component(
 	'table-ajax', 
 	require('./components/tables/BaseTemplate.vue').default
 );

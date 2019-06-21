@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Ticket;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\Ticket\TicketActionService;
 use App\Http\Resources\Ticket\TicketResource;
 
 class TicketController extends Controller
@@ -19,24 +20,19 @@ class TicketController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-
-    }
-
-    /**
-     * Display the specified resource.
+     * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function destroy(Request $request, TicketService $service, $id)
     {
+        $service->remove($id);
 
+        return response()->json([
+            'status' => 'success',
+            'title' => 'Operation Success',
+            'message' => 'Ticket has been successfully removed',
+        ], 200);
     }
 }

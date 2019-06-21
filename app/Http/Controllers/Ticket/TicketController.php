@@ -60,10 +60,14 @@ class TicketController extends Controller
      */
     public function store(TicketStoreRequest $request, TicketActionService $service)
     {
-        dd($request->all());
         $service->initialize($request->all());
 
-        return redirect()->route('ticket.index');
+        return redirect()
+            ->route('ticket.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully created a ticket'
+            ]);
     }
 
     /**
@@ -103,6 +107,11 @@ class TicketController extends Controller
     {
         $service->update($request->all(), $id);
         
-        return redirect()->route('ticket.index');
+        return redirect()
+            ->route('ticket.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully updated a ticket'
+            ]);
     }
 }

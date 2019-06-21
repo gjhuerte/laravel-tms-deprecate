@@ -23,13 +23,13 @@ class TicketTransformer extends TransformerAbstract
 
 	    return [
 	        'id' => (int) $ticket->id,
-	        'code' => (int) $ticket->code,
+	        'code' => $ticket->code,
 	        'title' => $ticket->title,
 	        'details' => $ticket->details,
 	        'additional_info' => $ticket->additional_info,
 	        'alternative_contact' => $ticket->alt_contact,
 	        'assigned_to' => $ticket->assigned_to,
-	        'assigned_name' => $ticket->personnel->full_name,
+	        'assigned_name' => optional($ticket->personnel)->full_name,
 	        'author_id' => $ticket->author_id,
 	        'author_name' => optional($ticket->author)->full_name,
 	        'parent_id' => $ticket->parent_id,

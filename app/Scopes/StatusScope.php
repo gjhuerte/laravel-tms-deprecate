@@ -2,6 +2,8 @@
 
 namespace App\Scopes;
 
+use App\Enumerables\TicketEnum;
+
 trait StatusScope
 {
     /**
@@ -12,18 +14,18 @@ trait StatusScope
     public function allStatus()
     {
         return [
-            self::INITIALIZED,
-            self::VERIFIED,
-            self::ASSIGNED,
-            self::TRANSFERRED,
-            self::WAITINGFORAPPROVAL,
-            self::APPROVED,
-            self::ENQUEUE,
-            self::RESOLVING,
-            self::RESOLVED,
-            self::WAITINGFORFEEDBACK,
-            self::CLOSED,
-            self::REOPENED,
+            TicketEnum::INITIALIZED,
+            TicketEnum::VERIFIED,
+            TicketEnum::ASSIGNED,
+            TicketEnum::TRANSFERRED,
+            TicketEnum::WAITINGFORAPPROVAL,
+            TicketEnum::APPROVED,
+            TicketEnum::ENQUEUE,
+            TicketEnum::RESOLVING,
+            TicketEnum::RESOLVED,
+            TicketEnum::WAITINGFORFEEDBACK,
+            TicketEnum::CLOSED,
+            TicketEnum::REOPENED,
         ];
     }
 
@@ -34,7 +36,7 @@ trait StatusScope
      */
     public function enqueuedStatus()
     {
-        return self::ENQUEUE;
+        return TicketEnum::ENQUEUE;
     }
 
     /**
@@ -44,7 +46,7 @@ trait StatusScope
      */
     public function initializedStatus()
     {
-        return self::INITIALIZED;
+        return TicketEnum::INITIALIZED;
     }
     
     /**
@@ -54,7 +56,7 @@ trait StatusScope
      */
     public function verifiedStatus()
     {
-        return self::VERIFIED;
+        return TicketEnum::VERIFIED;
     }
     
     /**
@@ -64,7 +66,7 @@ trait StatusScope
      */
     public function assignedStatus()
     {
-        return self::ASSIGNED;
+        return TicketEnum::ASSIGNED;
     }
 
     /**
@@ -74,7 +76,7 @@ trait StatusScope
      */
     public function approvedStatus()
     {
-        return self::APPROVED;
+        return TicketEnum::APPROVED;
     }
 
     /**
@@ -84,7 +86,7 @@ trait StatusScope
      */
     public function resolvedStatus()
     {
-        return self::RESOLVED;
+        return TicketEnum::RESOLVED;
     }
 
     /**
@@ -94,7 +96,7 @@ trait StatusScope
      */
     public function closedStatus()
     {
-        return self::CLOSED;
+        return TicketEnum::CLOSED;
     }
 
     /**
@@ -104,6 +106,6 @@ trait StatusScope
      */
     public function reopenedStatus()
     {
-        return self::REOPENED;
+        return TicketEnum::REOPENED;
     }
 }

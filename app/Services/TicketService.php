@@ -54,7 +54,7 @@ class TicketService extends BaseService
         $this->activityService
             ->create(
                 $attributes['activity'], 
-                $ticket
+                $ticket->id
             );
 
         if(isset($attributes['tags'])) {
@@ -104,7 +104,7 @@ class TicketService extends BaseService
         $this->activityService
             ->create(
                 $attributes['activity'], 
-                $ticket
+                $ticket->id
             );
 
         DB::commit();

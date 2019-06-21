@@ -24,6 +24,11 @@ Route::middleware('auth:api')
             'uses' => 'TicketController@index'
         ]);
 
+        Route::delete('{id}', [
+            'as' => 'api.ticket.destroy', 
+            'uses' => 'TicketController@destroy'
+        ]);
+
         Route::get('{id}/activity', [
             'as' => 'api.ticket.activity.index', 
             'uses' => 'ActivityController@index'
