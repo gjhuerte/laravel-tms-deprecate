@@ -35,5 +35,11 @@ class ActivityController extends Controller
     public function store(Request $request, ActivityService $service)
     {
         $service->create($request->all(), null);
+
+        return response()->json([
+            'status' => 'success',
+            'title' => 'Success',
+            'message' => 'Ticket activity created successfully',
+        ], 200);
     }
 }

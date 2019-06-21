@@ -13,81 +13,86 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->namespace('api')->group(function() {
-    Route::namespace('ticket')->group(function() {
-        Route::get('ticket/all', [
+Route::middleware('auth:api')
+    ->namespace('api')
+    ->group(function() {
+    Route::namespace('ticket')
+        ->prefix('ticket')
+        ->group(function() {
+        Route::get('all', [
             'as' => 'api.ticket.index', 
             'uses' => 'TicketController@index'
         ]);
 
-        Route::get('ticket/{id}/activity', [
+        Route::get('{id}/activity', [
             'as' => 'api.ticket.activity.index', 
             'uses' => 'ActivityController@index'
         ]);
 
-        Route::post('ticket/activity/add', 'ActivityController@store');
+        Route::post('activity/add', 'ActivityController@store');
 
-        Route::namespace('tag')
-            ->group(function () {
-                Route::get('ticket/tag/all', [
-                    'as' => 'api.ticket.tag.index', 
-                    'uses' => 'TagController@index'
-                ]);
+        Route::get('tag/all', [
+            'as' => 'api.ticket.tag.index', 
+            'uses' => 'TagController@index'
+        ]);
 
-                Route::delete('tag/{id?}', [
-                    'as' => 'api.ticket.tag.destroy', 
-                    'uses' => 'TagController@destroy'
-                ]);
-            });
+        Route::delete('tag/{id?}', [
+            'as' => 'api.ticket.tag.destroy', 
+            'uses' => 'TagController@destroy'
+        ]);
+
+        Route::prefix('category')
+            ->group(function() {
+            Route::get('/', [
+                'as' => 'api.category.index', 
+                'uses' => 'CategoryController@index'
+            ]);
+
+            Route::delete('{id?}', [
+                'as' => 'api.category.destroy', 
+                'uses' => 'CategoryController@destroy'
+            ]);
+        });
+
+        Route::prefix('level')
+            ->group(function() {
+            Route::get('/', [
+                'as' => 'api.level.index', 
+                'uses' => 'LevelController@index'
+            ]);
+
+            Route::delete('{id?}', [
+                'as' => 'api.level.destroy', 
+                'uses' => 'LevelController@destroy'
+            ]);
+        });
     });
 
-
-    Route::namespace('category')->group(function() {
-        Route::get('category', [
-            'as' => 'api.category.index', 
-            'uses' => 'CategoryController@index'
-        ]);
-
-        Route::delete('category/{id?}', [
-            'as' => 'api.category.destroy', 
-            'uses' => 'CategoryController@destroy'
-        ]);
-    });
-
-    Route::namespace('organization')->group(function() {
-        Route::get('organization', [
-            'as' => 'api.organization.index', 
-            'uses' => 'OrganizationController@index'
-        ]);
-
-        Route::delete('organization/{id?}', [
-            'as' => 'api.organization.destroy', 
-            'uses' => 'OrganizationController@destroy'
-        ]);
-    });
-
-    Route::namespace('level')->group(function() {
-        Route::get('level', [
-            'as' => 'api.level.index', 
-            'uses' => 'LevelController@index'
-        ]);
-
-        Route::delete('level/{id?}', [
-            'as' => 'api.level.destroy', 
-            'uses' => 'LevelController@destroy'
-        ]);
-    });
-
-    Route::namespace('user')->group(function() {
-        Route::get('user', [
+    Route::namespace('user')
+        ->prefix('user')
+        ->group(function() {
+        Route::get('/', [
             'as' => 'api.user.index',
             'uses' => 'UserController@index',
         ]);
 
-        Route::delete('user/{id?}', [
+        Route::delete('{id?}', [
             'as' => 'api.user.destroy', 
             'uses' => 'UserController@destroy'
         ]);
+
+        Route::prefix('organization')
+            ->group(function() {
+            Route::get('/', [
+                'as' => 'api.organization.index', 
+                'uses' => 'OrganizationController@index'
+            ]);
+
+            Route::delete('{id?}', [
+                'as' => 'api.organization.destroy', 
+                'uses' => 'OrganizationController@destroy'
+            ]);
+        });
     });
 
 });

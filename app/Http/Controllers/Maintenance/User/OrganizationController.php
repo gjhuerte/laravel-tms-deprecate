@@ -32,7 +32,9 @@ class OrganizationController extends Controller
         $organizations = Organization::all();
 
         if ($request->has('parent_id')) {
-            $parent = Organization::findOrFail((int) $request->parent_id);
+            $parent = Organization::findOrFail(
+                (int) $request->parent_id
+            );
         }
 
         return view('maintenance.user.organization.create', compact(
@@ -51,7 +53,12 @@ class OrganizationController extends Controller
     {
         $service->create($request->all());
 
-        return redirect()->route('organization.index');
+        return redirect()
+            ->route('organization.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully created an organization',
+            ]);
     }
 
     /**
@@ -82,7 +89,9 @@ class OrganizationController extends Controller
 
         if ($request->has('parent_id')) {
             $parent_id = $request->parent_id;
-            $parent = Organization::findOrFail((int) $request->parent_id);
+            $parent = Organization::findOrFail(
+                (int) $parent_id
+            );
         }
 
         return view('maintenance.user.organization.edit', compact(
@@ -104,7 +113,12 @@ class OrganizationController extends Controller
     {
         $service->update($request->all(), $id);
 
-        return redirect()->route('organization.index');
+        return redirect()
+            ->route('organization.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully updated an organization',
+            ]);
     }
 
     /**
@@ -117,6 +131,11 @@ class OrganizationController extends Controller
     {
         $service->remove($id);
         
-        return redirect()->route('organization.index');
+        return redirect()
+            ->route('organization.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully removed an organization',
+            ]);
     }
 }

@@ -42,7 +42,11 @@ class TagController extends Controller
         $service->create($request->all());
 
         return redirect()
-            ->route('ticket.tag.index');
+            ->route('ticket.tag.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully created a tag',
+            ]);
     }
 
     /**
@@ -81,7 +85,12 @@ class TagController extends Controller
     {
         $service->update($request->all(), $id);
 
-        return redirect()->route('ticket.tag.index');
+        return redirect()
+            ->route('ticket.tag.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully updated a tag',
+            ]);
     }
 
     /**
@@ -94,6 +103,11 @@ class TagController extends Controller
     {
         $service->remove($id);
 
-        return redirect()->route('ticket.tag.index');
+        return redirect()
+            ->route('ticket.tag.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully removed a tag',
+            ]);
     }
 }

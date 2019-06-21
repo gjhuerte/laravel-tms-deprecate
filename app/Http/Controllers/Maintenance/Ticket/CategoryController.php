@@ -41,7 +41,12 @@ class CategoryController extends Controller
     {
         $service->create($request->all());
 
-        return redirect()->route('category.index');
+        return redirect()
+            ->route('category.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully created a category',
+            ]);
     }
 
     /**
@@ -81,7 +86,12 @@ class CategoryController extends Controller
     {
         $service->update($request->all(), $id);
 
-        return redirect()->route('category.index');
+        return redirect()
+            ->route('category.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully updated a category',
+            ]);
     }
 
     /**
@@ -94,6 +104,11 @@ class CategoryController extends Controller
     {
         $service->remove($id);
 
-        return redirect()->route('category.index');
+        return redirect()
+            ->route('category.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully removed a category',
+            ]);
     }
 }

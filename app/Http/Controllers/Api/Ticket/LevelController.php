@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Api\Ticket\Tag;
+namespace App\Http\Controllers\Api\Ticket;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Ticket\TagResource;
-use App\Services\Maintenance\Ticket\TagService;
+use App\Http\Resources\Ticket\LevelResource;
+use App\Services\Maintenance\Ticket\LevelService;
 
-class TagController extends Controller
+class LevelController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, TagResource $tag)
+    public function index(Request $request, LevelResource $level)
     {
-        return $tag->paginate()->transform();
+        return $level->paginate()->transform();
     }
 
     /**
@@ -25,14 +25,14 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, TagService $service, $id)
+    public function destroy(LevelService $service, $id)
     {
         $service->remove($id);
 
         return response()->json([
             'status' => 'success',
-            'title' => 'Operation Success',
-            'message' => 'Tag has been removed',
+            'title' => 'Success',
+            'message' => 'Level has been removed successfully',
         ], 200);
     }
 }

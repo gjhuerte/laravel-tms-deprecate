@@ -45,7 +45,11 @@ class UserController extends Controller
         $service->create($request->all());
 
         return redirect()
-            ->route('user.index');
+            ->route('user.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully created a user',
+            ]);
     }
 
     /**
@@ -89,7 +93,11 @@ class UserController extends Controller
         $service->update($request->all(), $id);
 
         return redirect()
-            ->route('user.index');
+            ->route('user.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully updated a user',
+            ]);
     }
 
     /**
@@ -103,6 +111,10 @@ class UserController extends Controller
         $service->remove($id);
 
         return redirect()
-            ->route('user.index');
+            ->route('user.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully removed a user',
+            ]);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Category;
+namespace App\Http\Controllers\Api\Ticket;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

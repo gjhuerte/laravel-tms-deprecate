@@ -54,7 +54,12 @@ class LevelController extends Controller
     {
         $service->create($request->all());
 
-        return redirect()->route('level.index');
+        return redirect()
+            ->route('level.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully created a level',
+            ]);
     }
 
     /**
@@ -81,7 +86,12 @@ class LevelController extends Controller
     {
         $service->update($request->all(), $id);
 
-        return redirect()->route('level.index');
+        return redirect()
+            ->route('level.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully updated a level',
+            ]);
     }
 
     /**
@@ -94,6 +104,11 @@ class LevelController extends Controller
     {
         $service->remove($id);
 
-        return redirect()->route('level.index');
+        return redirect()
+            ->route('level.index')
+            ->with('notification', [
+                'title' => 'Success',
+                'message' => 'You have successfully removed a level',
+            ]);
     }
 }
