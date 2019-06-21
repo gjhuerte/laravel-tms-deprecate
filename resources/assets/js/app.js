@@ -21,7 +21,7 @@ Vue.component('ticket-list-table', require('./components/tables/tickets/MyTicket
 Vue.component('button-loading', require('./components/buttons/Processing.vue'));
 Vue.component('remove-button-loading-i', require('./components/tables/partials/RemoveButtonViaAjax.vue'));
 Vue.component('a-button-loading', require('./components/buttons/AnchorProcessing.vue'));
-Vue.component('textarea-wysiwyg', require('./components/Textarea.vue'));
+Vue.component('wysiwyg-textarea', require('./components/Textarea.vue'));
 Vue.component('table-ajax', require('./components/tables/BaseTemplate.vue'));
 Vue.component('button-confirmation', require('./components/buttons/Confirmation.vue'));
 

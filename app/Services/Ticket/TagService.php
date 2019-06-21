@@ -49,11 +49,22 @@ class TagService extends BaseService
     /**
      * Split the tags into an array
      *
-     * @param array $tags
+     * @param string $tags
      * @return array
      */
     public function split($tags)
     {
         return explode(self::DELIMITER, $tags);
+    }
+
+    /**
+     * Join the tags into a string
+     *
+     * @param array $tags
+     * @return string
+     */
+    public function join($tags)
+    {
+        return implode(self::DELIMITER, $tags);
     }
 }

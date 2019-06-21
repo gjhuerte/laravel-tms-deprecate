@@ -1,10 +1,33 @@
-@include('ticket.partials.title_field')
+<div class="col-sm-12">
+	<div class="form-group">
+		<label for="title">Title</label>
+		<input 
+			value="{{ isset($ticket->title) ? $ticket->title : old('title') }}"
+			class="form-control"
+			name="title"
+			id="title"
+			placeholder="Enter title..."
+		/>
+	</div>
+</div>
 
-@include('ticket.partials.details_field')
+<div class="col-sm-12">
+	<div class="form-group">
+		<label for="details">Details</label>
+
+		<wysiwyg-textarea
+			:name="'details'"
+			:id="'details'"
+			:style="'height: 350px'">
+		</wysiwyg-textarea>
+	</div>
+</div>
+
 
 <div class="col-sm-12">
 	<div class="form-group">
 		<label for="level">Level of Urgency</label>
+
 		<select
 			name="level"
 			class="form-control"
@@ -46,9 +69,31 @@
 	</div>
 </div>
 
-@include('ticket.partials.contact_field')
+<div class="col-sm-12">
+	<div class="form-group">
+		<label for="contact">Contact Information</label>
+		<input 
+			value="{{ isset($ticket->alt_contact) ? $ticket->alt_contact : old('contact') }}"
+			class="form-control"
+			name="contact"
+			id="contact"
+			placeholder="Enter Contact Information..."
+		/>
+	</div>
+</div>
 
-@include('ticket.partials.tags_field')
+<div class="col-sm-12">
+	<div class="form-group">
+		<label for="tags">Tags</label>
+		<input
+			type="text"
+			name="tags"
+			id="tags"
+			placeholder="Enter tags here separated by comma"
+			value="{{ old('tags') }}"
+		>
+	</div>
+</div>
 
 <div class="col-sm-12">
 	<div class="form-group">

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\Category;
 use App\Services\TicketService;
+use App\Services\Ticket\TagService;
 use App\Http\Controllers\Controller;
 use App\Services\Ticket\TicketActionService;
 use App\Http\Requests\TicketRequest\TicketStoreRequest;
@@ -37,15 +38,17 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(TagService $service)
     {
         $levels = Level::pluck('name', 'id');
         $categories = Category::pluck('name', 'id');
         $tags = Tag::pluck('name')->toArray();
+        $tags_string = $service->join($tags);
 
         return view('ticket.create')
             ->with('levels', $levels)
             ->with('tags', $tags)
+            ->with('tags_string', $tags_string)
             ->with('categories', $categories);
     }
 
