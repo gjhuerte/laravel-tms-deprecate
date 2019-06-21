@@ -19,7 +19,7 @@
                     ajax-url="{{ route('api.user.index') }}"
                     api-token="{{ Auth::user()->api_token }}"
                     create-url="{{ route('user.create') }}"
-                    column-count="6">
+                    column-count="10">
                     <template slot="right_header">
                         <a
                             href="{{ route('user.create') }}"
