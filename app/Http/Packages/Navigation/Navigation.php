@@ -31,7 +31,7 @@ class Navigation
                 'hasSubNavigation' => false,
             ],
             'ticket' => [
-                'url' => '',
+                'url' => route('ticket.index'),
                 'name' => 'Ticket',
                 'hasSubNavigation' => false,
             ],
