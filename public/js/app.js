@@ -2006,6 +2006,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2019,7 +2023,6 @@ __webpack_require__.r(__webpack_exports__);
     initialValue: {
       "default": ''
     },
-    elementLabel: {},
     elementPlaceholder: {
       "default": ''
     },
@@ -2030,9 +2033,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      mutatedStyle: "height: 350px",
-      mutatedPlaceholder: this.elementPlaceholder || '',
-      editor: null
+      editor: null,
+      formValue: this.initialValue
     };
   },
   mounted: function mounted() {
@@ -2049,7 +2051,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     update: function update() {
-      this.$emit('input', this.editor.getText() ? this.editor.root.innerHTML : '');
+      // this.$emit(
+      //     'input', 
+      //     this.editor.getText() ? this.editor.root.innerHTML : ''
+      // );
+      this.formValue = this.editor.getText() ? this.editor.root.innerHTML : '';
     }
   }
 });
@@ -56918,15 +56924,17 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "form-group" }, [
-    _c("label", { attrs: { for: _vm.elementId } }, [
-      _vm._v("\n        " + _vm._s(_vm.elementLabel) + "\n    ")
-    ]),
-    _vm._v(" "),
+  return _c("div", { key: this.value }, [
     _c("div", {
       ref: "editor",
-      style: this.mutatedStyle,
+      style: this.elementStyle,
       domProps: { innerHTML: _vm._s(_vm.value) }
+    }),
+    _vm._v(" "),
+    _c("input", {
+      class: this.elementClass,
+      attrs: { type: "hidden", name: this.elementName, id: this.elementId },
+      domProps: { value: this.formValue }
     })
   ])
 }

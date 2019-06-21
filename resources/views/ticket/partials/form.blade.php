@@ -16,9 +16,9 @@
 		<label for="details">Details</label>
 
 		<wysiwyg-textarea
-			:name="'details'"
-			:id="'details'"
-			:style="'height: 350px'">
+			v-bind:element-name="'details'"
+			v-bind:element-id="'details'"
+			v-bind:element-style="'height: 350px'">
 		</wysiwyg-textarea>
 	</div>
 </div>
@@ -39,9 +39,11 @@
 			<option
 				value="{{ $key }}"
 				@if(old('level') == $key)
-				selected
+					selected
 				@endif
-			>{{ $value }}</option>
+			>
+				{{ $value }}
+			</option>
 		@endforeach
 		
 		</select>

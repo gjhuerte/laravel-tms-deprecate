@@ -1,13 +1,17 @@
 <template>
-    <div class="form-group">
-        <label v-bind:for="elementId">
-            {{ elementLabel }}
-        </label>
-
+    <div v-bind:key="this.value">
         <div 
             ref="editor" 
             v-html="value"
-            v-bind:style="this.mutatedStyle"></div>
+            v-bind:style="this.elementStyle">
+        </div>
+        <input
+            type="hidden"
+            v-bind:name="this.elementName"
+            v-bind:id="this.elementId"
+            v-bind:class="this.elementClass"
+            v-bind:value="this.formValue"
+        />
     </div>
 </template>
 
@@ -26,7 +30,6 @@
             initialValue: {
                 default: '',
             },
-            elementLabel: {},
             elementPlaceholder: {
                 default: '',
             },
@@ -38,9 +41,8 @@
 
         data () {
             return {
-                mutatedStyle: "height: 350px",
-                mutatedPlaceholder: this.elementPlaceholder || '',
                 editor: null,
+                formValue: this.initialValue,
             };
         },
 
@@ -57,10 +59,13 @@
 
         methods: {
             update () {
-                this.$emit(
-                    'input', 
-                    this.editor.getText() ? this.editor.root.innerHTML : ''
-                );
+                // this.$emit(
+                //     'input', 
+                //     this.editor.getText() ? this.editor.root.innerHTML : ''
+                // );
+                
+                this.formValue = this.editor.getText() ? this.editor.root.innerHTML : '';
+                
             }
         }
     }

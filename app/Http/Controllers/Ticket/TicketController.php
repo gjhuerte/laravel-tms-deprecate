@@ -60,6 +60,7 @@ class TicketController extends Controller
      */
     public function store(TicketStoreRequest $request, TicketActionService $service)
     {
+        dd($request->all());
         $service->initialize($request->all());
 
         return redirect()->route('ticket.index');
