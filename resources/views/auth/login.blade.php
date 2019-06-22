@@ -36,7 +36,7 @@
 						value="{{ old('username') }}" 
 						id="username"
 						class="form-control"
-						placeholder="Enter username here..." />
+						placeholder="john.doe" />
 				</div>
 				<div class="form-group">
 					<label 
@@ -48,7 +48,7 @@
 						value="{{ old('password') }}" 
 						id="password"
 						class="form-control"
-						placeholder="Enter password here..." />
+						placeholder="*********" />
 				</div>
 				<div class="form-group">
 					<button-loading

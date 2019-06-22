@@ -7,7 +7,7 @@
       label="name" 
       track-by="code" 
       :options="options" 
-      :multiple="true" 
+      :multiple="this.multiple" 
       :taggable="true" 
       @tag="addTag" />
 
@@ -27,6 +27,15 @@
         default: ''
       },
       elementName: {},
+      closeOnSelect: {
+        default: false,
+      },
+      searchable: {
+        default: false,
+      },
+      multiple: {
+        default: true
+      }
     },
 
     components: { 
