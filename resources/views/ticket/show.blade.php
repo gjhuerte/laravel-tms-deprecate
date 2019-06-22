@@ -16,7 +16,11 @@
     </nav>
 
     @if(count((array) $tags) > 0)
-        <div class="tags">
+        <div class="tags border-bottom mb-2">
+            <label>
+                <strong>Tags: </strong>
+            </label>
+
             @foreach($tags as $tag)
                 @php
                     $colors = [
