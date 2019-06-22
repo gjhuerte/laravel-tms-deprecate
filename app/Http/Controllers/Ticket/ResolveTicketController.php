@@ -33,6 +33,11 @@ class ResolveTicketController extends Controller
     {
         $service->resolve($request->all(), $id);
         
-        return redirect()->route('ticket.show', $id);
+        return redirect()
+            ->route('ticket.show', $id)
+            ->with('notification', [
+                'title' => 'Success!',
+                'message' => 'An action has been added to the ticket',
+            ]);
     }
 }

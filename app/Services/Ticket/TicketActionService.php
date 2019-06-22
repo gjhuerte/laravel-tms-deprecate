@@ -120,16 +120,11 @@ class TicketActionService extends BaseService
         $details = $attributes['details'] ?? null;
         $isResolved = $attributes['is_resolved'] ?? null;
         $authorId = Auth::id();
-        $status = $ticket::RESOLVED;
+        $status = $ticket->resolvedStatus();
         $args = [
             'ticket' => [
                 'title' => $title,
                 'details' => $details,
-                'alt_contact' => $contact,
-                'additional_info' => $notes,
-                'level_id' => $levelId,
-                'author_id' => $authorId,
-                'status' => $status,
             ],
             'activity' => [
                 'title' => $title,
@@ -139,7 +134,7 @@ class TicketActionService extends BaseService
         ];
 
         if($isResolved) {
-            $args = array_merge($args, ['status' => $status]);
+            $args = array_merge($args['ticket'], ['status' => $status]);
         }
 
         $this->ticketService->update($args, $ticketId);
@@ -245,7 +240,7 @@ class TicketActionService extends BaseService
         $assignedPersonnel = $attributes['assigned_personnel'];
         $authorId = Auth::id();
         $author = Auth::user();
-        $status = $ticket::assignedStatus();
+        $status = $ticket->assignedStatus();
         $currentDate = Carbon::now();
         $args = [
             'ticket' => [
@@ -279,7 +274,7 @@ class TicketActionService extends BaseService
         $authorId = Auth::id();
         $title = $attributes['title'];
         $details = $attributes['reason'];
-        $status = $ticket::TRANSFERRED;
+        $status = $ticket->transferredStatus();
         $currentDate = Carbon::now();
         $args = [
             'ticket' => [
@@ -313,7 +308,7 @@ class TicketActionService extends BaseService
         $title = $attributes['title'];
         $details = $attributes['details'];
         $authorId = Auth::id();
-        $status = $ticket::CLOSED;
+        $status = $ticket->closedStatus();
         $args = [
             'ticket' => [
                 'status' => $status,
@@ -343,7 +338,7 @@ class TicketActionService extends BaseService
         $title = $attributes['title'];
         $details = $attributes['details'];
         $authorId = Auth::id();
-        $status = $ticket::REOPENED;
+        $status = $ticket->reopenedStatus();
         $args = [
             'ticket' => [
                 'status' => $status,

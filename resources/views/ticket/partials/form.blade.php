@@ -32,19 +32,16 @@
 			name="level"
 			class="form-control"
 			id="level"
-			name="level"
-		>
-
-		@foreach($levels as $key => $value)
-			<option
-				value="{{ $key }}"
-				@if(old('level') == $key)
-					selected
-				@endif
-			>
-				{{ $value }}
-			</option>
-		@endforeach
+			name="level">
+			@foreach($levels as $key => $value)
+				<option
+					value="{{ $key }}"
+					@if(old('level') == $key)
+						selected
+					@endif>
+					{{ $value }}
+				</option>
+			@endforeach
 		
 		</select>
 	</div>
@@ -57,16 +54,16 @@
 			name="category"
 			class="form-control"
 			id="category"
-			name="category"
-		>
-		@foreach($categories as $key => $value)
-			<option
-				value="{{ $key }}"
-				@if(old('category') == $key)
-				selected
-				@endif
-			>{{ $value }}</option>
-		@endforeach
+			name="category">
+			@foreach($categories as $key => $value)
+				<option
+					value="{{ $key }}"
+					@if(old('category') == $key)
+					selected
+					@endif>
+					{{ $value }}
+				</option>
+			@endforeach
 		</select>
 	</div>
 </div>
@@ -87,13 +84,6 @@
 <div class="col-sm-12">
 	<div class="form-group">
 		<label for="tags">Tags</label>
-		{{-- <input
-			type="text"
-			name="tags"
-			id="tags"
-			placeholder="Enter tags here separated by comma"
-			value="{{ old('tags') }}"
-		> --}}
 		<multi-select element-name="tags" />
 	</div>
 </div>

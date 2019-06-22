@@ -35,6 +35,11 @@ class TransferTicketController extends Controller
     {
         $service->transfer($request->all(), $id);
 
-        return redirect()->route('ticket.show', $id);
+        return redirect()
+            ->route('ticket.show', $id)
+            ->with('notification', [
+                'title' => 'Success!',
+                'message' => 'The ticket has been transferred successfully',
+            ]);;
     }
 }

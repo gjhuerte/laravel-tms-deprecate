@@ -33,6 +33,11 @@ class VerificationController extends Controller
     {
         $service->verify($request->all(), $id);
 
-        return redirect('ticket');
+        return redirect()
+            ->route('ticket.show', $id)
+            ->with('notification', [
+                'title' => 'Success!',
+                'message' => 'The ticket has been verified successfully',
+            ]);;
     }
 }
