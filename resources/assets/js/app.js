@@ -15,17 +15,6 @@ window.swal = require('sweetalert2');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-Vue.component(
-	'single-ticket-table', 
-	require('./components/tables/tickets/SingleTicket.vue').default
-);
-
-Vue.component(
-	'ticket-list-table', 
-	require('./components/tables/tickets/MyTicketList.vue').default
-);
-
 Vue.component(
 	'button-loading', 
 	require('./components/buttons/Processing.vue').default
