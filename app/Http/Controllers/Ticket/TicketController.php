@@ -79,8 +79,9 @@ class TicketController extends Controller
     public function show(TicketService $service, $id)
     {
         $ticket = $service->find($id);
+        $tags = $ticket->tags;
 
-        return view('ticket.show', compact('ticket'));
+        return view('ticket.show', compact('ticket', 'tags'));
     }
 
     /**

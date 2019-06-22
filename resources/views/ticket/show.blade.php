@@ -14,16 +14,62 @@
             <li class="breadcrumb-item active" aria-current="page">{{ $ticket->id }}</li>
         </ol>
     </nav>
+
+    @if(count((array) $tags) > 0)
+        <div class="tags">
+            @foreach($tags as $tag)
+                @php
+                    $colors = [
+                        'success',
+                        'danger',
+                        'info',
+                        'secondary',
+                        'warning',
+                    ];
+
+                    $color = $colors[rand(0, count($colors) - 1)];
+                @endphp
+
+                <label class="badge badge-{{ $color }} p-2">{{ $tag->name }}</label>
+            @endforeach
+        </div>
+    @endif
     
     @include('notification.alert')
 
-    <single-ticket-table
-        :ticket="'{{ json_encode($ticket) }}'"
-        :ajax-url="'{{ route('api.ticket.activity.index', $ticket->id) }}'"
-        :add-resolution-url="'{{ route('ticket.resolve.form', [ $ticket->id ]) }}'"
-        :assign-staff-url="'{{ route('ticket.transfer.form', [ $ticket->id ]) }}'"
-        :close-ticket-url="'{{ route('ticket.close.form', [ $ticket->id ]) }}'"
-        :reopen-ticket-url="'{{ route('ticket.reopen.form', [ $ticket->id ]) }}'">
-    </single-ticket-table>
+    <table-ajax
+        base-url="{{ route('api.ticket.activity.index', $ticket->id) }}"
+        ajax-url="{{ route('api.ticket.activity.index', $ticket->id) }}"
+        api-token="{{ Auth::user()->api_token }}"
+        column-count="4">
+        <template slot="right_header">
+            <a
+                href="{{ route('ticket.create') }}"
+                class="btn btn-primary">
+                <i class="fas fa-plus"></i>
+                {{  __('Create') }}
+            </a>
+        </template>
+
+        <template slot="table-header">
+            <td>{{ __('Code') }}</td>
+            <td>{{ __('Title') }}</td>
+            <td>{{ __('Status') }}</td>
+            <td>{{ __('Created At') }}</td>
+            <td></td>
+        </template>
+
+        <template 
+            slot="table-body" 
+            slot-scope="{ contents }">
+            <tr
+                v-bind:key="content.id"
+                v-for="content in contents"> 
+                <td>@{{ content.title }}</td>
+                <td>@{{ content.author_name }}</td>
+                <td>@{{ content.human_readable_created_at }}</td>
+            </tr>
+        </template>
+    </table-ajax>
 </div>
 @endsection
