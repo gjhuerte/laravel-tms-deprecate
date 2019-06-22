@@ -27,7 +27,7 @@ class CategoryUpdateRequest extends FormRequest
         $category = Category::findOrFail($this->category);
 
         return [
-            'name' => 'required|max:100|string|unique:categories,name,' . $category->name . ',name',
+            'name' => "required|max:100|string|unique:categories,name,{$category->name},name",
             'description' => 'nullable|string|max:256',
             'parent_category' => 'nullable|exists:categories,id',
         ];

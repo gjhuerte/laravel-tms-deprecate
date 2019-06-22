@@ -27,7 +27,7 @@ class TagUpdateRequest extends FormRequest
         $tag = Tag::findOrFail($this->tag);
 
         return [
-            'name' => 'required|max:100|string|unique:tags,name,' . $tag->name . ',name',
+            'name' => "required|max:100|string|unique:tags,name,{$tag->name},name",
             'description' => 'nullable|string|max:256',
         ];
     }

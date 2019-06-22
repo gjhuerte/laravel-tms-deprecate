@@ -95,4 +95,18 @@ class Activity extends Model
 
         return $query->where('title', $ticket->getVerifiedTitle());
     }
+
+    /**
+     * Get the verified title
+     *
+     * @param integer $query
+     * @return mixed
+     */
+    public function scopeAuthorId($query, $id)
+    {
+        return $query->where(
+            'author_id', 
+            $id
+        );
+    }
 }

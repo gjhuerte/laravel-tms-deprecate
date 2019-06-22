@@ -80,19 +80,6 @@
 							</wysiwyg-textarea>
 						</div>
 					</div>
-					
-					<div class="col-sm-12">
-						<div class="form-group">
-							<label for="contact">Contact Information</label>
-							<input 
-								value="{{ old('contact') }}"
-								class="form-control"
-								name="contact"
-								id="contact"
-								placeholder="Enter Contact Information..."
-							/>
-						</div>
-					</div>
 				</div>
 
 				<div class="form-group">

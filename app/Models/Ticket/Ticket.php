@@ -10,6 +10,7 @@ use Auxilliary\Generator\Code;
 use Illuminate\Support\Carbon;
 use App\Models\Ticket\Activity;
 use App\Models\Ticket\Category;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -164,6 +165,16 @@ class Ticket extends Model
     public function isClosed()
     {
         return ucwords($this->closedStatus()) == ucwords($this->status);
+    }
+
+    /**
+     * Check if the ticket owner is mine
+     * 
+     * @return boolean
+     */
+    public function isMine()
+    {
+        return $this->author_id == Auth::user()->id;
     }
 
     /**

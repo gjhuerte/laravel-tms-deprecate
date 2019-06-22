@@ -6,7 +6,7 @@ use App\Services\TicketService;
 use App\Services\Ticket\ActivityService;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TicketVerificationRequest extends FormRequest
+class TicketVerificationIndexRequest extends FormRequest
 {
 
     private $activityService;
@@ -47,7 +47,7 @@ class TicketVerificationRequest extends FormRequest
     public function rules()
     {
         return [
-            'details' => 'required|max:250|string',
+            //
         ];
     }
 }

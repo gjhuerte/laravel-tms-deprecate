@@ -53,14 +53,37 @@ class ActivityService extends BaseService
      */
     public function verifiedCount($ticket = null, $activity = null)
     {
-        if($activity == null) {
-            $activity = new Activity;
-        }
+        $activity = $activity ?? new Activity;
 
-        if($ticket) {
-            $activity = $activity->ticketId($ticket->id);
+        if(isset($ticket)) {
+            $id = is_int($ticket) ? $ticket : $ticket->id;
+
+            $activity = $activity->ticketId($id);
         }
 
         return $activity->verified()->count();
     }
+
+    /**
+     * Verified by certain user
+     * 
+     * @param  integer $ticket  
+     * @param  integer $activity
+     * @return mixed          
+     */
+    public function verifiedByUserCount($ticket = null, $activity = null, $user = null)
+    {
+        $activity = $activity ?? new Activity;
+        $user = $user ?? Auth::user();
+
+        if(isset($ticket)) {
+            $id = is_int($ticket) ? $ticket : $ticket->id;
+
+            $activity = $activity->ticketId($id);
+        }
+
+        return $activity->authorId($user->id)
+            ->verified()
+            ->count();
+    }   
 }

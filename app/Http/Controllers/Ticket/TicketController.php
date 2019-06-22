@@ -82,7 +82,9 @@ class TicketController extends Controller
     {
         $ticket = $service->find($id);
         $isVerified = $activity->verifiedCount($ticket);
+        $alreadyVerified = $activity->verifiedByUserCount($ticket);
         $isAssigned = $ticket->assigned_to ?? false;
+        $allowedToVerifyTicket = $ticket->isMine();
         $isClosed = $ticket->isClosed();
         $tags = $ticket->tags;
 
@@ -92,6 +94,8 @@ class TicketController extends Controller
             'isVerified',
             'isClosed',
             'isAssigned',
+            'alreadyVerified',
+            'allowedToVerifyTicket',
         ));
     }
 

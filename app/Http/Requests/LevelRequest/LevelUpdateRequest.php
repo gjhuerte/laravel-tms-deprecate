@@ -27,7 +27,7 @@ class LevelUpdateRequest extends FormRequest
         $level = Level::findOrFail($this->level);
         
         return [
-            'name' => 'required|string|max:100|unique:levels,name,' . $level->name . ',name',
+            'name' => "required|string|max:100|unique:levels,name,{$level->name},name",
             'details' => 'nullable|string|max:256',
         ];
     }

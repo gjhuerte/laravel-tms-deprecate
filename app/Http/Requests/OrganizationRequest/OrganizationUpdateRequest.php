@@ -9,13 +9,6 @@ class OrganizationUpdateRequest extends FormRequest
 {
 
     /**
-     * Table name to be used for requesting
-     *
-     * @var string
-     */
-    private $table = 'organizations';
-
-    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -35,9 +28,9 @@ class OrganizationUpdateRequest extends FormRequest
         $organization = Organization::findOrFail($this->organization);
 
         return [
-            'name' => "required|bail|min:1|max:250|string|unique:{$this->table},name,{$organization->name},name",
-            'abbreviation' => "required|bail|min:1|max:50|string|unique:{$this->table},abbreviation,{$organization->abbreviation},abbreviation",
-            'parent_id' => "nullable|bail|integer|exists:{$this->table},id",
+            'name' => "required|bail|min:1|max:250|string|unique:organizations,name,{$organization->name},name",
+            'abbreviation' => "required|bail|min:1|max:50|string|unique:organizations,abbreviation,{$organization->abbreviation},abbreviation",
+            'parent_id' => "nullable|bail|integer|exists:organizations,id",
         ];
     }
 }

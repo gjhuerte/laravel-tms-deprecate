@@ -59,14 +59,18 @@
                     Create Solution
                 </a>
 
-                <a 
-                    id="add-resolution-button"
-                    class="btn btn-info btn-sm"
-                    href="{{ route('ticket.verify.form', [ $ticket->id ]) }}">
-                    <i class="fas fa-thumbs-up"></i>
+                @if($allowedToVerifyTicket)
 
-                    Verified By ({{ $isVerified }})
-                </a>
+                    <a 
+                        id="add-resolution-button"
+                        class="btn btn-info btn-sm @if($alreadyVerified) disabled @endif"
+                        href="{{ route('ticket.verify.form', [ $ticket->id ]) }}">
+                        <i class="fas fa-thumbs-up"></i>
+
+                        Verified By ({{ $isVerified }})
+                    </a>
+
+                @endif
 
                 <a 
                     id="transfer-button"
@@ -114,7 +118,7 @@
             </tr>
             <tr>
                 <th colspan=2 style="font-weight: normal">
-                    <strong>Author: </strong>{{ $ticket->author->full_name ?? 'Not Set' }}
+                    <strong>Author: </strong>{{ optional($ticket->author)->full_name ?? 'Not Set' }}
                 </th>
                 <th colspan=2 style="font-weight: normal">
                     <strong>Created At: </strong>{{ $ticket->created_at }}
@@ -122,7 +126,7 @@
             </tr>
             <tr>
                 <th colspan=2 style="font-weight: normal">
-                    <strong>Current Assigned: </strong>{{ $ticket->personnel->full_name }}
+                    <strong>Current Assigned: </strong>{{ optional($ticket->personnel)->full_name }}
                 </th>
                 <th colspan=2 style="font-weight: normal">
                     <strong>Status: </strong>{{ $ticket->status }}

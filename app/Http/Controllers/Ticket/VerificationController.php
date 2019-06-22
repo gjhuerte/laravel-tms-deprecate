@@ -7,6 +7,7 @@ use App\Services\TicketService;
 use App\Http\Controllers\Controller;
 use App\Services\Ticket\TicketActionService;
 use App\Http\Requests\TicketRequest\TicketVerificationRequest;
+use App\Http\Requests\TicketRequest\TicketVerificationIndexRequest;
 
 class VerificationController extends Controller
 {
@@ -15,7 +16,7 @@ class VerificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, TicketService $service, $id)
+    public function create(TicketVerificationIndexRequest $request, TicketService $service, $id)
     {
         $ticket = $service->find($id);
 
