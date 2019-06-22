@@ -11,7 +11,7 @@
             <li class="breadcrumb-item">
                 <a href="{{ url('ticket') }}">Ticket</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">{{ $ticket->id }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ $ticket->code }}</li>
         </ol>
     </nav>
 
