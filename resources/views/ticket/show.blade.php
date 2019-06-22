@@ -30,7 +30,9 @@
                     $color = $colors[rand(0, count($colors) - 1)];
                 @endphp
 
-                <label class="badge badge-{{ $color }} p-2">{{ $tag->name }}</label>
+                <label class="badge badge-{{ $color }} p-2">
+                    {{ $tag->name }}
+                </label>
             @endforeach
         </div>
     @endif
@@ -43,20 +45,47 @@
         api-token="{{ Auth::user()->api_token }}"
         column-count="4">
         <template slot="right_header">
-            <a
-                href="{{ route('ticket.create') }}"
-                class="btn btn-primary">
+            <a 
+                id="add-resolution-button"
+                class="btn btn-success btn-sm"
+                href="{{ route('ticket.resolve.form', [ $ticket->id ]) }}">
                 <i class="fas fa-plus"></i>
-                {{  __('Create') }}
+
+                Create Solution
+            </a>
+
+            <a 
+                id="transfer-button"
+                class="btn btn-primary mr-1 text-light btn-sm"
+                href="{{ route('ticket.transfer.form', [ $ticket->id ]) }}">
+                <i class="fas fa-share"></i>
+
+                Assign Staff
+            </a>
+            
+            <a 
+                id="close-button"
+                class="btn btn-danger mr-1 text-light btn-sm"
+                href="{{ route('ticket.close.form', [ $ticket->id ]) }}">
+                <i class="fas fa-door-closed"></i>
+
+                Close Ticket
+            </a>
+            
+            <a 
+                id="close-button"
+                class="btn btn-secondary mr-1 text-light btn-sm"
+                href="{{ route('ticket.reopen.form', [ $ticket->id ]) }}">
+                <i class="fas fa-door-open"></i>
+
+                Reopen Ticket
             </a>
         </template>
 
         <template slot="table-header">
-            <td>{{ __('Code') }}</td>
+            <td>{{ __('Date') }}</td>
             <td>{{ __('Title') }}</td>
-            <td>{{ __('Status') }}</td>
-            <td>{{ __('Created At') }}</td>
-            <td></td>
+            <td>{{ __('Involved User') }}</td>
         </template>
 
         <template 
@@ -65,9 +94,9 @@
             <tr
                 v-bind:key="content.id"
                 v-for="content in contents"> 
+                <td>@{{ content.human_readable_created_at }}</td>
                 <td>@{{ content.title }}</td>
                 <td>@{{ content.author_name }}</td>
-                <td>@{{ content.human_readable_created_at }}</td>
             </tr>
         </template>
     </table-ajax>

@@ -5,25 +5,31 @@ namespace App\Http\Controllers\Api\Ticket;
 use Illuminate\Http\Request;
 use App\Models\Ticket\Activity;
 use App\Http\Controllers\Controller;
-use App\Jobs\Api\Ticket\Activity\CreateActivity;
 use App\Services\Ticket\ActivityService;
+use App\Http\Resources\Ticket\ActivityResource;
+use App\Jobs\Api\Ticket\Activity\CreateActivity;
 
 class ActivityController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Activity $activities, $id = null)
+    public function index(Request $request, ActivityResource $activity, $id)
     {
-        $activities->with(['author']);
-        if (isset($id)) {
-            $activities = $activities->ticketId((int) $id);
-        }
-    
-        return response()->json($activities->orderBy('created_at', 'desc')->paginate(10));
+        $activity = $activity->query(function ($query) use($id) {
+                return $query->with(['author']);
+            })
+            ->forTicket($id)
+            ->query(function ($query) {
+                return $query->orderBy('created_at', 'desc');
+            })
+            ->paginate()
+            ->transform();
+
+        return $activity;
     }
 
     /**

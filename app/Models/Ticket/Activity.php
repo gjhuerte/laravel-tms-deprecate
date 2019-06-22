@@ -14,6 +14,17 @@ class Activity extends Model
     public $timestamps = true;
 
     /**
+     * Parse the dates using Carbon package
+     * as a date object
+     * 
+     * @var array
+     */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
+
+    /**
      * Columns used when inserting using create method
      *
      * @var array
@@ -26,43 +37,17 @@ class Activity extends Model
     ];
 
     /**
-     * Additional columns when querying using eloquent
-     *
-     * @var array
-     */
-    protected $appends = [
-        'parsed_created_at', 'author_fullname'
-    ];
-
-    /**
-     * Parsed date created to make it readable for the system
-     * user
-     *
-     * @return string
-     */
-    public function getParsedCreatedAtAttribute()
-    {
-        return Carbon::parse($this->created_at)->format('M d, Y h:m A');
-    }
-
-    /**
-     * Fetch the authors full name
-     *
-     * @return string
-     */
-    public function getAuthorFullnameAttribute()
-    {
-        return isset($this->author) ? $this->author->first_and_last_name : 'System';
-    }
-
-    /**
      * Link to ticket model
      *
      * @return object
      */
     public function ticket()
     {
-        return $this->belongsTo(Ticket::class, 'ticket_id', 'id');
+        return $this->belongsTo(
+            Ticket::class, 
+            'ticket_id', 
+            'id'
+        );
     }
 
     /**
@@ -72,7 +57,11 @@ class Activity extends Model
      */
     public function author()
     {
-        return $this->belongsTo(User::class, 'author_id', 'id');
+        return $this->belongsTo(
+            User::class, 
+            'author_id', 
+            'id'
+        );
     }
 
     /**
