@@ -79,4 +79,16 @@ class Activity extends Model
 
         return $query->where('ticket_id', '=', (int) $id);
     }
+
+    /**
+     * Get the verified title
+     * 
+     * @return mixed
+     */
+    public function scopeVerified()
+    {
+        $ticket = new Ticket;
+
+        return $query->where('title', $ticket->getVerifiedTitle());
+    }
 }

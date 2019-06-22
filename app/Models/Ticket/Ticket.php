@@ -154,4 +154,25 @@ class Ticket extends Model
             Carbon::now()->endOfMonth(),
         ]);
     }
+
+    /**
+     * Check if the status is closed
+     * 
+     * @return boolean
+     */
+    public function isClosed()
+    {
+        return ucwords($this->closedStatus()) == ucwords($this->status);
+    }
+
+    /**
+     * Fetch the constant title for 
+     * verified 
+     * 
+     * @return string
+     */
+    public function getVerifiedTitle()
+    {
+        return ucfirst($this->verifiedStatus());
+    }
 }

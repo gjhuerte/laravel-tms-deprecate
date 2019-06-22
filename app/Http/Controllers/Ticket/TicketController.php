@@ -10,6 +10,7 @@ use App\Models\Ticket\Category;
 use App\Services\TicketService;
 use App\Services\Ticket\TagService;
 use App\Http\Controllers\Controller;
+use App\Services\Ticket\ActivityService;
 use App\Services\Ticket\TicketActionService;
 use App\Http\Requests\TicketRequest\TicketStoreRequest;
 use App\Http\Requests\TicketRequest\TicketUpdateRequest;
@@ -77,12 +78,21 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(TicketService $service, $id)
+    public function show(TicketService $service, ActivityService $activity, $id)
     {
         $ticket = $service->find($id);
+        $isVerified = 
+        $isAssigned = $ticket->assigned_to ?? false;
+        $isClosed = $ticket->isClosed();
         $tags = $ticket->tags;
 
-        return view('ticket.show', compact('ticket', 'tags'));
+        return view('ticket.show', compact(
+            'ticket', 
+            'tags',
+            'isVerified',
+            'isClosed',
+            'isAssigned',
+        ));
     }
 
     /**

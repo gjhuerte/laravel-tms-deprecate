@@ -49,50 +49,58 @@
         api-token="{{ Auth::user()->api_token }}"
         column-count="4">
         <template slot="right_header">
-            <a 
-                id="add-resolution-button"
-                class="btn btn-success btn-sm"
-                href="{{ route('ticket.resolve.form', [ $ticket->id ]) }}">
-                <i class="fas fa-plus"></i>
+            @if(! $isClosed)
+                <a 
+                    id="add-resolution-button"
+                    class="btn btn-success btn-sm"
+                    href="{{ route('ticket.resolve.form', [ $ticket->id ]) }}">
+                    <i class="fas fa-plus"></i>
 
-                Create Solution
-            </a>
+                    Create Solution
+                </a>
 
-            <a 
-                id="add-resolution-button"
-                class="btn btn-info btn-sm"
-                href="{{ route('ticket.verify.form', [ $ticket->id ]) }}">
-                <i class="fas fa-thumbs-up"></i>
+                <a 
+                    id="add-resolution-button"
+                    class="btn btn-info btn-sm"
+                    href="{{ route('ticket.verify.form', [ $ticket->id ]) }}">
+                    <i class="fas fa-thumbs-up"></i>
 
-                Verify
-            </a>
+                    Verify
+                </a>
 
-            <a 
-                id="transfer-button"
-                class="btn btn-primary mr-1 text-light btn-sm"
-                href="{{ route('ticket.transfer.form', [ $ticket->id ]) }}">
-                <i class="fas fa-share"></i>
-
-                Assign Staff
-            </a>
+                <a 
+                    id="transfer-button"
+                    class="btn btn-primary mr-1 text-light btn-sm"
+                    href="{{ route('ticket.transfer.form', [ $ticket->id ]) }}">
+                    <i class="fas fa-share"></i>
+                    
+                    @if($isAssigned)
+                        Transfer Staff
+                    @else
+                        Assign Staff
+                    @endif
+                </a>
             
-            <a 
-                id="close-button"
-                class="btn btn-danger mr-1 text-light btn-sm"
-                href="{{ route('ticket.close.form', [ $ticket->id ]) }}">
-                <i class="fas fa-door-closed"></i>
+                <a 
+                    id="close-button"
+                    class="btn btn-danger mr-1 text-light btn-sm"
+                    href="{{ route('ticket.close.form', [ $ticket->id ]) }}">
+                    <i class="fas fa-door-closed"></i>
 
-                Close Ticket
-            </a>
-            
-            <a 
-                id="close-button"
-                class="btn btn-secondary mr-1 text-light btn-sm"
-                href="{{ route('ticket.reopen.form', [ $ticket->id ]) }}">
-                <i class="fas fa-door-open"></i>
+                    Close Ticket
+                </a>
+            @endif
+                
+            @if($isClosed)
+                <a 
+                    id="close-button"
+                    class="btn btn-secondary mr-1 text-light btn-sm"
+                    href="{{ route('ticket.reopen.form', [ $ticket->id ]) }}">
+                    <i class="fas fa-door-open"></i>
 
-                Reopen Ticket
-            </a>
+                    Reopen Ticket
+                </a>
+            @endif
         </template>
 
         <template slot="table-header">

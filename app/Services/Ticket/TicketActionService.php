@@ -159,7 +159,7 @@ class TicketActionService extends BaseService
                 'status' => $status,
             ],
             'activity' => [
-                'title' => 'Verified',
+                'title' => $ticket->getVerifiedTitle(),
                 'details' => $details,
                 'author_id' => $authorId,
             ]
