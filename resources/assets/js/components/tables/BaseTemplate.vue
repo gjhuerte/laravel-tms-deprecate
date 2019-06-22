@@ -45,8 +45,9 @@
             v-bind:next-page-url="pagination.links.next || null" />
             
         <Processing 
-            v-bind:key="processing" 
-            v-bind:is-processing="processing" />
+            v-bind:if="! this.alert.isVisible()"
+            v-bind:key="this.processing" 
+            v-bind:is-processing="this.processing" />
     </div>
 </template>
 
@@ -74,6 +75,7 @@
 
         data() {
             return {
+                alert: Swal,
                 generatedKeyForRefresh: this.generateKey(),
                 processing: false,
                 response: [],

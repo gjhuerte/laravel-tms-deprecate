@@ -49,7 +49,7 @@
                 default: null,
             },
             onClickHandler: {
-                default: () => {},
+                default: null,
             },
         },
 
@@ -61,7 +61,7 @@
             return {
                 mutatedIsLoading: loading,
                 mutatedLoadingText: this.loadingText,
-                hasCustomOnClickHandler: typeof onClickHandler !== 'undefined',
+                hasCustomOnClickHandler: typeof this.onClickHandler !== 'undefined' && this.onClickHandler !== null,
                 mutatedOnClickHandler: this.onClickHandler,
                 mutatedDefaultText: this.defaultText,
             }
@@ -75,9 +75,15 @@
             onClickFunction() {
                 let $this = this;
                     $this.toggleLoading();
-
+                    
                 if ($this.hasCustomOnClickHandler) {
-                    $this.mutatedOnClickHandler();
+                    let __promise = new Promise(function (resolve, reject) {
+                        resolve($this.mutatedOnClickHandler);
+                    });
+
+                    __promise.then((callback) => {
+                        callback($this);
+                    });
 
                     return;
                 }

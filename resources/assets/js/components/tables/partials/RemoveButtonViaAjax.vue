@@ -15,7 +15,8 @@
             <notification-modal
                 v-bind:title="this.notification.title"
                 v-bind:message="this.notification.message"
-                v-bind:type="this.notification.status">
+                v-bind:type="this.notification.status"
+                v-bind:callback="this.afterConfirmation">
             </notification-modal>
         </div>
 
@@ -34,6 +35,7 @@
 
 <script>
     import axios from 'axios';
+    import Swal from 'sweetalert2';
     import Processing from '../../buttons/Processing.vue';
     import Notification from '../../Notification.vue';
 
@@ -86,17 +88,19 @@
                                 title: output.title,
                                 message: output.message,
                             }
-
-                            this.$parent
-                                .$parent
-                                .$refs
-                                .refreshTableAjaxButton
-                                .click();
                         });
                 }
 
                 this.toggleLoading();   
                 this.toggleConfirmation(); 
+            },
+
+            afterConfirmation () {
+                this.$parent
+                    .$parent
+                    .$refs
+                    .refreshTableAjaxButton
+                    .click();
             },
 
             onButtonClickEvent () {
