@@ -33,29 +33,36 @@
 <script>
 
     export default {
-        props: [
-            'elementClass',
-            'elementId',
-            'elementType',
-            'elementName' ,
-            'elementIsLoading',
-            'loadingText',
-            'defaultText' || null,
-            'onClickHandler',
-        ],
+        props: {
+            elementClass: {},
+            elementId: {},
+            elementType: {
+                default:'button',
+            },
+            elementName: {} ,
+            elementIsLoading: {},
+            loadingText: {
+                default: 'Loading',
+            },
+            defaultText: {
+                default: null,
+            },
+            onClickHandler: {
+                default: () => {},
+            },
+        },
 
         data () {
-            var defaultCallback = () => {};
             var loading = typeof this.elementIsLoading !== 'undefined' 
                     && typeof this.elementIsLoading !== null
                     && this.elementIsLoading;
 
             return {
                 mutatedIsLoading: loading,
-                mutatedLoadingText: this.loadingText || 'Loading',
+                mutatedLoadingText: this.loadingText,
                 hasCustomOnClickHandler: typeof onClickHandler !== 'undefined',
-                mutatedOnClickHandler: this.onClickHandler || defaultCallback,
-                mutatedDefaultText: this.defaultText || null,
+                mutatedOnClickHandler: this.onClickHandler,
+                mutatedDefaultText: this.defaultText,
             }
         },
 
@@ -66,15 +73,17 @@
 
             onClickFunction() {
                 let $this = this;
-                
-                var promise = new Promise(function (resolve, reject) {
                     $this.toggleLoading();
-                    resolve($this.mutatedOnClickHandler);
-                });
 
-                promise.then((callback) => {
-                    callback($this);
-                });
+                if($this.elementType == 'submit') {
+                    document.querySelector('form').submit();
+                }
+
+                if ($this.hasCustomOnClickHandler) {
+                    $this.mutatedOnClickHandler();
+
+                    return;
+                }
             }
         },
     }

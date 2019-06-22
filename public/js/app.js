@@ -2313,17 +2313,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['elementClass', 'elementId', 'elementType', 'elementName', 'elementIsLoading', 'loadingText', 'defaultText' || false, 'onClickHandler'],
+  props: {
+    elementClass: {},
+    elementId: {},
+    elementType: {
+      "default": 'button'
+    },
+    elementName: {},
+    elementIsLoading: {},
+    loadingText: {
+      "default": 'Loading'
+    },
+    defaultText: {
+      "default": null
+    },
+    onClickHandler: {
+      "default": function _default() {}
+    }
+  },
   data: function data() {
-    var defaultCallback = function defaultCallback() {};
-
     var loading = typeof this.elementIsLoading !== 'undefined' && typeof this.elementIsLoading !== null && this.elementIsLoading;
     return {
       mutatedIsLoading: loading,
-      mutatedLoadingText: this.loadingText || 'Loading',
+      mutatedLoadingText: this.loadingText,
       hasCustomOnClickHandler: typeof onClickHandler !== 'undefined',
-      mutatedOnClickHandler: this.onClickHandler || defaultCallback,
-      mutatedDefaultText: this.defaultText || null
+      mutatedOnClickHandler: this.onClickHandler,
+      mutatedDefaultText: this.defaultText
     };
   },
   methods: {
@@ -2332,13 +2347,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     onClickFunction: function onClickFunction() {
       var $this = this;
-      var promise = new Promise(function (resolve, reject) {
-        $this.toggleLoading();
-        resolve($this.mutatedOnClickHandler);
-      });
-      promise.then(function (callback) {
-        callback($this);
-      });
+      $this.toggleLoading();
+
+      if ($this.elementType == 'submit') {
+        document.querySelector('form').submit();
+      }
+
+      if ($this.hasCustomOnClickHandler) {
+        $this.mutatedOnClickHandler();
+        return;
+      }
     }
   }
 });

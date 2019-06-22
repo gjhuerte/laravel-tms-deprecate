@@ -24,7 +24,11 @@
 			<hr />
 
 			@include('notification.alert')
-            <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
+            <form 
+            	method="POST" 
+            	ref="form"
+            	action="{{ route('login') }}" 
+            	aria-label="{{ __('Login') }}">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 				<div class="form-group">
 					<label 
