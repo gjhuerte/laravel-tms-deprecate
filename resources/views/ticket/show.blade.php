@@ -105,7 +105,7 @@
             </tr>
             <tr>
                 <th colspan=2 style="font-weight: normal">
-                    <strong>Current Assigned: </strong>{{ $ticket->assigned_personnel }}
+                    <strong>Current Assigned: </strong>{{ $ticket->personnel->full_name }}
                 </th>
                 <th colspan=2 style="font-weight: normal">
                     <strong>Status: </strong>{{ $ticket->status }}

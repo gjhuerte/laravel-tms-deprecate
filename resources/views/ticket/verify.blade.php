@@ -4,7 +4,7 @@
 <div class="container p-4 mt-3" style="background-color: white;">
 	<div class="row">
 		<div class="col-sm-12 my-1">
-			<h1 class="display-4">Ticket: Transfer</h1>
+			<h1 class="display-4">Ticket: Verify</h1>
 		</div>
 
 		<div class="col-sm-12">
@@ -23,7 +23,7 @@
 					</a>
 				</li>
 				
-				<li class="breadcrumb-item active">Transfer</li>
+				<li class="breadcrumb-item active">Verify</li>
 			</ul>
 		</div>
 
@@ -32,7 +32,7 @@
 
 			<form id="ticket-creation-form"
 				method="post"
-				action="{{ route('ticket.transfer', [ $ticket->id ]) }}"
+				action="{{ route('ticket.verify', [ $ticket->id ]) }}"
 				class="form-horizontal">
 				<div class="row">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -84,11 +84,11 @@
 
 					<div class="col-sm-12">
 						<div class="form-group">
-							<label for="reason">Reason</label>
+							<label for="details">Details</label>
 
 							<wysiwyg-textarea
-								v-bind:element-name="'reason'"
-								v-bind:element-id="'reason'"
+								v-bind:element-name="'details'"
+								v-bind:element-id="'details'"
 								v-bind:element-style="'height: 350px'">
 							</wysiwyg-textarea>
 						</div>
@@ -96,40 +96,30 @@
 					
 					<div class="col-sm-12">
 						<div class="form-group">
-							<label for="contact">Target User</label>
-							<select 
-								value="{{ old('transfer_to') }}"
+							<label for="contact">Contact Information</label>
+							<input 
+								value="{{ old('contact') }}"
 								class="form-control"
-								name="transfer_to"
-								id="transfer_to">
-								<option>{{ __('Select a user') }}</option>
-
-									@if(isset($users) && count((array) $users) > 0)
-										@foreach($users as $user)
-											<option value="{{ $user->id }}">
-												{{ $user->full_name }}
-											</option>
-										@endforeach
-									@endif
-							</select>
+								name="contact"
+								id="contact"
+								placeholder="Enter Contact Information..."
+							/>
 						</div>
 					</div>
 				</div>
 
-				<div class="col-sm-12">
-					<div class="form-group">
-						<div class="row float-right">
-							<a href="{{ url('ticket') }}" class="btn btn-light mr-1">
-								<i class="fas fa-arrow-left"></i> Back
-							</a>
+				<div class="form-group">
+					<div class="row float-right">
+						<a href="{{ url('ticket') }}" class="btn btn-light">
+							<i class="fas fa-arrow-left"></i> Back
+						</a>
 
-							<button-loading
-								element-type="submit"
-								element-id="submit-button"
-								element-class="btn btn-primary"
-								default-text="Save">
-							</button-loading>
-						</div>
+						<button-loading
+							element-type="submit"
+							element-id="submit-button"
+							element-class="btn btn-primary"
+							default-text="Save">
+						</button-loading>
 					</div>
 				</div>
 			</form>

@@ -48,6 +48,16 @@ trait StatusScope
     {
         return TicketEnum::INITIALIZED;
     }
+
+    /**
+     * Returns the tansferred status for ticket
+     *
+     * @return string tansferred
+     */
+    public function transferredStatus()
+    {
+        return TicketEnum::TRANSFERRED;
+    }
     
     /**
      * Use the verified status and return the value from it

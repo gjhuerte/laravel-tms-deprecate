@@ -1,9 +1,5 @@
 @extends('layouts.client')
 
-@section('styles-include')
-<link rel="stylesheet" href="{{ asset('css/selectize.bootstrap2.css') }}">
-@endsection
-
 @section('content')
 <div class="container p-4 mt-3" style="background-color: white;">
 	<div class="row">
