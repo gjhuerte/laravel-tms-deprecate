@@ -5,6 +5,7 @@ namespace App\Models\Ticket;
 use app\Models\User\User;
 use App\Models\Ticket\Tag;
 use App\Scopes\StatusScope;
+use App\Scopes\TicketIdScope;
 use Auxilliary\Generator\Code;
 use Illuminate\Support\Carbon;
 use App\Models\Ticket\Activity;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ticket extends Model
 {
-    use StatusScope, SoftDeletes;
+    use StatusScope, SoftDeletes, TicketIdScope;
 
     protected $table = 'tickets';
     protected $primaryKey = 'id';

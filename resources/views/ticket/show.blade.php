@@ -65,7 +65,7 @@
                     href="{{ route('ticket.verify.form', [ $ticket->id ]) }}">
                     <i class="fas fa-thumbs-up"></i>
 
-                    Verify
+                    Verified By ({{ $isVerified }})
                 </a>
 
                 <a 

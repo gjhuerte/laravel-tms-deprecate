@@ -51,10 +51,14 @@ class ActivityService extends BaseService
      * 
      * @return boolean 
      */
-    public function verifiedCount($ticket, $activity = null)
+    public function verifiedCount($ticket = null, $activity = null)
     {
         if($activity == null) {
-            $activity = new $activity;
+            $activity = new Activity;
+        }
+
+        if($ticket) {
+            $activity = $activity->ticketId($ticket->id);
         }
 
         return $activity->verified()->count();

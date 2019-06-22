@@ -81,7 +81,7 @@ class TicketController extends Controller
     public function show(TicketService $service, ActivityService $activity, $id)
     {
         $ticket = $service->find($id);
-        $isVerified = 
+        $isVerified = $activity->verifiedCount($ticket);
         $isAssigned = $ticket->assigned_to ?? false;
         $isClosed = $ticket->isClosed();
         $tags = $ticket->tags;

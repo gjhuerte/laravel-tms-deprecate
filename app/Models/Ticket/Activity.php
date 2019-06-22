@@ -4,11 +4,14 @@ namespace App\Models\Ticket;
 
 use Carbon\Carbon;
 use App\Models\User\User;
+use App\Scopes\TicketIdScope;
 use App\Models\Ticket\Ticket;
 use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
+    use TicketIdScope;
+    
     protected $table = 'ticket_activities';
     protected $primaryKey = 'id';
     public $timestamps = true;
@@ -82,10 +85,11 @@ class Activity extends Model
 
     /**
      * Get the verified title
-     * 
+     *
+     * @param integer $query
      * @return mixed
      */
-    public function scopeVerified()
+    public function scopeVerified($query)
     {
         $ticket = new Ticket;
 
