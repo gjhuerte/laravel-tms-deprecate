@@ -19,7 +19,7 @@ class VerificationController extends Controller
     {
         $ticket = $service->find($id);
 
-        return view('ticket.transfer', compact('ticket'));
+        return view('ticket.verify', compact('ticket'));
     }
 
     /**
@@ -33,6 +33,12 @@ class VerificationController extends Controller
     {
         $service->verify($request->all(), $id);
 
-        return redirect('ticket');
+        return redirect()
+            ->route('ticket.show', $id)
+            ->with('notification', [
+                'title' => 'Success!',
+                'type' => 'success',
+                'message' => 'The ticket has been verified successfully',
+            ]);;
     }
 }

@@ -54,7 +54,7 @@ class TicketService extends BaseService
         $this->activityService
             ->create(
                 $attributes['activity'], 
-                $ticket
+                $ticket->id
             );
 
         if(isset($attributes['tags'])) {
@@ -97,14 +97,15 @@ class TicketService extends BaseService
         DB::beginTransaction();
 
         $ticket = $this->find((integer) $ticketId);
-        if(isset($attributes) && count($attributes) > 0) { 
-            $ticket->update($attributes);
+        if(isset($attributes['ticket']) 
+            && count($attributes['ticket']) > 0) { 
+            $ticket->update($attributes['ticket']);
         }
         
         $this->activityService
             ->create(
                 $attributes['activity'], 
-                $ticket
+                $ticket->id
             );
 
         DB::commit();

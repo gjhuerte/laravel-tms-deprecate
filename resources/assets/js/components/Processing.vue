@@ -4,19 +4,21 @@
     import Swal from "sweetalert2";
     
     export default {
-        props: [
-            'title' || 'Please wait',
-            'isProcessing',
-        ],
+        props: {
+            title: {
+                default: 'Please wait',
+            },
+            isProcessing: {},
+        },
+
+        data () {
+            return {
+
+            };
+        },
 
         mounted() {
-            if (this.isProcessing) {
-                this.processing();
-
-                return;
-            }
-
-            this.processingStop();
+            this.isProcessing ? this.processing() : this.processingStop();
 
             return;
         },
@@ -27,9 +29,6 @@
                     title: this.title || 'Please wait',
                     showConfirmButton: false,
                     allowOutsideClick: false,
-                    onOpen: () => {
-                        swal.showLoading();
-                    }
                 });
             },
 

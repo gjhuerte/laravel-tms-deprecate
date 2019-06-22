@@ -34,6 +34,16 @@ Route::middleware(['auth'])->group(function() {
                 'uses' => 'CloseTicketController@store',
             ]);
     
+            Route::get('{id}/verify', [
+                'as' => 'ticket.verify.form',
+                'uses' => 'VerificationController@create',
+            ]);
+
+            Route::post('{id}/verify', [
+                'as' => 'ticket.verify',
+                'uses' => 'VerificationController@store',
+            ]);
+    
             Route::get('{id}/reopen', [
                 'as' => 'ticket.reopen.form',
                 'uses' => 'ReopenTicketController@create',

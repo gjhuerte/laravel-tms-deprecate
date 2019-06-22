@@ -45,4 +45,22 @@ class ActivityService extends BaseService
 
         return $this->create($attributes, $ticketId);
     }
+
+    /**
+     * Checks if the activity is verified
+     * 
+     * @return boolean 
+     */
+    public function verifiedCount($ticket = null, $activity = null)
+    {
+        if($activity == null) {
+            $activity = new Activity;
+        }
+
+        if($ticket) {
+            $activity = $activity->ticketId($ticket->id);
+        }
+
+        return $activity->verified()->count();
+    }
 }

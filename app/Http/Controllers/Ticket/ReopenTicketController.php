@@ -33,6 +33,12 @@ class ReopenTicketController extends Controller
     {
         $service->reopen($request->all(), $id);
         
-        return redirect()->route('ticket.show', $id);
+        return redirect()
+            ->route('ticket.show', $id)
+            ->with('notification', [
+                'title' => 'Success!',
+                'type' => 'success',
+                'message' => 'The ticket has been reopened successfully',
+            ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models\Ticket;
 use app\Models\User\User;
 use App\Models\Ticket\Tag;
 use App\Scopes\StatusScope;
+use App\Scopes\TicketIdScope;
 use Auxilliary\Generator\Code;
 use Illuminate\Support\Carbon;
 use App\Models\Ticket\Activity;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ticket extends Model
 {
-    use StatusScope, SoftDeletes;
+    use StatusScope, SoftDeletes, TicketIdScope;
 
     protected $table = 'tickets';
     protected $primaryKey = 'id';
@@ -153,5 +154,26 @@ class Ticket extends Model
             Carbon::now()->startOfMonth(),
             Carbon::now()->endOfMonth(),
         ]);
+    }
+
+    /**
+     * Check if the status is closed
+     * 
+     * @return boolean
+     */
+    public function isClosed()
+    {
+        return ucwords($this->closedStatus()) == ucwords($this->status);
+    }
+
+    /**
+     * Fetch the constant title for 
+     * verified 
+     * 
+     * @return string
+     */
+    public function getVerifiedTitle()
+    {
+        return ucfirst($this->verifiedStatus());
     }
 }

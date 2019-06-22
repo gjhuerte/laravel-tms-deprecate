@@ -9,44 +9,42 @@
             <slot></slot>
         </button-loading>
 
-        <div  
+        <notification-modal
             v-if="this.notification"
-            v-bind:key="JSON.stringify(this.notification)">
-            <notification-modal
-                v-bind:title="this.notification.title"
-                v-bind:message="this.notification.message"
-                v-bind:type="this.notification.status">
-            </notification-modal>
-        </div>
+            v-bind:key="JSON.stringify(this.notification)"
+            v-bind:title="this.notification.title"
+            v-bind:message="this.notification.message"
+            v-bind:type="this.notification.status"
+            v-bind:callback="this.afterConfirmation">
+        </notification-modal>
 
-        <div 
+        <notification-modal
             v-if="this.confirmation"
-            v-bind:key="JSON.stringify(this.confirmation)">
-            <notification-modal
-                v-bind:type="'alert'"
-                v-bind:message="'Do you really want to delete this item'"
-                v-bind:title="'Warning'"
-                v-bind:callback="this.onConfirmationEvent">
-            </notification-modal>
-        </div>
+            v-bind:key="JSON.stringify(this.confirmation)"
+            v-bind:type="'alert'"
+            v-bind:message="'Do you really want to delete this item'"
+            v-bind:title="'Warning'"
+            v-bind:callback="this.onConfirmationEvent">
+        </notification-modal>
     </div>
 </template>
 
 <script>
     import axios from 'axios';
+    import Swal from 'sweetalert2';
     import Processing from '../../buttons/Processing.vue';
     import Notification from '../../Notification.vue';
 
     export default {
-        props: [
-            'contentId',
-            'elementClass',
-            'elementId',
-            'elementName' ,
-            'url',
-            'elementIsLoading',
-            'loadingText',
-        ],
+        props: {
+            contentId: {},
+            elementClass: {},
+            elementId: {},
+            elementName: {},
+            url: {},
+            elementIsLoading: {},
+            loadingText: {},
+        },
 
         data () {
             var loading = typeof this.elementIsLoading !== 'undefined' 
@@ -86,17 +84,23 @@
                                 title: output.title,
                                 message: output.message,
                             }
-
-                            this.$parent
-                                .$parent
-                                .$refs
-                                .refreshTableAjaxButton
-                                .click();
+                        }).catch(response => {
+                            this.afterConfirmation();
                         });
+
+                    return;
                 }
 
                 this.toggleLoading();   
                 this.toggleConfirmation(); 
+            },
+
+            afterConfirmation () {
+                this.$parent
+                    .$parent
+                    .$refs
+                    .refreshTableAjaxButton
+                    .click();
             },
 
             onButtonClickEvent () {

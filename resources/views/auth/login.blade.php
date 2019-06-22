@@ -24,7 +24,11 @@
 			<hr />
 
 			@include('notification.alert')
-            <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
+            <form 
+            	method="POST" 
+            	ref="form"
+            	action="{{ route('login') }}" 
+            	aria-label="{{ __('Login') }}">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 				<div class="form-group">
 					<label 
@@ -36,7 +40,7 @@
 						value="{{ old('username') }}" 
 						id="username"
 						class="form-control"
-						placeholder="Enter username here..." />
+						placeholder="john.doe" />
 				</div>
 				<div class="form-group">
 					<label 
@@ -48,7 +52,7 @@
 						value="{{ old('password') }}" 
 						id="password"
 						class="form-control"
-						placeholder="Enter password here..." />
+						placeholder="*********" />
 				</div>
 				<div class="form-group">
 					<button-loading

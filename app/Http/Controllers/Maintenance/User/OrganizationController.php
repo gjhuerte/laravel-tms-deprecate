@@ -57,6 +57,7 @@ class OrganizationController extends Controller
             ->route('organization.index')
             ->with('notification', [
                 'title' => 'Success',
+                'type' => 'success',
                 'message' => 'You have successfully created an organization',
             ]);
     }
@@ -117,6 +118,7 @@ class OrganizationController extends Controller
             ->route('organization.index')
             ->with('notification', [
                 'title' => 'Success',
+                'type' => 'success',
                 'message' => 'You have successfully updated an organization',
             ]);
     }
@@ -135,6 +137,7 @@ class OrganizationController extends Controller
             ->route('organization.index')
             ->with('notification', [
                 'title' => 'Success',
+                'type' => 'success',
                 'message' => 'You have successfully removed an organization',
             ]);
     }

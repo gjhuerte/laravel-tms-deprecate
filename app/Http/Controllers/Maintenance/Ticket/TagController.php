@@ -45,6 +45,7 @@ class TagController extends Controller
             ->route('ticket.tag.index')
             ->with('notification', [
                 'title' => 'Success',
+                'type' => 'success',
                 'message' => 'You have successfully created a tag',
             ]);
     }
@@ -89,6 +90,7 @@ class TagController extends Controller
             ->route('ticket.tag.index')
             ->with('notification', [
                 'title' => 'Success',
+                'type' => 'success',
                 'message' => 'You have successfully updated a tag',
             ]);
     }
@@ -107,6 +109,7 @@ class TagController extends Controller
             ->route('ticket.tag.index')
             ->with('notification', [
                 'title' => 'Success',
+                'type' => 'success',
                 'message' => 'You have successfully removed a tag',
             ]);
     }

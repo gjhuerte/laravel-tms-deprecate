@@ -5,6 +5,7 @@
         v-bind:type="this.elementType" 
         v-bind:name="this.elementName" 
         v-bind:disabled="this.mutatedIsLoading"
+        ref="processingButton"
         @click="onClickFunction">
 
         <div v-if="this.mutatedIsLoading">
@@ -33,29 +34,36 @@
 <script>
 
     export default {
-        props: [
-            'elementClass',
-            'elementId',
-            'elementType',
-            'elementName' ,
-            'elementIsLoading',
-            'loadingText',
-            'defaultText' || null,
-            'onClickHandler',
-        ],
+        props: {
+            elementClass: {},
+            elementId: {},
+            elementType: {
+                default:'button',
+            },
+            elementName: {} ,
+            elementIsLoading: {},
+            loadingText: {
+                default: 'Loading',
+            },
+            defaultText: {
+                default: null,
+            },
+            onClickHandler: {
+                default: null,
+            },
+        },
 
         data () {
-            var defaultCallback = () => {};
             var loading = typeof this.elementIsLoading !== 'undefined' 
                     && typeof this.elementIsLoading !== null
                     && this.elementIsLoading;
 
             return {
                 mutatedIsLoading: loading,
-                mutatedLoadingText: this.loadingText || 'Loading',
-                hasCustomOnClickHandler: typeof onClickHandler !== 'undefined',
-                mutatedOnClickHandler: this.onClickHandler || defaultCallback,
-                mutatedDefaultText: this.defaultText || null,
+                mutatedLoadingText: this.loadingText,
+                hasCustomOnClickHandler: typeof this.onClickHandler !== 'undefined' && this.onClickHandler !== null,
+                mutatedOnClickHandler: this.onClickHandler,
+                mutatedDefaultText: this.defaultText,
             }
         },
 
@@ -66,15 +74,23 @@
 
             onClickFunction() {
                 let $this = this;
-                
-                var promise = new Promise(function (resolve, reject) {
                     $this.toggleLoading();
-                    resolve($this.mutatedOnClickHandler);
-                });
+                    
+                if ($this.hasCustomOnClickHandler) {
+                    let __promise = new Promise(function (resolve, reject) {
+                        resolve($this.mutatedOnClickHandler);
+                    });
 
-                promise.then((callback) => {
-                    callback($this);
-                });
+                    __promise.then((callback) => {
+                        callback($this);
+                    });
+
+                    return;
+                }
+
+                if($this.elementType == 'submit') {
+                    $this.$refs.processingButton.closest('form').submit();
+                }
             }
         },
     }

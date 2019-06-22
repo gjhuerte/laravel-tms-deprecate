@@ -1,9 +1,5 @@
 @extends('layouts.client')
 
-@section('styles-include')
-<link rel="stylesheet" href="{{ asset('css/selectize.bootstrap2.css') }}">
-@endsection
-
 @section('content')
 <div class="container p-4 mt-3" style="background-color: white;">
 	<div class="row">
@@ -41,7 +37,37 @@
 				<div class="row">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-					@include('ticket.partials.list_ticket')
+					<div class="col-12 mb-3">
+					    <div class="card bg-light rounded-0">
+					        <div class="card-header">
+					            {{ __('Target Ticket') }}
+					        </div>
+
+					        <div class="card-body p-0">
+					            <ul class="list-unstyled border-light p-3">
+					                <li class="border-bottom pb-3"> 
+					                    <strong>Code: </strong> {{ $ticket->code }}
+					                </li>
+					                <li class="border-bottom py-3"> 
+					                    <strong>Title: </strong> {{ $ticket->title }}
+					                </li>
+					                <li class="border-bottom py-3"> 
+					                    <strong>Author: </strong> {{ $ticket->author->full_name }}
+					                </li>
+					                <li class="border-bottom py-3"> 
+					                    <strong>Created At: </strong> {{ $ticket->created_at }}
+					                </li>
+					                <li class="pt-3"> 
+					                    <strong>Current Status: </strong> 
+
+					                    <span class="badge badge-info text-uppercase">
+					                        {{ $ticket->status }}
+					                    </span>
+					                </li>
+					            </ul>
+					        </div>
+					    </div> 
+					</div>
 
                     <div class="col-sm-12">
 						<div class="form-group">
@@ -59,8 +85,12 @@
 					<div class="col-sm-12">
 						<div class="form-group">
 							<label for="details">Details</label>
-							<div name="details" id="details" style="height: 350px"></div>
-							<input type="hidden" id="details-form-field" name="details" />
+
+							<wysiwyg-textarea
+								v-bind:element-name="'details'"
+								v-bind:element-id="'details'"
+								v-bind:element-style="'height: 350px'">
+							</wysiwyg-textarea>
 						</div>
 					</div>
 					
@@ -76,19 +106,6 @@
 							/>
 						</div>
 					</div>
-
-					<div class="col-sm-12">
-						<div class="form-group">
-							<label for="tags">Tags</label>
-							<input
-								type="text"
-								name="tags"
-								id="tags"
-								placeholder="Enter tags here separated by comma"
-								value="{{ old('tags') }}"
-							>
-						</div>
-					</div>
 				</div>
 
 				<div class="form-group">
@@ -97,61 +114,16 @@
 							<i class="fas fa-arrow-left"></i> Back
 						</a>
 
-						<input type="submit" name="button" value="Save" class="btn btn-primary" />
+						<button-loading
+							element-type="submit"
+							element-id="submit-button"
+							element-class="btn btn-primary"
+							default-text="Save">
+						</button-loading>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
-@endsection
-
-@section('scripts-include')
-<!-- Main Quill library -->
-<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
-
-<!-- Theme included stylesheets -->
-<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-
-<!-- Core build with no theme, formatting, non-essential modules -->
-<script type="text/javascript" src="{{ asset('js/standalone/selectize.min.js') }}"></script>
-<!-- Initialize Quill editor -->
-<script type="text/javascript">
-	var form = $('#ticket-creation-form');
-	var tags = form.data('tags');
-	var detailsValue = $('#details').val();
-	var quill = new Quill('#details', {
-		placeholder: 'Compose an epic ticket details...',
-		theme: 'snow',
-	});
-
-	quill.setText(detailsValue);
-	$('#tags').selectize({
-		delimiter: ',',
-		persist: false,
-		valueField: 'name',
-		labelField: 'name',
-		options: getTagsAsOption(),
-		create: true,
-	});
-
-	// On form submit, assign the details to 
-	// the equivalent hidden field
-	form.on('submit', function(e) {
-		$('#details-form-field').val(quill.getText());
-
-		return true;
-	});
-
-	// Fetch all the tags and format them to 
-	// quill value
-	function getTagsAsOption()  {
-		return typeof tags !== 'undefined' && 
-				tags.split(',').length > 0 ? tags.split(',').map(function (tag) {
-			return {
-				'name': tag
-			};
-		}) : {};
-	}
-</script>
 @endsection
