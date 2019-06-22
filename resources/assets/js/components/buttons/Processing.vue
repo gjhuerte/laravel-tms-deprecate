@@ -5,6 +5,7 @@
         v-bind:type="this.elementType" 
         v-bind:name="this.elementName" 
         v-bind:disabled="this.mutatedIsLoading"
+        ref="processingButton"
         @click="onClickFunction">
 
         <div v-if="this.mutatedIsLoading">
@@ -75,14 +76,14 @@
                 let $this = this;
                     $this.toggleLoading();
 
-                if($this.elementType == 'submit') {
-                    document.querySelector('form').submit();
-                }
-
                 if ($this.hasCustomOnClickHandler) {
                     $this.mutatedOnClickHandler();
 
                     return;
+                }
+
+                if($this.elementType == 'submit') {
+                    $this.$refs.processingButton.closest('form').submit();
                 }
             }
         },

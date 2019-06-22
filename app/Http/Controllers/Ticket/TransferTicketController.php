@@ -39,6 +39,7 @@ class TransferTicketController extends Controller
             ->route('ticket.show', $id)
             ->with('notification', [
                 'title' => 'Success!',
+                'type' => 'success',
                 'message' => 'The ticket has been transferred successfully',
             ]);;
     }

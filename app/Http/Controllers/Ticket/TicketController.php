@@ -66,6 +66,7 @@ class TicketController extends Controller
             ->route('ticket.index')
             ->with('notification', [
                 'title' => 'Success',
+                'type' => 'success',
                 'message' => 'You have successfully created a ticket'
             ]);
     }
@@ -112,6 +113,7 @@ class TicketController extends Controller
             ->route('ticket.index')
             ->with('notification', [
                 'title' => 'Success',
+                'type' => 'success',
                 'message' => 'You have successfully updated a ticket'
             ]);
     }

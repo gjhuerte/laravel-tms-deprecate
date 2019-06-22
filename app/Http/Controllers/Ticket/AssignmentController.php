@@ -31,6 +31,12 @@ class AssignmentController extends Controller
     {
         $service->assign($request->all(), $id);
         
-        return redirect('ticket');
+        return redirect()
+            ->route('ticket.show', $id)
+            ->with('notification', [
+                'title' => 'Success!',
+                'type' => 'success',
+                'message' => 'You have successfully assigned the ticket',
+            ]);;
     }
 }

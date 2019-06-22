@@ -48,6 +48,7 @@ class UserController extends Controller
             ->route('user.index')
             ->with('notification', [
                 'title' => 'Success',
+                'type' => 'success',
                 'message' => 'You have successfully created a user',
             ]);
     }
@@ -96,6 +97,7 @@ class UserController extends Controller
             ->route('user.index')
             ->with('notification', [
                 'title' => 'Success',
+                'type' => 'success',
                 'message' => 'You have successfully updated a user',
             ]);
     }
@@ -114,6 +116,7 @@ class UserController extends Controller
             ->route('user.index')
             ->with('notification', [
                 'title' => 'Success',
+                'type' => 'success',
                 'message' => 'You have successfully removed a user',
             ]);
     }

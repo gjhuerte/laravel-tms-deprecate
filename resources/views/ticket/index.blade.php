@@ -31,7 +31,7 @@
 
                     <template slot="table-header">
                         <tr rowspan="1">
-                            <th colspan="5">
+                            <th colspan="6">
                                 <div class="form-inline">
                                     Category:
                                     <select 

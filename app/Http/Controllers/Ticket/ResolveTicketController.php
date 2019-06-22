@@ -37,6 +37,7 @@ class ResolveTicketController extends Controller
             ->route('ticket.show', $id)
             ->with('notification', [
                 'title' => 'Success!',
+                'type' => 'success',
                 'message' => 'An action has been added to the ticket',
             ]);
     }

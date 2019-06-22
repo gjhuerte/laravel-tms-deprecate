@@ -24,7 +24,8 @@ class TicketResolveRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:100',
+            'details' => 'required|string|max:250',
         ];
     }
 }

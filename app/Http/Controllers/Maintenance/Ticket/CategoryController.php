@@ -45,6 +45,7 @@ class CategoryController extends Controller
             ->route('category.index')
             ->with('notification', [
                 'title' => 'Success',
+                'type' => 'success',
                 'message' => 'You have successfully created a category',
             ]);
     }
@@ -90,6 +91,7 @@ class CategoryController extends Controller
             ->route('category.index')
             ->with('notification', [
                 'title' => 'Success',
+                'type' => 'success',
                 'message' => 'You have successfully updated a category',
             ]);
     }
@@ -108,6 +110,7 @@ class CategoryController extends Controller
             ->route('category.index')
             ->with('notification', [
                 'title' => 'Success',
+                'type' => 'success',
                 'message' => 'You have successfully removed a category',
             ]);
     }
