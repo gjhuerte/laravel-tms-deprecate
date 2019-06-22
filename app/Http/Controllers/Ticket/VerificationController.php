@@ -19,7 +19,7 @@ class VerificationController extends Controller
     {
         $ticket = $service->find($id);
 
-        return view('ticket.transfer', compact('ticket'));
+        return view('ticket.verify', compact('ticket'));
     }
 
     /**

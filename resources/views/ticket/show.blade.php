@@ -59,6 +59,15 @@
             </a>
 
             <a 
+                id="add-resolution-button"
+                class="btn btn-info btn-sm"
+                href="{{ route('ticket.verify.form', [ $ticket->id ]) }}">
+                <i class="fas fa-thumbs-up"></i>
+
+                Verify
+            </a>
+
+            <a 
                 id="transfer-button"
                 class="btn btn-primary mr-1 text-light btn-sm"
                 href="{{ route('ticket.transfer.form', [ $ticket->id ]) }}">
